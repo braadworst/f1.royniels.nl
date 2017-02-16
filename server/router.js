@@ -17,7 +17,15 @@ app.use(express.static('./public'));
 
 // Declare your routes here
 app.get(constants.url.URL_HOME, (request, response) => handle(request, response, 'home'));
-app.get(constants.url.URL_DETAIL, (request, response) => handle(request, response, 'detail'));
+app.get(constants.url.URL_LOGIN, (request, response) => handle(request, response, 'login'));
+app.get(constants.url.URL_LOGOUT, (request, response) => handle(request, response, 'logout'));
+app.get(constants.url.URL_REGISTER, (request, response) => handle(request, response, 'register'));
+app.get(constants.url.URL_TEAMS, (request, response) => handle(request, response, 'teams'));
+app.get(constants.url.URL_TEAM_DETAIL, (request, response) => handle(request, response, 'teamDetail'));
+app.get(constants.url.URL_TEAM_CREATE, (request, response) => handle(request, response, 'teamCreate'));
+app.get(constants.url.URL_RACES, (request, response) => handle(request, response, 'races'));
+app.get(constants.url.URL_STANDINGS, (request, response) => handle(request, response, 'standings'));
+app.get(constants.url.URL_RULES, (request, response) => handle(request, response, 'rules'));
 
 let server = spdy.createServer(settings.options, app);
 

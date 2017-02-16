@@ -9,7 +9,15 @@ module.exports = function(store) {
     componentNav          : require('./nav')(),
     componentPageSwitcher : require('./pageSwitcher')(),
     componentHome         : require('./home')(),
-    componentDetail       : require('./detail')(),
+    componentLogin        : require('./login')(),
+    componentLogout       : require('./logout')(),
+    componentRegister     : require('./register')(),
+    componentTeams        : require('./teams')(),
+    componentTeamDetail   : require('./teamDetail')(),
+    componentTeamCreate   : require('./teamCreate')(),
+    componentRaces        : require('./races')(),
+    componentStandings    : require('./standings')(),
+    componentRules        : require('./rules')(),
   }
 
   return {

@@ -4,7 +4,15 @@ const COMPONENT_ADDED   = 'added';
 const COMPONENT_CREATE  = 'create';
 const MENU_ACTIVE       = 'menuActive';
 const URL_HOME          = '/';
-const URL_DETAIL        = '/detail';
+const URL_LOGIN         = '/login';
+const URL_LOGOUT        = '/logout';
+const URL_REGISTER      = '/register';
+const URL_TEAMS         = '/teams';
+const URL_TEAM_DETAIL   = '/team/:teamId';
+const URL_TEAM_CREATE   = '/create-team';
+const URL_RACES         = '/races';
+const URL_STANDINGS     = '/standings';
+const URL_RULES         = '/rules';
 
 module.exports = {
   component : {
@@ -18,6 +26,14 @@ module.exports = {
   },
   url : {
     URL_HOME,
-    URL_DETAIL
+    URL_LOGIN,
+    URL_LOGOUT,
+    URL_REGISTER,
+    URL_TEAMS,
+    URL_TEAM_DETAIL,
+    URL_TEAM_CREATE,
+    URL_RACES,
+    URL_STANDINGS,
+    URL_RULES
   }
 }

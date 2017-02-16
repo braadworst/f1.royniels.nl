@@ -8,9 +8,33 @@ module.exports = (function() {
     home(...params) {
       return merge(constants.url.URL_HOME, params);
     },
-    detail(...params) {
-      return merge(constants.url.URL_DETAIL, params);
-    }
+    login(...params) {
+      return merge(constants.url.URL_LOGIN, params);
+    },
+    logout(...params) {
+      return merge(constants.url.URL_LOGOUT, params);
+    },
+    register(...params) {
+      return merge(constants.url.URL_REGISTER, params);
+    },
+    teams(...params) {
+      return merge(constants.url.URL_TEAMS, params);
+    },
+    teamDetail(...params) {
+      return merge(constants.url.URL_TEAM_DETAIL, params);
+    },
+    teamCreate(...params) {
+      return merge(constants.url.URL_TEAM_CREATE, params);
+    },
+    races(...params) {
+      return merge(constants.url.URL_RACES, params);
+    },
+    standings(...params) {
+      return merge(constants.url.URL_STANDINGS, params);
+    },
+    rules(...params) {
+      return merge(constants.url.URL_RULES, params);
+    },
   }
 
   function merge(url, params) {
