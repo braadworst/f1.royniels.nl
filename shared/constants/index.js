@@ -4,6 +4,7 @@ const COMPONENT_ADDED   = 'added';
 const COMPONENT_CREATE  = 'create';
 const MENU_ACTIVE       = 'menuActive';
 const URL_HOME          = '/';
+const URL_DETAIL        = '/detail';
 
 module.exports = {
   component : {
@@ -17,5 +18,6 @@ module.exports = {
   },
   url : {
     URL_HOME,
+    URL_DETAIL
   }
 }

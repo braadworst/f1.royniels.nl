@@ -17,6 +17,7 @@ app.use(express.static('./public'));
 
 // Declare your routes here
 app.get(constants.url.URL_HOME, (request, response) => handle(request, response, 'home'));
+app.get(constants.url.URL_DETAIL, (request, response) => handle(request, response, 'detail'));
 
 let server = spdy.createServer(settings.options, app);
 

@@ -1,122 +1,14 @@
-component-menu {
-  position: fixed;
-  left: 0;
-  top: 65px;
-  width: 280px;
-  background-color: white;
-  padding: 20px;
-  box-sizing: border-box;
-  bottom: 0;
-  border-right: 1px solid #eee;
-  z-index: 1;
-  transition: left .5s;
-}
-component-menu a {
-  color: #252323;
-}
-component-menu .user-options {
-  list-style: none;
-  margin: 0 -20px 80px -20px;
-  padding: 0;
-}
-component-menu .user-options li {
-  float: left;
-  padding: 10px 0;
-  width: 25%;
-  font-size: 1.2rem;
-  box-sizing: border-box;
-  text-align: center;
-  position: relative;
-  border: 1px solid #eee;
-  border-right: 0;
-}
-component-menu .user-options span {
-  margin-left: 5px;
-  background-color: #ED254E;
-  font-size: .6rem;
-  border-radius: 50%;
-  padding: 1px 5px;
-  color: #fff;
-  position: absolute;
-  right: 7px;
-  top: 4px;
-}
-component-menu .user {
+component-nav {
+  background-color: #eee;
+  padding: 15px;
+  width: 100%;
   display: block;
-  margin-bottom: 20px;
 }
-component-menu .user img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  vertical-align: middle;
-  margin-right: 10px;
-  float: left;
-}
-component-menu .user span {
-  color: #aaa;
-  font-size: .9rem;
-}
-component-menu .menu-items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-component-menu .menu-items li {
+component-nav ul {
   margin: 0;
   padding: 0;
-  position: relative;
 }
-component-menu .menu-items li a i {
-  position: absolute;
-  right: 10px;
-  top: 13px;
-  font-size: .8rem;
-  color: white;
-}
-component-menu .menu-items a {
-  display: block;
-  padding: 8px 0;
-  transition: padding-left 1s;
-}
-component-menu .menu-items h4 {
-  margin-bottom: 10px;
-  font-weight: 700;
-  font-size: 1.2rem;
-}
-component-menu .menu-items .active {
-  background-color: #F9DC5C;
-  padding-left: 10px;
-  border-radius: 0 15px 15px 0;
-  color: white;
-}
-component-menu .close {
-  position: absolute;
-  right: 0;
-  top: 50%;
-  padding: 5px 10px;
-  border-radius: 50% 0 0 50%;
-  border: 1px solid #eee;
-  border-width: 1px 0 1px 1px;
-  font-size: 1.4rem;
-  background-color: #fff;
-  transition: border-radius .3s, right .3s, box-shadow .3s, color .3s, background .3s;
-  cursor: pointer;
-}
-component-menu .close i {
-  transition: transform .3s;
-}
-component-menu.closed {
-  left: -280px;
-}
-component-menu.closed .close {
-  border-radius: 0 50% 50% 0;
-  right: -34px;
-  border-width: 2px 2px 2px 0;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, .1);
-  background-color: #6075E0;
-  color: #fff;
-}
-component-menu.closed .close i {
-  transform: rotate(180deg);
+component-nav li {
+  display: inline-block;
+  margin: 0 10px;
 }

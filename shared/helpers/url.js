@@ -7,6 +7,9 @@ module.exports = (function() {
   return {
     home(...params) {
       return merge(constants.url.URL_HOME, params);
+    },
+    detail(...params) {
+      return merge(constants.url.URL_DETAIL, params);
     }
   }
 

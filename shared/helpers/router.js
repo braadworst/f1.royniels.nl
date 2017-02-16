@@ -9,6 +9,10 @@ module.exports = (function() {
     home(store, params) {
       store.dispatch(componentAction.create('componentPageSwitcher', 'componentHome' ));
       store.dispatch(menuActiveAction.active(params.path));
+    },
+    detail(store, params) {
+      store.dispatch(componentAction.create('componentPageSwitcher', 'componentDetail' ));
+      store.dispatch(menuActiveAction.active(params.path));
     }
   }
 }());

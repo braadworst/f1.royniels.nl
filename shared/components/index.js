@@ -6,7 +6,10 @@ module.exports = function(store) {
   // Register new components in this singular location, we use this list to trigger
   // callbacks like added, init, create and remove
   const components = {
-    componentNav : require('./nav')(),
+    componentNav          : require('./nav')(),
+    componentPageSwitcher : require('./pageSwitcher')(),
+    componentHome         : require('./home')(),
+    componentDetail       : require('./detail')(),
   }
 
   return {
