@@ -1,0 +1,13 @@
+main {
+  padding: 20px 10px;
+  margin: 65px 0 0 280px;
+  transition: margin .5s;
+}
+main.full {
+  margin-left: 0;
+}
+@media (max-width: 48em) {
+  main {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "name": "vehisell-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for vehisell duh!",
+  "main": "index.js",
+  "watch": {
+    "js": {
+      "patterns": [
+        "client",
+        "shared"
+      ],
+      "extensions": "js"
+    },
+    "css": {
+      "patterns": [
+        "server",
+        "shared",
+        "client"
+      ],
+      "extensions": "css"
+    }
+  },
+  "scripts": {
+    "gitignore": "curl -o .gitignore https://www.gitignore.io/api/node",
+    "css": "node_modules/.bin/minify --output public/css/styles.css shared/css/styles.css",
+    "js": "node_modules/.bin/browserify client/main.js --outfile public/js/main.min.js -t [ babelify --presets [ latest ] ] --ignore-missing --debug",
+    "js-build": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing | node_modules/.bin/uglifyjs public/js/main.js --output public/js/main.min.js",
+    "js-file-size": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la | sort",
+    "certs": "rm -rf certs && mkdir certs && openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout certs/key.pem -out certs/cert.pem",
+    "serve": "NODE_ENV=development node_modules/.bin/nodemon server/router.js",
+    "watch": "npm-watch"
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CrazyAwesomeCompany/vehisell-frontend.git"
+  },
+  "keywords": [
+    "crazy",
+    "awesome",
+    "jow!"
+  ],
+  "author": "Roy Niels",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CrazyAwesomeCompany/vehisell-frontend/issues"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-preset-latest": "^6.22.0",
+    "babelify": "^7.3.0",
+    "browserify": "^14.0.0",
+    "minifier": "^0.8.1",
+    "npm-watch": "^0.1.8",
+    "purecss": "^0.6.2",
+    "uglify-js": "^2.7.5"
+  },
+  "homepage": "https://github.com/CrazyAwesomeCompany/vehisell-frontend#readme",
+  "dependencies": {
+    "camelize": "^1.0.0",
+    "cheerio": "^0.22.0",
+    "compression": "^1.6.2",
+    "decamelize": "^1.2.0",
+    "express": "^4.14.1",
+    "lodash": "^4.17.4",
+    "morphdom": "^2.3.1",
+    "page": "^1.7.1",
+    "redux": "^3.6.0",
+    "redux-watch": "^1.1.1",
+    "spdy": "^3.4.4"
+  }
+}
