@@ -21,7 +21,6 @@
     }
   },
   "scripts": {
-    "gitignore": "curl -o .gitignore https://www.gitignore.io/api/node",
     "css": "node_modules/.bin/minify --output public/css/styles.css shared/css/styles.css",
     "js": "node_modules/.bin/browserify client/main.js --outfile public/js/main.min.js -t [ babelify --presets [ latest ] ] --ignore-missing --debug",
     "js-build": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing | node_modules/.bin/uglifyjs public/js/main.js --output public/js/main.min.js",
