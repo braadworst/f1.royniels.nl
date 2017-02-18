@@ -5,7 +5,7 @@ module.exports = function(options) {
       <div class="pure-g">
       <div class="pure-u-1-1 pure-u-md-1-3">
         <div class="content">
-          <h2>€ ${ options.budget.toLocaleString() }</h2>
+          <h2>€ <span class="budget">${ options.startBudget.toLocaleString() }</span></h2>
         </div>
       </div>
         <div class="pure-u-1-1 pure-u-md-1-3">
@@ -41,7 +41,7 @@ module.exports = function(options) {
 function rowDriver(item) {
   return `
   <div class="pure-u-1-1 pure-u-md-1-3 pure-u-lg-1-4">
-    <section class="item-create item-create-driver">
+    <section class="item-create item-create-driver" data-price="${ item.price }">
       <div class="item-media">
         <img class="pure-img" src="${ item.image }">
       </div>
@@ -58,7 +58,7 @@ function rowDriver(item) {
 function rowEngine(item) {
   return `
   <div class="pure-u-1-1 pure-u-md-1-3 pure-u-lg-1-4">
-    <section class="item-create item-create-engine">
+    <section class="item-create item-create-engine" data-price="${ item.price }">
       <div class="item-media">
         <img class="pure-img" src="${ item.image }">
       </div>
@@ -74,7 +74,7 @@ function rowEngine(item) {
 function rowChassis(item) {
   return `
   <div class="pure-u-1-1 pure-u-md-1-3 pure-u-lg-1-4">
-    <section class="item-create item-create-chassis">
+    <section class="item-create item-create-chassis" data-price="${ item.price }">
       <div class="item-media">
         <img class="pure-img" src="${ item.image }">
       </div>

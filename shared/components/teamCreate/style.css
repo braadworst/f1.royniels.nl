@@ -25,10 +25,12 @@ component-team-create .item-create {
   overflow: hidden;
   margin: 5px;
   cursor: pointer;
+  transition: background-color .3s, opacity .3s;
 }
 component-team-create .item-create .item-media {
   height: 250px;
   overflow: hidden;
+  box-sizing: border-box;
 }
 component-team-create .item-create .item-body {
   padding: 10px;
@@ -57,25 +59,26 @@ component-team-create .item-create .item-body p:last-child {
 }
 component-team-create .item-create-selected {
   background-color: mediumslateblue;
-}
-component-team-create .item-create-selected {
   color: #fff;
 }
 component-team-create .item-create-selected .item-body .price {
   background-color: rgba(0, 0, 0, .1);
 }
 component-team-create .item-create-selected .item-media {
-  box-sizing: border-box;
   border: 5px solid mediumslateblue;
 }
-
+component-team-create .item-create-inactive {
+  opacity: .3;
+  cursor: default;
+}
 component-team-create .item-create-chassis .item-media {
   height: 150px;
 }
 
 component-team-create .item-create-engine .item-media {
-  height: 180px;
-  padding: 30px;
+  padding: 15px;
+  height: 280px;
+  background-color: #fff;
 }
 
 @media screen and (max-width: 48em) {
