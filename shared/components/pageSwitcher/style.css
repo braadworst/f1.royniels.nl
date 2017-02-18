@@ -3,9 +3,6 @@ main {
   margin-left: 250px;
   transition: margin .5s;
 }
-main h1 {
-  margin: 0;
-}
 main.full {
   margin-left: 0;
 }

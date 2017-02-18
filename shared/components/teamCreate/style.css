@@ -33,6 +33,10 @@ component-team-create .item-create .item-media {
 component-team-create .item-create .item-body {
   padding: 10px;
 }
+component-team-create .item-create .item-body h1 {
+  font-size: 1.7rem;
+  line-height: 1.7rem;
+}
 component-team-create .item-create .item-body h1,
 component-team-create .item-create .item-body p {
   margin: 0 0 10px 0;

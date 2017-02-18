@@ -1,0 +1,45 @@
+component-teams {
+  display: block;
+}
+component-teams .item-team {
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 15px 15px 5px 15px;
+}
+component-teams .item-team .item-body {
+  margin-bottom: 10px;
+  clear: both;
+}
+component-teams .item-team .item-media {
+  width: 50px;
+  height: 50px;
+  background-color: #eee;
+  float: left;
+  margin-right: 10px;
+  border-radius: 50%;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+component-teams .item-team .item-media img {
+}
+component-teams .item-team span,
+component-teams .item-team .pure-u-1-2:first-child p {
+  text-transform: uppercase;
+  color: #aaa;
+  font-size: .9rem;
+}
+component-teams .item-team h1 {
+  font-size: 1.6rem;
+  line-height: 1.6rem;
+  margin-bottom: 5px;
+}
+component-teams .item-team p {
+  color: black;
+  margin: 0;
+}
+component-teams .item-body span {
+  font-size: .8rem;
+  line-height: .8rem;
+}
