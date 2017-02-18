@@ -1,0 +1,46 @@
+component-standings ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+component-standings .item-standings {
+  background-color: white;
+  margin-bottom: 5px;
+  display: table;
+  width: 100%;
+  box-sizing: border-box;
+}
+component-standings .item-standings .item-header,
+component-standings .item-standings .item-body,
+component-standings .item-standings .item-footer {
+  display: table-cell;
+  vertical-align: middle;
+  padding: 10px 15px;
+}
+component-standings .item-standings .item-header {
+  width: 1px;
+  padding-left: 20px;
+  padding-right: 5px;
+}
+component-standings .item-standings h1 {
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  font-weight: 400;
+  margin: 0 0 5px 0;
+}
+component-standings .item-standings p {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: .8rem;
+}
+component-standings .item-standings .item-header {
+  font-size: .8rem;
+}
+component-standings .item-standings .item-footer {
+  width: 1px;
+  font-weight: 500;
+  text-align: right;
+  font-size: 2rem;
+  color: gold;
+}
