@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-module.exports = function() {
+module.exports = (function() {
   if (process.env.NODE_ENV === 'development') {
     return {
       port : 4443,
@@ -10,4 +10,4 @@ module.exports = function() {
       }
     }
   }
-};
+}());

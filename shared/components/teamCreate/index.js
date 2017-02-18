@@ -13,6 +13,16 @@ module.exports = function() {
         chassis,
         budget : 150000000
       }));
+    },
+    init(renderer, store) {
+      addHandlers(store);
+    },
+    added(renderer, store) {
+      addHandlers(store);
     }
+  }
+
+  function addHandlers(store) {
+
   }
 }
