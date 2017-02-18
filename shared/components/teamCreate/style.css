@@ -1,0 +1,84 @@
+component-team-create {
+  display: block;
+}
+component-team-create .pure-form {
+  background-color: #fff;
+  margin: 0 0 30px 0;
+  padding: 15px;
+}
+component-team-create .pure-form h2 {
+  color: #aaa;
+  margin-top: 9px;
+}
+component-team-create h2 {
+  margin: 0;
+}
+component-team-create .pure-form input[type="text"] {
+  width: 100%;
+}
+component-team-create .pure-form .content {
+  margin: 0 10px;
+}
+
+component-team-create .item-create {
+  background-color: #fff;
+  overflow: hidden;
+  margin: 5px;
+  cursor: pointer;
+}
+component-team-create .item-create .item-media {
+  height: 250px;
+  overflow: hidden;
+}
+component-team-create .item-create .item-body {
+  padding: 10px;
+}
+component-team-create .item-create .item-body h1,
+component-team-create .item-create .item-body p {
+  margin: 0 0 10px 0;
+}
+component-team-create .item-create .item-body .team {
+  color: #ccc;
+  text-transform: uppercase;
+  font-size: .9rem;
+}
+component-team-create .item-create .item-body .price {
+  background-color: orangered;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+}
+component-team-create .item-create .item-body p:last-child {
+  margin-top: 15px;
+}
+component-team-create .item-create-selected {
+  background-color: mediumslateblue;
+}
+component-team-create .item-create-selected {
+  color: #fff;
+}
+component-team-create .item-create-selected .item-body .price {
+  background-color: rgba(0, 0, 0, .1);
+}
+component-team-create .item-create-selected .item-media {
+  box-sizing: border-box;
+  border: 5px solid mediumslateblue;
+}
+
+component-team-create .item-create-chassis .item-media {
+  height: 150px;
+}
+
+component-team-create .item-create-engine .item-media {
+  height: 180px;
+  padding: 30px;
+}
+
+@media screen and (max-width: 48em) {
+  component-team-create .pure-form .pure-u-1-1 {
+    margin-bottom: 10px;
+  }
+  component-team-create .pure-form .pure-u-1-1 h2 {
+    text-align: center;
+  }
+}

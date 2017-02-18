@@ -1,6 +1,16 @@
 main {
   padding: 25px;
+  margin-left: 250px;
+  transition: margin .5s;
 }
 main h1 {
   margin: 0;
+}
+main.full {
+  margin-left: 0;
+}
+@media (max-width: 64em) {
+  main {
+    margin-left: 0;
+  }
 }

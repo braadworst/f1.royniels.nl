@@ -1,0 +1,17 @@
+.button {
+  background-color: mediumslateblue;
+  border-radius: 3px;
+  padding: 10px;
+  color: #fff;
+  white-space: nowrap;
+  font-size: 1.2rem;
+  border: 0;
+  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  box-sizing: border-box;
+  text-align: center;
+}
+.button-light {
+  background-color: gold;
+}
