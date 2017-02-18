@@ -1,6 +1,6 @@
 html, button, input, select, textarea,
 .pure-g [class *= "pure-u"] {
-  font: 300 1.1rem/1.4rem 'Roboto Condensed', sans-serif;
+  font: 300 1rem/1.4rem 'Ubuntu', sans-serif;
 }
 body {
   background-color: #eee;
@@ -17,11 +17,11 @@ h1 {
   margin: 0 0 15px 0;
 }
 h2 {
-  font: 300 1.8rem/1.8rem 'Roboto Condensed', sans-serif;
+  font: 300 1.8rem/1.8rem 'Ubuntu', sans-serif;
   margin: 0 0 15px 0;
 }
 h3 {
-  font: 300 1.4rem/1.4rem 'Roboto Condensed', sans-serif;
+  font: 300 1.4rem/1.4rem 'Ubuntu', sans-serif;
   margin: 0 0 15px 0;
 }
 p {
