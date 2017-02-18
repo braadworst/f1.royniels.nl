@@ -1,5 +1,5 @@
 /* declare global styles, like fonts and icons, maybe frameworks like purecss */
-@import url('https://fonts.googleapis.com/css?family=Dosis:300,400,500|Oswald|Ubuntu:300,300i,400,400i,500,500i');
+@import url('https://fonts.googleapis.com/css?family=Oswald|Ubuntu:300,300i,400,400i,500,500i');
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 @import url('../../node_modules/purecss/build/pure.css');
 @import url('../../node_modules/purecss/build/grids-responsive.css');

@@ -26,7 +26,6 @@ component-nav a {
 component-nav a {
   padding: 10px 15px;
   display: block;
-  font: 500 .9rem/.9rem 'Dosis', sans-serif;
   text-decoration: none;
   color: rgba(255, 255, 255, .5);
   vertical-align: middle;
@@ -109,9 +108,9 @@ component-nav .brand .fourth:after {
 component-nav .brand .name {
   color: #fff;
   margin-left: 18px;
-  margin-top: -3px;
+  margin-top: -4px;
   text-transform: uppercase;
-  font: 400 1rem/1rem 'Oswald', 'sans-serif';
+  font: 400 1.3rem/1.3rem 'Oswald', 'sans-serif';
   vertical-align: middle;
   display: inline-block;
 }

@@ -31,7 +31,7 @@ module.exports = function(store) {
         }
 
         if (components[state.component][state.type]) {
-          console.log(`Componenet: ${ state.component } (${ state.type})`);
+          console.log(`Component: ${ state.component } (${ state.type})`);
           components[state.component][state.type](renderer, store);
         }
       }));
