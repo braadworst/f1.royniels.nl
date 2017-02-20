@@ -8,11 +8,11 @@ const app         = express();
 // Enable compression on all responses
 app.use(compression());
 
-// Set static folder
-app.use(express.static('./public'));
-
 // Create HTTP2 server
 let server = spdy.createServer(settings.options, app);
+
+// Validate incoming requests
+app.use(validateRequests);
 
 // Setup routes for server site rendering
 router(app);

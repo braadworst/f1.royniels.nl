@@ -18,6 +18,7 @@ module.exports = function(app) {
   app.get(constants.url.URL_RULES, (request, response) => handle(request, response, 'rules'));
 
   function handle(request, response, method) {
+    console.log(request.headers);
     let store      = createStore();
     let template   = require('./template');
     let renderer   = require('./renderer')(template);
