@@ -34,7 +34,7 @@ module.exports = function(server) {
     handle(request, args, 'componentStandings');
   });
   router.get(constants.url.URL_RULES, (request, response, args) => {
-    handle(request, args, 'componentRules'); 
+    handle(request, args, 'componentRules');
   });
 
   function handle(request, args, component) {

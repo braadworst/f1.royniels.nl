@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function(event){
   const renderer  = require('./renderer')(store);
 
   router.before(request => {
-    return store;
+    return { store };
   });
 
   component.init(renderer);
