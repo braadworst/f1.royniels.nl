@@ -1,4 +1,4 @@
-let url = require('../../helpers/url');
+let url = require('../../url');
 
 module.exports = function(step) {
   return `
