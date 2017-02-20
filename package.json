@@ -1,5 +1,5 @@
 {
-  "name": "F1 Manager",
+  "name": "F1-Manager",
   "version": "1.0.0",
   "description": "F1.royniels.nl",
   "main": "index.js",
@@ -67,6 +67,7 @@
     "camelize": "^1.0.0",
     "cheerio": "^0.22.0",
     "compression": "^1.6.2",
+    "cs-router": "^1.0.1",
     "decamelize": "^1.2.0",
     "express": "^4.14.1",
     "faye": "^1.2.4",
