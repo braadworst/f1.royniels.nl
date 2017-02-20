@@ -9,9 +9,9 @@ module.exports = (function() {
       <meta name="description" content="">
       <meta name="author" content="Roy Niels">
 
-      <link rel="stylesheet" href="/css/styles.css">
+      <link rel="stylesheet" href="/public/css/styles.css">
 
-      <script src="/js/main.min.js"></script>
+      <script src="/public/js/main.min.js"></script> 
 
     </head>
     <body>

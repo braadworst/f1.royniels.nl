@@ -63,26 +63,17 @@
   },
   "homepage": "https://github.com/CrazyAwesomeCompany/vehisell-frontend#readme",
   "dependencies": {
-    "bufferutil": "^2.0.1",
     "camelize": "^1.0.0",
     "cheerio": "^0.22.0",
     "compression": "^1.6.2",
-    "cs-router": "^1.0.1",
+    "cs-router": "^1.0.2",
     "decamelize": "^1.2.0",
-    "express": "^4.14.1",
-    "faye": "^1.2.4",
-    "faye-websocket": "^0.11.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "morphdom": "^2.3.1",
-    "page": "^1.7.1",
     "redux": "^3.6.0",
     "redux-watch": "^1.1.1",
     "spdy": "^3.4.4",
-    "utf-8-validate": "^3.0.1",
-    "uuid": "^3.0.1",
-    "uws": "^0.12.0",
-    "websocket": "^1.0.24",
-    "ws": "^2.1.0"
+    "uuid": "^3.0.1"
   }
 }
