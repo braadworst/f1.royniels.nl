@@ -1,6 +1,6 @@
 module.exports = function(options) {
   return `
-  <component-teams>
+  <component-teams class="animation-page-in">
     <h1>All teams</h1>
     ${ [0,0,0,0,0,0,0].map(row).join('') }
   </component-teams>

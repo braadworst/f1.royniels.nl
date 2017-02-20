@@ -1,3 +1,6 @@
+component-races {
+  display: block;
+}
 component-races .item-race {
   background-color: #fff;
   margin: 5px;

@@ -1,6 +1,6 @@
 module.exports = function(options = {}) {
   return `
-  <component-standings>
+  <component-standings class="animation-page-in">
     <h1>Standings</h1>
     <ul class="group-standings">
     <li>

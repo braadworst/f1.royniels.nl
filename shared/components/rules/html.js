@@ -1,6 +1,6 @@
 module.exports = function(options = {}) {
   return `
-  <component-rules>
+  <component-rules class="animation-page-in">
     <h1>Rules</h1>
     <div class="pure-g">
       <div class="pure-u-1-1 pure-u-md-2-5">
