@@ -6,6 +6,7 @@
   "settings": {
     "development": {
       "apiserver": {
+        "databaseName" : "database",
         "port": 4444,
         "certs": {
           "key": "./certs/key.pem",
@@ -86,6 +87,7 @@
     "redux": "^3.6.0",
     "redux-watch": "^1.1.1",
     "spdy": "^3.4.4",
+    "sqlite3": "^3.1.8",
     "uuid": "^3.0.1"
   }
 }
