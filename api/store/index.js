@@ -10,8 +10,9 @@ module.exports = function(settings) {
   database.on('open', () => console.log('database opened and ready to use'));
 
   return {
-    create : require('./queries/create')(database),
-    insert : require('./queries/insert')(database),
-    drop : require('./queries/drop')(database),
+    create    : require('./queries/create')(database),
+    insert    : require('./queries/insert')(database),
+    drop      : require('./queries/drop')(database),
+    selectAll : require('./queries/selectAll')(database),
   };
 }
