@@ -1,11 +1,11 @@
-const settings    = require('./settings');
+const settings    = require('package-settings');
 const spdy        = require('spdy');
 const compression = require('compression');
 const createStore = require('../shared/store');
 const action      = require('../shared/actions/component');
 
 // Create HTTP2 server
-let server = spdy.createServer(settings.options);
+let server = spdy.createServer(settings.webserver.certs);
 
 // Handle static files
 require('./static')(server);
@@ -37,6 +37,6 @@ router.after((request, response, args) => {
   response.end(args.renderer.getTemplate());
 });
 
-server.listen(settings.port, function() {
-  console.log('Server listening on port: ' + settings.port);
+server.listen(settings.webserver.port, function() {
+  console.log('Server listening on port: ' + settings.webserver.port);
 });

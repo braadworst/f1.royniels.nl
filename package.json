@@ -3,6 +3,24 @@
   "version": "1.0.0",
   "description": "F1.royniels.nl",
   "main": "index.js",
+  "settings": {
+    "development": {
+      "apiserver": {
+        "port": 4444,
+        "certs": {
+          "key": "./certs/key.pem",
+          "cert": "./certs/cert.pem"
+        }
+      },
+      "webserver": {
+        "port": 4443,
+        "certs": {
+          "key": "./certs/key.pem",
+          "cert": "./certs/cert.pem"
+        }
+      }
+    }
+  },
   "watch": {
     "js": {
       "patterns": [
@@ -26,30 +44,23 @@
     "js-build": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing | node_modules/.bin/uglifyjs public/js/main.js --output public/js/main.min.js",
     "js-file-size": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la | sort",
     "certs": "rm -rf certs && mkdir certs && openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout certs/key.pem -out certs/cert.pem",
-    "serve": "NODE_ENV=development node_modules/.bin/nodemon server/main.js",
+    "api": "NODE_ENV=development node_modules/.bin/nodemon --harmony api/main.js",
+    "serve": "NODE_ENV=development node_modules/.bin/nodemon --harmony server/main.js",
     "watch": "npm-watch"
-  },
-  "babel": {
-    "presets": [
-      "latest"
-    ],
-    "plugins": [
-      "transform-object-rest-spread"
-    ]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CrazyAwesomeCompany/vehisell-frontend.git"
+    "url": "git+https://github.com/braadworst/f1.royniels.nl.git"
   },
   "keywords": [
-    "crazy",
-    "awesome",
-    "jow!"
+    "f1",
+    "manager",
+    "game!"
   ],
   "author": "Roy Niels",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CrazyAwesomeCompany/vehisell-frontend/issues"
+    "url": "https://github.com/braadworst/f1.royniels.nl/issues"
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.22.0",
@@ -61,7 +72,7 @@
     "purecss": "^0.6.2",
     "uglify-js": "^2.7.5"
   },
-  "homepage": "https://github.com/CrazyAwesomeCompany/vehisell-frontend#readme",
+  "homepage": "https://github.com/braadworst/f1.royniels.nl#readme",
   "dependencies": {
     "camelize": "^1.0.0",
     "cheerio": "^0.22.0",
@@ -71,6 +82,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "morphdom": "^2.3.1",
+    "package-settings": "^1.0.0",
     "redux": "^3.6.0",
     "redux-watch": "^1.1.1",
     "spdy": "^3.4.4",
