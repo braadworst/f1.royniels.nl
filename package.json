@@ -6,7 +6,7 @@
   "settings": {
     "development": {
       "apiserver": {
-        "databaseName" : "database",
+        "databaseName": "database",
         "port": 4444,
         "certs": {
           "key": "./certs/key.pem",
@@ -19,7 +19,8 @@
           "key": "./certs/key.pem",
           "cert": "./certs/cert.pem"
         }
-      }
+      },
+      "apiUri" : "https://localhost:4444/api/"
     }
   },
   "watch": {
@@ -80,11 +81,13 @@
     "compression": "^1.6.2",
     "cs-router": "^1.0.2",
     "decamelize": "^1.2.0",
+    "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "morphdom": "^2.3.1",
     "package-settings": "^1.0.0",
     "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0",
     "redux-watch": "^1.1.1",
     "spdy": "^3.4.4",
     "sqlite3": "^3.1.8",

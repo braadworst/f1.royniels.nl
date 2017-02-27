@@ -17,6 +17,9 @@ const TEAM_SELECT_TEAM    = 'teamSelectTeam';
 const TEAM_SELECT_DRIVER  = 'teamSelectDriver';
 const TEAM_SELECT_ENGINE  = 'teamSelectEngine';
 const TEAM_SELECT_CHASSIS = 'teamSelectChassis';
+const GET_DRIVERS_PENDING = 'getDriversPending';
+const GET_DRIVERS_SUCCESS = 'getDriversSuccess';
+const GET_DRIVERS_ERROR   = 'getDriversError';
 
 module.exports = {
   component : {
@@ -45,5 +48,10 @@ module.exports = {
     TEAM_SELECT_DRIVER,
     TEAM_SELECT_ENGINE,
     TEAM_SELECT_CHASSIS,
+  },
+  drivers : {
+    GET_DRIVERS_PENDING,
+    GET_DRIVERS_SUCCESS,
+    GET_DRIVERS_ERROR
   }
 }

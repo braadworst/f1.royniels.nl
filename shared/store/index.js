@@ -8,6 +8,9 @@ module.exports = function(preloadedState = {}) {
       component  : require('../reducers/component'),
       menuActive : require('../reducers/menuActive')
     }),
+    redux.applyMiddleware({
+      thunk : require('redux-thunk')
+    })
     preloadedState
   );
 }
