@@ -1,5 +1,5 @@
-component-team-create {
   display: block;
+  component-team-create {
 }
 component-team-create .pure-form {
   background-color: #fff;
@@ -79,6 +79,31 @@ component-team-create .item-create-engine .item-media {
   padding: 15px;
   height: 280px;
   background-color: #fff;
+}
+
+component-team-create.loading .pure-form .content {
+  background-color: #eee;
+  height: 50px;
+}
+component-team-create.loading .pure-form .pure-u-1-1:last-child .content {
+  background-color: mediumslateblue;
+}
+component-team-create.loading .item-media {
+  border: 10px solid white;
+  background-color: #eee;
+  text-align: center;
+}
+component-team-create.loading .item-create .item-body .price {
+  width: 100px;
+  display: inline-block;
+}
+component-team-create.loading .item-create .item-body .team {
+  background-color: #eee;
+  width: 30%
+}
+component-team-create.loading .item-create .item-body h1 {
+  background-color: #eee;
+  width: 80%;
 }
 
 @media screen and (max-width: 48em) {
