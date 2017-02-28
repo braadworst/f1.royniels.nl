@@ -1,34 +1,17 @@
-const html    = require('./html');
-const loading = require('./html/loading');
-const failure = require('./html/error');
-const engines = require('../../fixtures/engines');
-const chassis = require('../../fixtures/chassis');
-const action  = require('../../actions/drivers');
-
+const html   = require('./html');
+const loader = require('../../data/loader');
+x
 module.exports = function() {
 
   // Total budget
   const startBudget = 150000000;
-  let budget        = startBudget;
-  let drivers;
+  let data = {};
 
   return {
-    async create(renderer, store) {
-      if (drivers === undefined) {
-        try {
-          renderer.render(loading());
-          drivers = await store.dispatch(action.fetchDrivers(store));
-        } catch (error) {
-          renderer.render(failure());
-          return;
-        }
-      }
-      renderer.render(html({
-        drivers,
-        engines,
-        chassis,
-        startBudget
-      }));
+    create(renderer, store) {
+      loader('drivers', 'engines', 'chassis', (error, data) => {
+        renderer.render(html(Object.assign({}, data, { budget : startBudget })));
+      });
     },
     init(renderer, store) {
       addHandlers(store);
