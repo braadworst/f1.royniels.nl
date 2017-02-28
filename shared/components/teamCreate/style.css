@@ -28,8 +28,6 @@ component-team-create .item-create {
   transition: background-color .3s, opacity .3s;
 }
 component-team-create .item-create .item-media {
-  height: 250px;
-  overflow: hidden;
   box-sizing: border-box;
 }
 component-team-create .item-create .item-body {
@@ -70,15 +68,6 @@ component-team-create .item-create-selected .item-media {
 component-team-create .item-create-inactive {
   opacity: .3;
   cursor: default;
-}
-component-team-create .item-create-chassis .item-media {
-  height: 150px;
-}
-
-component-team-create .item-create-engine .item-media {
-  padding: 15px;
-  height: 280px;
-  background-color: #fff;
 }
 
 component-team-create.loading .pure-form .content {
