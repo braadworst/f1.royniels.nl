@@ -1,17 +1,23 @@
-const html   = require('./html');
-const loader = require('../../data/loader');
-x
+const loaded  = require('./html/loaded');
+const loading = require('./html/loading');
+const failed  = require('./html/failed');
+const loader  = require('../../data/loader');
+
 module.exports = function() {
 
   // Total budget
   const startBudget = 150000000;
-  let data = {};
+  let budget        = startBudget;
 
   return {
-    create(renderer, store) {
-      loader('drivers', 'engines', 'chassis', (error, data) => {
-        renderer.render(html(Object.assign({}, data, { budget : startBudget })));
-      });
+    async create(renderer, store) {
+      renderer.render(loading());
+      try {
+        const datasets = await loader('drivers', 'engines', 'chassis', store);
+        renderer.render(loaded(Object.assign({}, datasets, { startBudget })));
+      } catch(error) {
+        renderer.render(failed());
+      }
     },
     init(renderer, store) {
       addHandlers(store);

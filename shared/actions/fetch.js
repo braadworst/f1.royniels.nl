@@ -1,24 +1,23 @@
 const constants = require('../constants');
-const fetch     = require('../data/fetch');
 
 module.exports = (function() {
   return {
-    fetchLoading(dataset) {
+    loading(dataset) {
       return {
-        type : constants.drivers.FETCH_LOADING,
+        type : constants.fetch.FETCH_LOADING,
         dataset,
       }
-    }
-    fetchLoaded(dataset, records) {
+    },
+    loaded(dataset, records) {
       return {
-        type : constants.drivers.FETCH_LOADED,
+        type : constants.fetch.FETCH_LOADED,
         dataset,
         records
       }
-    }
-    fetchError(dataset, error) {
+    },
+    failed(dataset, error) {
       return {
-        type : constants.drivers.FETCH_FAILED,
+        type : constants.fetch.FETCH_FAILED,
         error,
       }
     }

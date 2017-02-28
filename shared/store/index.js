@@ -6,7 +6,7 @@ const thunk = require('redux-thunk').default;
 module.exports = function(preloadedState = {}) {
   return redux.createStore(
     redux.combineReducers({
-      drivers    : require('../reducers/drivers'),
+      fetch      : require('../reducers/fetch'),
       component  : require('../reducers/component'),
       menuActive : require('../reducers/menuActive')
     }),

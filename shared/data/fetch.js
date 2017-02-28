@@ -1,13 +1,14 @@
-const request  = require('request');
+const request = require('request');
+const action  = require('../actions/fetch');
 
 module.exports = (function() {
 
   const base = 'https://localhost:4444/api/';
 
   return {
-    drivers() {
+    dataset(dataset) {
       return new Promise((resolve, reject) => {
-        request(base + 'drivers', (error, response, body) => {
+        request(base + dataset, (error, response, body) => {
           if (error) {
             reject(error);
           } else {
