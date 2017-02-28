@@ -25,8 +25,7 @@ module.exports = function(server) {
     handle(request, args, 'componentTeamDetail');
   });
   router.get(constants.url.URL_TEAM_CREATE, (request, response, args) => {
-    args.store.dispatch(componentAction.loading('componentPageSwitcher', 'componentTeamCreate'));
-    args.store.dispatch(menuActiveAction.active(request.url));
+    handle(request, args, 'componentTeamCreate');
   });
   router.get(constants.url.URL_RACES, (request, response, args) => {
     handle(request, args, 'componentRaces');
@@ -39,7 +38,7 @@ module.exports = function(server) {
   });
 
   function handle(request, args, component) {
-    args.store.dispatch(componentAction.create('componentPageSwitcher', component));
+    args.store.dispatch(componentAction.loading('componentPageSwitcher', component));
     args.store.dispatch(menuActiveAction.active(request.url));
   }
 

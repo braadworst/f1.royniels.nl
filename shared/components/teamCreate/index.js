@@ -12,15 +12,11 @@ module.exports = function() {
   let drivers;
 
   return {
-    async loading(remderer, store) {
+    async loading(renderer, store) {
+      console.log('loading team create')
       try {
         // drivers = await store.dispatch(action.fetchDrivers(store));
-        renderer.render(html({
-          drivers,
-          engines,
-          chassis,
-          startBudget
-        }));
+        renderer.render(loading());
       } catch (error) {
         console.log(error);
       }

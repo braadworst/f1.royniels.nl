@@ -1,12 +1,12 @@
-const html  = require('./html');
-const watch = require('redux-watch');
+const html   = require('./html');
+const watch  = require('redux-watch');
 
 module.exports = function() {
 
   let unsubscribe;
 
   return {
-    create(renderer, store) {
+    create(renderer, store) {''
       renderer.render(html());
     },
     init(renderer, store) {
