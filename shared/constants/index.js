@@ -20,6 +20,7 @@ const TEAM_SELECT_CHASSIS = 'teamSelectChassis';
 const FETCH_FAILED        = 'fetchFailed';
 const FETCH_LOADED        = 'fetchLoaded';
 const FETCH_LOADING       = 'fetchLoading';
+const FETCH_ALL_LOADED    = 'fetchAllLoaded';
 
 module.exports = {
   component : {
@@ -52,6 +53,7 @@ module.exports = {
   fetch : {
     FETCH_FAILED,
     FETCH_LOADED,
-    FETCH_LOADING
+    FETCH_LOADING,
+    FETCH_ALL_LOADED
   }
 }

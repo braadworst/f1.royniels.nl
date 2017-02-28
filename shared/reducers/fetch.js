@@ -8,6 +8,8 @@ const initial   = {
 module.exports = function(state = initial, action) {
   let output;
   switch(action.type) {
+    case constants.fetch.FETCH_ALL_LOADED :
+      return Object.assign({}, state, action);
     case constants.fetch.FETCH_LOADING :
       output = Object.assign({}, state);
       output.loading[action.dataset] = true;

@@ -1,6 +1,5 @@
 const settings    = require('package-settings');
 const spdy        = require('spdy');
-const compression = require('compression');
 const createStore = require('../shared/store');
 const action      = require('../shared/actions/component');
 
