@@ -23,4 +23,11 @@ module.exports = function(server, database) {
     response.setHeader('Access-Control-Allow-Origin', '*');
     response.end(JSON.stringify(records));
   });
+
+  router.get('/api/circuits', async function(request, response) {
+    const records = await database.selectAll(tables.circuits);
+    response.setHeader('Content-Type', 'application/vnd.api+json');
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    response.end(JSON.stringify(records));
+  });
 }

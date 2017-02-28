@@ -15,10 +15,6 @@ component-races .item-race .passed {
   width: 100%;
   box-sizing: border-box;
 }
-component-races .item-race .item-media {
-  max-height: 200px;
-  overflow: hidden;
-}
 component-races .item-race select {
   width: 100%;
   margin-bottom: 10px;
