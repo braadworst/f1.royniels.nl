@@ -25,7 +25,8 @@ module.exports = function(server) {
     handle(request, args, 'componentTeamDetail');
   });
   router.get(constants.url.URL_TEAM_CREATE, (request, response, args) => {
-    handle(request, args, 'componentTeamCreate');
+    args.store.dispatch(componentAction.loading('componentPageSwitcher', 'componentTeamCreate'));
+    args.store.dispatch(menuActiveAction.active(request.url));
   });
   router.get(constants.url.URL_RACES, (request, response, args) => {
     handle(request, args, 'componentRaces');

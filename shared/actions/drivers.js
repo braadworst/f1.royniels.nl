@@ -1,33 +1,20 @@
 const constants = require('../constants');
-const fetch     = require('isomorphic-fetch');
-const settings  = require('package-settings');
+const fetch     = require('../fetch');
 
 module.exports = (function() {
   return {
-    fetchDrivers(store) {
-      if (shouldLoad(store)) {
-        return store.dispatch(fetchRecords(store));
-      } else {
-        return Promise.resolve();
-      }
-    }
+    fetchDrivers
   }
 }());
 
-function fetchRecords(store) {
-  store.dispatch(fetchDriversPending());
-  return fetch(settings.apiUri + 'drivers')
-    .then(records => {
-      store.dispatch(fetchDriversSuccess(records));
-    }, error => {
-      store.dispatch(fetchDriversError(error.message));
-    });
-}
-
-function shouldLoad(store) {
-  const records    = store.getState().drivers.records;
-  const isFetching = store.getState().drivers.isFetching;
-  return (records.length || isFetching) ? false : true;
+function fetchDrivers() {
+  return (dispatch, getState) => {
+    if (shouldFetch(getState)) {
+      return dispatch(fetchRecords(dispatch));
+    } else {
+      return Promise.resolve();
+    }
+  }
 }
 
 function fetchDriversPending() {
@@ -50,5 +37,24 @@ function fetchDriversError(error) {
     type : constants.drivers.GET_DRIVERS_ERROR,
     error,
     isFetching : false
+  }
+}
+
+function shouldFetch(getState) {
+  const records    = getState().drivers.records;
+  const isFetching = getState().drivers.isFetching;
+  return (records.length || isFetching) ? false : true;
+}
+
+function fetchRecords(dispatch) {
+  return dispatch => {
+    dispatch(fetchDriversPending());
+    return new Promise((resolve, reject) => {
+      fetch.drivers(records => {
+        resolve(records);
+      }, error => {
+        reject(error);
+      });
+    });
   }
 }

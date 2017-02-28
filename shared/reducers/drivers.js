@@ -1,6 +1,6 @@
 const constants = require('../constants');
 const initial   = {
-  drivers : [],
+  records : [],
   isFetching : false
 }
 

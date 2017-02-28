@@ -2,6 +2,13 @@ const constants = require('../constants');
 
 module.exports = (function() {
   return {
+    loading(component, page = false) {
+      return {
+        type : constants.component.COMPONENT_LOADING,
+        component,
+        page
+      }
+    },
     init(component, page = false) {
       return {
         type : constants.component.COMPONENT_INIT,

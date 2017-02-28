@@ -1,16 +1,31 @@
 const html    = require('./html');
-const drivers = require('../../fixtures/drivers');
+const loading = require('./html/loading');
 const engines = require('../../fixtures/engines');
 const chassis = require('../../fixtures/chassis');
+const action  = require('../../actions/drivers');
 
 module.exports = function() {
 
   // Total budget
   const startBudget = 150000000;
   let budget        = startBudget;
+  let drivers;
 
   return {
-    create(renderer) {
+    async loading(remderer, store) {
+      try {
+        // drivers = await store.dispatch(action.fetchDrivers(store));
+        renderer.render(html({
+          drivers,
+          engines,
+          chassis,
+          startBudget
+        }));
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    create(renderer, store) {
       renderer.render(html({
         drivers,
         engines,

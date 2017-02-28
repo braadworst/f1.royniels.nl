@@ -6,6 +6,7 @@
   "settings": {
     "development": {
       "apiserver": {
+        "url": "https://localhost",
         "databaseName": "database",
         "port": 4444,
         "certs": {
@@ -19,8 +20,7 @@
           "key": "./certs/key.pem",
           "cert": "./certs/cert.pem"
         }
-      },
-      "apiUri" : "https://localhost:4444/api/"
+      }
     }
   },
   "watch": {
@@ -46,8 +46,8 @@
     "js-build": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing | node_modules/.bin/uglifyjs public/js/main.js --output public/js/main.min.js",
     "js-file-size": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la | sort",
     "certs": "rm -rf certs && mkdir certs && openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout certs/key.pem -out certs/cert.pem",
-    "api": "NODE_ENV=development node_modules/.bin/nodemon --harmony api/main.js",
-    "serve": "NODE_ENV=development node_modules/.bin/nodemon --harmony server/main.js",
+    "api": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony api/main.js",
+    "serve": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony server/main.js",
     "watch": "npm-watch"
   },
   "repository": {
@@ -89,6 +89,7 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "redux-watch": "^1.1.1",
+    "request": "^2.79.0",
     "spdy": "^3.4.4",
     "sqlite3": "^3.1.8",
     "uuid": "^3.0.1"
