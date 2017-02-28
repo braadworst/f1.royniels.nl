@@ -38,7 +38,7 @@ module.exports = function(server) {
   });
 
   function handle(request, args, component) {
-    args.store.dispatch(componentAction.loading('componentPageSwitcher', component));
+    args.store.dispatch(componentAction.create('componentPageSwitcher', component));
     args.store.dispatch(menuActiveAction.active(request.url));
   }
 

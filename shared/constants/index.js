@@ -2,7 +2,6 @@ const COMPONENT_INIT      = 'init';
 const COMPONENT_REMOVED   = 'remove';
 const COMPONENT_ADDED     = 'added';
 const COMPONENT_CREATE    = 'create';
-const COMPONENT_LOADING   = 'loading';
 const MENU_ACTIVE         = 'menuActive';
 const URL_HOME            = '/';
 const URL_LOGIN           = '/login';
@@ -28,7 +27,6 @@ module.exports = {
     COMPONENT_ADDED,
     COMPONENT_REMOVED,
     COMPONENT_CREATE,
-    COMPONENT_LOADING,
   },
   menu : {
     MENU_ACTIVE

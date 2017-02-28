@@ -66,6 +66,7 @@
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
     "babelify": "^7.3.0",
     "browserify": "^14.0.0",
@@ -81,7 +82,6 @@
     "compression": "^1.6.2",
     "cs-router": "^1.0.2",
     "decamelize": "^1.2.0",
-    "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "morphdom": "^2.3.1",
