@@ -26,9 +26,9 @@ module.exports = function(server) {
 
     fs.exists(pathname, function (exist) {
       if(!exist) {
-        // if the file is not found, return 404
-        response.statusCode = 404;
-        response.end(`File ${pathname} not found!`);
+        // // if the file is not found, return 404
+        // response.statusCode = 404;
+        // response.end(`File ${pathname} not found!`);
         return;
       }
 

@@ -1,5 +1,6 @@
 const settings    = require('package-settings');
 const spdy        = require('spdy');
+const watch       = require('redux-watch');
 const createStore = require('../shared/store');
 const action      = require('../shared/actions/component');
 
@@ -16,7 +17,7 @@ const router = require('../shared/router')(server);
 router.before((request, response, args) => {
   let store      = createStore();
   let template   = require('./template');
-  let renderer   = require('./renderer')(template);
+  let renderer   = require('./renderer')(template, store);
   let components = require('../shared/components')(store);
   components.init(renderer);
 
@@ -32,8 +33,9 @@ router.before((request, response, args) => {
 });
 
 router.after((request, response, args) => {
-  args.renderer.addState(args.store.getState());
-  response.end(args.renderer.getTemplate());
+  args.renderer.loaded(html => {
+    response.end(html);
+  })
 });
 
 server.listen(settings.webserver.port, function() {

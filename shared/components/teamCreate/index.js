@@ -13,9 +13,9 @@ module.exports = function() {
     async create(renderer, store) {
       renderer.render(loading());
       try {
-        const datasets = await loader('drivers', 'engines', 'chassis', store);
-        renderer.render(loaded(Object.assign({}, datasets, { startBudget })));
-      } catch(error) {
+        const data = await loader('drivers', 'engines', 'chassis', store);''
+        renderer.render(loaded(Object.assign({}, data, { startBudget })), true);
+      } catch(errors) {
         renderer.render(failed());
       }
     },
