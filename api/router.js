@@ -10,7 +10,9 @@ module.exports = function(server, database) {
 
   router.get('/api/drivers', async function(request, response) {
     const records = await database.selectAll(tables.drivers);
-    response.end(JSON.stringify(records));
+    setTimeout(() => {
+      response.end(JSON.stringify(records));
+    }, 3000);
   });
 
   router.get('/api/chassis', async function(request, response) {

@@ -29,6 +29,8 @@ component-team-create .item-create {
 }
 component-team-create .item-create .item-media {
   box-sizing: border-box;
+  height: 250px;
+  overflow: hidden;
 }
 component-team-create .item-create .item-body {
   padding: 10px;
