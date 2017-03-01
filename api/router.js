@@ -1,4 +1,7 @@
-const tables = require('./store/tables');
+const drivers  = require('../shared/schemas/drivers');
+const engines  = require('../shared/schemas/engines');
+const chassis  = require('../shared/schemas/chassis');
+const circuits = require('../shared/schemas/circuits');
 
 module.exports = function(server, database) {
   const router = require('cs-router')(server);
@@ -9,22 +12,22 @@ module.exports = function(server, database) {
   });
 
   router.get('/api/drivers', async function(request, response) {
-    const records = await database.selectAll(tables.drivers);
+    const records = await database.selectAll(drivers);
     response.end(JSON.stringify(records));
   });
 
   router.get('/api/chassis', async function(request, response) {
-    const records = await database.selectAll(tables.chassis);
+    const records = await database.selectAll(chassis);
     response.end(JSON.stringify(records));
   });
 
   router.get('/api/engines', async function(request, response) {
-    const records = await database.selectAll(tables.engines);
+    const records = await database.selectAll(engines);
     response.end(JSON.stringify(records));
   });
 
   router.get('/api/circuits', async function(request, response) {
-    const records = await database.selectAll(tables.circuits);
+    const records = await database.selectAll(circuits);
     response.end(JSON.stringify(records));
   });
 }

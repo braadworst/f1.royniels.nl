@@ -25,7 +25,7 @@ module.exports = function(database) {
         });
 
       // Convert it to string
-      fields = table.properties.map(type => {
+      fields = fields.map(type => {
         return `${ type.name } ${ type.type } ${ type.primary ? 'primary key' : ''}`;
       }).join(', ');
 

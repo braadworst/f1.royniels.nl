@@ -9,16 +9,18 @@ module.exports = function(database) {
   }
 
   return function(table, records) {
+    table = JSON.parse(table);
     return new Promise((resolve) => {
-      // exclude the id and return a list of field names
-      const fields = table.fields
-        .filter(type => type.field !== 'id')
-        .map(type => type.field)
+
+      // Add all the fields from the schema
+      const fields = Object
+        .keys(table.properties)
+        .map(key => key)
         .join(', ');
 
-      const placeholders = table.fields
-        .filter(type => type.field !== 'id')
-        .map(type => '$' + type.field)
+      const placeholders = Object
+        .keys(table.properties)
+        .map(key => '$' + key)
         .join(', ');
 
       let statement = database.prepare(`INSERT INTO ${ table.title } (${ fields }) VALUES (${ placeholders })`);

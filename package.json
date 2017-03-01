@@ -7,7 +7,7 @@
     "development": {
       "apiserver": {
         "url": "https://localhost",
-        "databaseName": "database",
+        "databaseName": "f1manager",
         "port": 4444,
         "certs": {
           "key": "./certs/key.pem",
@@ -77,6 +77,7 @@
   },
   "homepage": "https://github.com/braadworst/f1.royniels.nl#readme",
   "dependencies": {
+    "ajv": "^4.11.3",
     "camelize": "^1.0.0",
     "cheerio": "^0.22.0",
     "compression": "^1.6.2",

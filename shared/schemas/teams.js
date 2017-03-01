@@ -1,8 +1,11 @@
 module.exports = JSON.stringify({
   title : 'teams',
   type  : 'object',
-  required : ['userId', 'firstDriverId', 'secondDriverId', 'engineId', 'chassisId'],
+  required : ['name', 'userId', 'firstDriverId', 'secondDriverId', 'engineId', 'chassisId'],
   properties : {
+    name : {
+      type : 'string',
+    },
     userId : {
       type : 'integer'
     },

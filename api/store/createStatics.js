@@ -5,21 +5,25 @@ const datasets = require('./datasets');
 // This stuff might run at all time, nothing from the client will influence this
 module.exports = async function(database) {
   try {
-    // await database.drop(tables.drivers);
-    // await database.create(tables.drivers);
-    // await database.insert(tables.drivers, datasets.drivers);
-    //
-    // await database.drop(tables.engines);
-    // await database.create(tables.engines);
-    // await database.insert(tables.engines, datasets.engines);
-    //
-    // await database.drop(tables.chassis);
-    // await database.create(tables.chassis);
-    // await database.insert(tables.chassis, datasets.chassis);
-    //
-    // await database.drop(tables.circuits);
-    // await database.create(tables.circuits);
-    // await database.insert(tables.circuits, datasets.circuits);
+    const drivers = require('../../shared/schemas/drivers');
+    await database.drop(drivers);
+    await database.create(drivers);
+    await database.insert(drivers, datasets.drivers);
+
+    const engines = require('../../shared/schemas/engines');
+    await database.drop(engines);
+    await database.create(engines);
+    await database.insert(engines, datasets.engines);
+
+    const chassis = require('../../shared/schemas/chassis');
+    await database.drop(chassis);
+    await database.create(chassis);
+    await database.insert(chassis, datasets.chassis);
+
+    const circuits = require('../../shared/schemas/circuits');
+    await database.drop(circuits);
+    await database.create(circuits);
+    await database.insert(circuits, datasets.circuits);
   } catch (error) {
     throw new Error(error);
   }

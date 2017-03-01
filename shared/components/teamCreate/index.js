@@ -1,8 +1,10 @@
-const loaded  = require('./html/loaded');
-const loading = require('./html/loading');
-const failed  = require('./html/failed');
-const loader  = require('../../data/loader');
-const schema  = require('../../schemas/team');
+const Ajv       = require('ajv');
+const ajv       = new Ajv();
+const loaded    = require('./html/loaded');
+const loading   = require('./html/loading');
+const failed    = require('./html/failed');
+const loader    = require('../../data/loader');
+const schema    = require('../../schemas/teams');
 
 module.exports = function() {
 
@@ -21,6 +23,7 @@ module.exports = function() {
         );
         renderer.render(loaded(data), true);
       } catch(errors) {
+        console.log(errors);
         renderer.render(failed());
       }
     },
@@ -42,7 +45,13 @@ module.exports = function() {
     // Add button listeners
     save.addEventListener('click', event => {
       event.preventDefault();
-      console.log(schema);
+      let data = getFormData();
+
+      // Validate input
+      if (!ajv.validate(JSON.parse(schema), data)) {
+      console.log(ajv.errors);
+        console.log(data);
+      }
     });
 
     // Add event listeners
@@ -56,6 +65,37 @@ module.exports = function() {
         disableOverBudget(all);
       });
     });
+  }
+
+  function getFormData() {
+    let firstDriver  = document.querySelectorAll('.item-create-driver.item-create-selected')[0];
+    let secondDriver = document.querySelectorAll('.item-create-driver.item-create-selected')[1];
+    let engine       = document.querySelector('.item-create-engine.item-create-selected');
+    let chassis      = document.querySelector('.item-create-chassis.item-create-selected');
+    let name         = document.querySelector('[name="name"]').value;
+    let output       = {};
+
+    if (name) {
+      output.name = name;
+    }
+
+    if (engine) {
+      output.engineId = engine.getAttribute('data-id');
+    }
+
+    if (chassis) {
+      output.chassisId = chassis.getAttribute('data-id');
+    }
+
+    if (firstDriver) {
+      output.firstDriverId = firstDriver.getAttribute('data-id');
+    }
+
+    if (secondDriver) {
+      output.secondDriverId = secondDriver.getAttribute('data-id');
+    }
+
+    return output;
   }
 
   function update(current, items, limit, className, all) {
