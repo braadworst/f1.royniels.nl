@@ -16,13 +16,16 @@ module.exports = function(...parameters) {
     throw new Error('You need to specify datasets for the loader');
   }
 
+  // Set status to load, before the actual calls, so we can deduce when everything
+  // is ready
+  datasets.forEach(dataset => store.dispatch(action.loading(dataset)));
+
   return new Promise((resolve, reject) => {
     (async function(){
       let errors = [];
       let output = {};
       while (datasets.length) {
         const dataset = datasets.pop();
-        store.dispatch(action.loading(dataset));
         try {
           // Get from cache first
           let records = store.getState().fetch.data[dataset];
