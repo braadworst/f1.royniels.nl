@@ -2,6 +2,7 @@ const loaded  = require('./html/loaded');
 const loading = require('./html/loading');
 const failed  = require('./html/failed');
 const loader  = require('../../data/loader');
+const schema  = require('../../schemas/team');
 
 module.exports = function() {
 
@@ -35,7 +36,14 @@ module.exports = function() {
     const drivers = [].slice.call(document.querySelectorAll('.item-create-driver'));
     const engines = [].slice.call(document.querySelectorAll('.item-create-engine'));
     const chassis = [].slice.call(document.querySelectorAll('.item-create-chassis'));
+    const save    = document.querySelector('.button');
     const all     = drivers.concat(engines, chassis);
+
+    // Add button listeners
+    save.addEventListener('click', event => {
+      event.preventDefault();
+      console.log(schema);
+    });
 
     // Add event listeners
     all.forEach(item => {

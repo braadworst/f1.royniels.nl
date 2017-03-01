@@ -21,10 +21,10 @@ module.exports = function(database) {
         .map(type => '$' + type.field)
         .join(', ');
 
-      let statement = database.prepare(`INSERT INTO ${ table.name } (${ fields }) VALUES (${ placeholders })`);
+      let statement = database.prepare(`INSERT INTO ${ table.title } (${ fields }) VALUES (${ placeholders })`);
       records.forEach(record => statement.run(prefix(record)));
       statement.finalize();
-      console.log('insert into: ' + table.name);
+      console.log('insert into: ' + table.title);
       resolve();
     });
   }

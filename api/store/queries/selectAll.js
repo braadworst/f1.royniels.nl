@@ -2,13 +2,13 @@ module.exports = function(database) {
   return function(table) {
     return new Promise((resolve, reject) => {
       database.all(
-        `SELECT * FROM ${ table.name }`,
+        `SELECT * FROM ${ table.title }`,
         [],
         (error, records) => {
           if (error) {
             reject(error);
           } else {
-            console.log('selected all records from: ' + table.name);
+            console.log('selected all records from: ' + table.title);
             resolve(records);
           }
         }
