@@ -1,14 +1,14 @@
-const loaded   = require('./html/loaded');
-const loading  = require('./html/loading');
-const loader   = require('../../data/loader');
-const moment   = require('moment');
+const loaded      = require('./html/loaded');
+const loading     = require('./html/loading');
+const bulkRequest = require('../../data/bulkRequest');
+const moment      = require('moment');
 
 module.exports = () => {
   return {
     async create(renderer, store) {
       try {
         renderer.render(loading());
-        let { circuits, drivers } = await loader('circuits', 'drivers', store);
+        let { circuits, drivers } = await bulkRequest('circuits', 'drivers', store);
 
         // set parameters based on the current date
         circuits = circuits.map(circuit => {

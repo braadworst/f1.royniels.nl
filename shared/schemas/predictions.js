@@ -1,4 +1,4 @@
-module.exports = JSON.stringify({
+module.exports = {
   title : 'predictions',
   type  : 'object',
   required : ['userId', 'fastest', 'best'],
@@ -13,4 +13,4 @@ module.exports = JSON.stringify({
       type : 'integer'
     }
   }
-});
+};

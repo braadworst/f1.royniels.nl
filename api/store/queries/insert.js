@@ -9,7 +9,6 @@ module.exports = function(database) {
   }
 
   return function(table, records) {
-    table = JSON.parse(table);
     return new Promise((resolve) => {
 
       // Add all the fields from the schema

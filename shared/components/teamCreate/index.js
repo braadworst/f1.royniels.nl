@@ -1,14 +1,14 @@
-const Ajv       = require('ajv');
-const ajv       = new Ajv();
-const loaded    = require('./html/loaded');
-const loading   = require('./html/loading');
-const failed    = require('./html/failed');
-const loader    = require('../../data/loader');
-const schema    = require('../../schemas/teams');
-const request   = require('../../data/request');
+const Ajv         = require('ajv');
+const ajv         = new Ajv({ coerceTypes : true });
+const loaded      = require('./html/loaded');
+const loading     = require('./html/loading');
+const failed      = require('./html/failed');
+const bulkRequest = require('../../data/bulkRequest');
+const schema      = require('../../schemas/teams');
+const request     = require('../../data/request');
 
 // TEMP
-const usedId = 1;
+const userId = 1;
 
 module.exports = function() {
 
@@ -22,7 +22,7 @@ module.exports = function() {
         renderer.render(loading());
         const data = Object.assign(
           {},
-          await loader('drivers', 'engines', 'chassis', store),
+          await bulkRequest('drivers', 'engines', 'chassis', store),
           { startBudget }
         );
         renderer.render(loaded(data), true);
@@ -48,20 +48,22 @@ module.exports = function() {
 
     // Add button listeners
     save.addEventListener('click', async function(event) {
+      console.log('clicked')
       event.preventDefault();
       let data = getFormData();
 
       // Validate input
-      if (!ajv.validate(JSON.parse(schema), data)) {
-        console.log(ajv.errors);
-        console.log(data);
-      } else {
+      // if (!ajv.validate(JSON.parse(schema), data)) {
+      //   console.log(ajv.errors);
+      //   console.log(data);
+      // } else {
         try {
+          console.log('start sending');
           await request.createTeam(data);
         } catch (error) {
           console.log(error);
         }
-      }
+      // }
     });
 
     // Add event listeners

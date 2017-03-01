@@ -1,4 +1,4 @@
-module.exports = JSON.stringify({
+module.exports = {
   title : 'results',
   type  : 'object',
   required : ['circuitId', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
@@ -37,4 +37,4 @@ module.exports = JSON.stringify({
       type : 'integer'
     }
   }
-});
+};

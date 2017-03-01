@@ -5,6 +5,10 @@ const datasets = require('./datasets');
 // This stuff might run at all time, nothing from the client will influence this
 module.exports = async function(database) {
   try {
+    // const teams = require('../../shared/schemas/teams');
+    // await database.drop(teams);
+    // await database.create(teams);
+
     const drivers = require('../../shared/schemas/drivers');
     await database.drop(drivers);
     await database.create(drivers);

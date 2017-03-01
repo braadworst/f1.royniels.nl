@@ -1,4 +1,4 @@
-module.exports = JSON.stringify({
+module.exports = {
   title : 'circuits',
   type  : 'object',
   required : ['name', 'image', 'date'],
@@ -13,4 +13,4 @@ module.exports = JSON.stringify({
       type : 'string'
     }
   }
-});
+};

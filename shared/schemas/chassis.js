@@ -1,4 +1,4 @@
-module.exports = JSON.stringify({
+module.exports = {
   title : 'chassis',
   type  : 'object',
   required : ['name', 'image', 'logo', 'price'],
@@ -16,4 +16,4 @@ module.exports = JSON.stringify({
       type : 'integer'
     }
   }
-});
+};

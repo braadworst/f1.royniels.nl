@@ -1,4 +1,4 @@
-module.exports = JSON.stringify({
+module.exports = {
   title : 'points',
   type  : 'object',
   required : ['teamId', 'points'],
@@ -10,4 +10,4 @@ module.exports = JSON.stringify({
       type : 'integer'
     }
   }
-});
+};

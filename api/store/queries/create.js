@@ -1,6 +1,5 @@
 module.exports = function(database) {
   return function(table) {
-    table = JSON.parse(table);
     return new Promise((resolve, reject) => {
 
       // Where we store all the table fields

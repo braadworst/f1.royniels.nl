@@ -18,19 +18,17 @@ module.exports = (function() {
       });
     },
     createTeam(data) {
-      request({
-        uri     : base + 'team',
-        body    : JSON.stringify(data),
-        method  : 'post',
-        headers : {
-          'Content-Type' : 'application/vnd.api+json'
-        }
-      }, (error, response, body) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(JSON.parse(body));
-        }
+      return new Promise((resolve, reject) => {
+        request.post({
+          uri     : base + 'teams',
+          body    : JSON.stringify(data),
+        }, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(body);
+          }
+        });
       });
     }
   }
