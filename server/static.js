@@ -2,50 +2,49 @@ const url  = require('url');
 const fs   = require('fs');
 const path = require('path');
 
-module.exports = function(server) {
-  server.on('request', (request, response) => {
+module.exports = function(request, response) {
+  const parsedUrl = url.parse(request.url);
+  let pathname    = `.${parsedUrl.pathname}`;
+  const extension = path.parse(pathname).ext;
 
-    const parsedUrl = url.parse(request.url);
-    let pathname = `.${parsedUrl.pathname}`;
-    const ext = path.parse(pathname).ext;
+  const fileTypes = {
+    '.ico'  : 'image/x-icon',
+    '.html' : 'text/html',
+    '.js'   : 'text/javascript',
+    '.json' : 'application/json',
+    '.css'  : 'text/css',
+    '.png'  : 'image/png',
+    '.jpg'  : 'image/jpeg',
+    '.wav'  : 'audio/wav',
+    '.mp3'  : 'audio/mpeg',
+    '.svg'  : 'image/svg+xml',
+    '.pdf'  : 'application/pdf',
+    '.doc'  : 'application/msword'
+  };
 
-    const map = {
-      '.ico': 'image/x-icon',
-      '.html': 'text/html',
-      '.js': 'text/javascript',
-      '.json': 'application/json',
-      '.css': 'text/css',
-      '.png': 'image/png',
-      '.jpg': 'image/jpeg',
-      '.wav': 'audio/wav',
-      '.mp3': 'audio/mpeg',
-      '.svg': 'image/svg+xml',
-      '.pdf': 'application/pdf',
-      '.doc': 'application/msword'
-    };
+  // Not static
+  if (!fileTypes[extension]) {
+    return false;
+  }
 
-    fs.exists(pathname, function (exist) {
-      if(!exist) {
-        // // if the file is not found, return 404
-        // response.statusCode = 404;
-        // response.end(`File ${pathname} not found!`);
-        return;
+  fs.exists(pathname, (exist) => {
+    if(!exist) {
+      response.statusCode = 404;
+      response.end(`File not found: ${ request.url }`);
+    }
+
+    // if is a directory search for index file matching the extention
+    if (fs.statSync(pathname).isDirectory()) pathname += '/index' + extension;
+
+    // read file from file system
+    fs.readFile(pathname, (error, data) => {
+      if(error){
+        response.statusCode = 500;
+        response.end(`Internal server error`);
+      } else {
+        response.setHeader('Content-type', fileTypes[extension] || 'text/plain' );
+        response.end(data);
       }
-
-      // if is a directory search for index file matching the extention
-      if (fs.statSync(pathname).isDirectory()) pathname += '/index' + ext;
-
-      // read file from file system
-      fs.readFile(pathname, function(err, data){
-        if(err){
-          response.statusCode = 500;
-          response.end(`Error getting the file: ${err}.`);
-        } else {
-          // if the file is found, set Content-type and send data
-          response.setHeader('Content-type', map[ext] || 'text/plain' );
-          response.end(data);
-        }
-      });
     });
   });
 }
