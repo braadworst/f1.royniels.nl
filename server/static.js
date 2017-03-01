@@ -32,6 +32,7 @@ module.exports = function(server) {
       if(!exist) {
         response.statusCode = 404;
         response.end(`File not found: ${ request.url }`);
+        return;
       }
 
       // if is a directory search for index file matching the extention

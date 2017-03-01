@@ -74,7 +74,7 @@ component-team-create .item-create-inactive {
 
 component-team-create.loading .pure-form .content {
   background-color: #eee;
-  height: 50px;
+  height: 42px;
 }
 component-team-create.loading .pure-form .pure-u-1-1:last-child .content {
   background-color: mediumslateblue;

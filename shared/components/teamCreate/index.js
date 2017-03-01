@@ -11,10 +11,14 @@ module.exports = function() {
 
   return {
     async create(renderer, store) {
-      renderer.render(loading());
       try {
-        const data = await loader('drivers', 'engines', 'chassis', store);''
-        renderer.render(loaded(Object.assign({}, data, { startBudget })), true);
+        renderer.render(loading());
+        const data = Object.assign(
+          {},
+          await loader('drivers', 'engines', 'chassis', store),
+          { startBudget }
+        );
+        renderer.render(loaded(data), true);
       } catch(errors) {
         renderer.render(failed());
       }
