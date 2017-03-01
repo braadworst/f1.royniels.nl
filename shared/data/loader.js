@@ -1,6 +1,6 @@
 const watch  = require('redux-watch');
-const fetch  = require('./fetch');
-const action = require('../actions/fetch');
+const data  = require('./request');
+const action = require('../actions/data');
 
 module.exports = function(...parameters) {
 
@@ -28,9 +28,9 @@ module.exports = function(...parameters) {
         const dataset = datasets.pop();
         try {
           // Get from cache first
-          let records = store.getState().fetch.data[dataset];
+          let records = store.getState().data.data[dataset];
           if (records === undefined) {
-            records = await fetch.dataset(dataset);
+            records = await data.dataset(dataset);
           }
           store.dispatch(action.loaded(dataset, records));
           output[dataset] = records;

@@ -17,10 +17,10 @@ const TEAM_SELECT_TEAM    = 'teamSelectTeam';
 const TEAM_SELECT_DRIVER  = 'teamSelectDriver';
 const TEAM_SELECT_ENGINE  = 'teamSelectEngine';
 const TEAM_SELECT_CHASSIS = 'teamSelectChassis';
-const FETCH_FAILED        = 'fetchFailed';
-const FETCH_LOADED        = 'fetchLoaded';
-const FETCH_LOADING       = 'fetchLoading';
-const FETCH_ALL_LOADED    = 'fetchAllLoaded';
+const DATA_FAILED        = 'dataFailed';
+const DATA_LOADED        = 'dataLoaded';
+const DATA_LOADING       = 'dataLoading';
+const DATA_ALL_LOADED    = 'dataAllLoaded';
 
 module.exports = {
   component : {
@@ -50,10 +50,10 @@ module.exports = {
     TEAM_SELECT_ENGINE,
     TEAM_SELECT_CHASSIS,
   },
-  fetch : {
-    FETCH_FAILED,
-    FETCH_LOADED,
-    FETCH_LOADING,
-    FETCH_ALL_LOADED
+  data : {
+    DATA_FAILED,
+    DATA_LOADED,
+    DATA_LOADING,
+    DATA_ALL_LOADED
   }
 }

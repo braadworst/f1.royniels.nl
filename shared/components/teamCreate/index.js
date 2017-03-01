@@ -5,6 +5,10 @@ const loading   = require('./html/loading');
 const failed    = require('./html/failed');
 const loader    = require('../../data/loader');
 const schema    = require('../../schemas/teams');
+const request   = require('../../data/request');
+
+// TEMP
+const usedId = 1;
 
 module.exports = function() {
 
@@ -43,14 +47,20 @@ module.exports = function() {
     const all     = drivers.concat(engines, chassis);
 
     // Add button listeners
-    save.addEventListener('click', event => {
+    save.addEventListener('click', async function(event) {
       event.preventDefault();
       let data = getFormData();
 
       // Validate input
       if (!ajv.validate(JSON.parse(schema), data)) {
-      console.log(ajv.errors);
+        console.log(ajv.errors);
         console.log(data);
+      } else {
+        try {
+          await request.createTeam(data);
+        } catch (error) {
+          console.log(error);
+        }
       }
     });
 
@@ -73,7 +83,7 @@ module.exports = function() {
     let engine       = document.querySelector('.item-create-engine.item-create-selected');
     let chassis      = document.querySelector('.item-create-chassis.item-create-selected');
     let name         = document.querySelector('[name="name"]').value;
-    let output       = {};
+    let output       = { userId };
 
     if (name) {
       output.name = name;
