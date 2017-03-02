@@ -3,8 +3,7 @@ const COMPONENT_REMOVED   = 'remove';
 const COMPONENT_ADDED     = 'added';
 const COMPONENT_CREATE    = 'create';
 const MENU_ACTIVE         = 'menuActive';
-const URL_HOME            = '/';
-const URL_LOGIN           = '/login';
+const URL_LOGIN           = '/';
 const URL_LOGOUT          = '/logout';
 const URL_REGISTER        = '/register';
 const URL_TEAMS           = '/teams';
@@ -33,7 +32,6 @@ module.exports = {
     MENU_ACTIVE
   },
   url : {
-    URL_HOME,
     URL_LOGIN,
     URL_LOGOUT,
     URL_REGISTER,

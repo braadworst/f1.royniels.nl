@@ -8,7 +8,6 @@ module.exports = function(store) {
   const components = {
     componentNav          : require('./nav')(),
     componentPageSwitcher : require('./pageSwitcher')(),
-    componentHome         : require('./home')(),
     componentLogin        : require('./login')(),
     componentLogout       : require('./logout')(),
     componentRegister     : require('./register')(),

@@ -4,7 +4,7 @@ module.exports = function() {
 
   return {
     create(renderer) {
-      renderer.render(html());
+      renderer.render(html(), true);
     }
   }
 }

@@ -6,9 +6,6 @@ module.exports = function(server) {
 
   const router = require('cs-router')(server);
 
-  router.get(constants.url.URL_HOME, (request, response, args) => {
-    handle(request, args, 'componentHome');
-  });
   router.get(constants.url.URL_LOGIN, (request, response, args) => {
     handle(request, args, 'componentLogin');
   });

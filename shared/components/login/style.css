@@ -1,0 +1,92 @@
+body {
+  background-color: black;
+}
+main {
+  margin-left: 0;
+}
+component-nav {
+  display: none;
+}
+component-login {
+  display: block;
+  max-width: 500px;
+  margin: 50px auto;
+  text-align: center;
+  color: #666;
+}
+component-login .brand {
+  padding: 0;
+  color: #fff;
+  display: inline-block;
+  margin-bottom: 30px;
+}
+component-login .brand .logo  {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  vertical-align: middle;
+}
+component-login .brand .first {
+  border-radius: 100% 0 0 0;
+  background-color: orangered;
+}
+component-login .brand .second {
+  background-color: gold;
+}
+component-login .brand .third {
+  background-color: limegreen;
+}
+component-login .brand .fourth {
+  border-radius: 0 0 100% 0;
+  background-color: mediumslateblue;
+  position: relative;
+}
+component-login .brand .fourth:after {
+  content: ' ';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  right: -50%;
+  height: 6px;
+  background-color: mediumslateblue;
+}
+component-login .brand .name {
+  color: #fff;
+  margin-left: 30px;
+  margin-top: -4px;
+  text-transform: uppercase;
+  font: 400 2.2rem/2.2rem 'Oswald', 'sans-serif';
+  vertical-align: middle;
+  display: inline-block;
+}
+component-login ul {
+  list-style: none;
+  margin: 30px 0 0 0;
+  padding: 0;
+}
+component-login li {
+  margin: 0;
+  padding: 0;
+}
+component-login li a {
+  text-align: left;
+  display: block;
+  color: #666;
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  box-sizing: border-box;
+  background-color: black;
+  transition: background .3s, color .3s, border-color .3s;
+}
+component-login li a:hover {
+  color: white;
+  background-color: mediumslateblue;
+  border-color: black;
+}
+component-login li a i {
+  margin-right: 15px;
+  font-size: 1.4rem;
+}

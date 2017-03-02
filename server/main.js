@@ -22,8 +22,6 @@ router.before((request, response, args) => {
   const components = require('../shared/components')(store);
   components.init(renderer);
 
-  // Add components here that you want to be loaded on every page, things like
-  // menu and footer, etc
   store.dispatch(action.create('componentNav'));
 
   // Callback for response, when the data is loaded
