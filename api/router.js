@@ -16,6 +16,30 @@ module.exports = function(server, database) {
     console.log(request.method, request.url);
   });
 
+  router.get('/api/teams', async function(request, response) {
+    try {
+      let recordsTeams    = await database.selectAll(teams);
+      const recordDrivers = await database.selectAll(drivers);
+      const recordEngines = await database.selectAll(engines);
+      const recordChassis = await database.selectAll(chassis);
+
+      // map all the information to the teams object
+      recordsTeams = recordsTeams.map(team => {
+        team.engine       = recordEngines.filter(record => record.id === team.engineId).pop();
+        team.chassis      = recordChassis.filter(record => record.id === team.chassisId).pop();
+        team.firstDriver  = recordDrivers.filter(record => record.id === team.firstDriverId).pop();
+        team.secondDriver = recordDrivers.filter(record => record.id === team.secondDriverId).pop();
+
+        return team;
+      });
+
+      response.end(JSON.stringify(recordsTeams));
+    } catch (error) {
+      console.log(error);
+      response.end('error');
+    }
+  });
+
   router.get('/api/drivers', async function(request, response) {
     const records = await database.selectAll(drivers);
     response.end(JSON.stringify(records));

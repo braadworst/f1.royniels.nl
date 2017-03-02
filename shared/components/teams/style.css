@@ -1,6 +1,13 @@
 component-teams {
   display: block;
 }
+component-teams .note {
+  background-color: #fff;
+  padding: 100px 20px;
+  text-align: center;
+  font-size: 2rem;
+  color: #ccc;
+}
 component-teams .item-team {
   background-color: #fff;
   margin-bottom: 10px;
@@ -23,6 +30,7 @@ component-teams .item-team .item-media {
   align-items: center;
 }
 component-teams .item-team .item-media img {
+  height: 50px;
 }
 component-teams .item-team span,
 component-teams .item-team .pure-u-1-2:first-child p {
@@ -42,4 +50,15 @@ component-teams .item-team p {
 component-teams .item-body span {
   font-size: .8rem;
   line-height: .8rem;
+}
+
+component-teams.loading .item-team h1 {
+  background-color: #eee;
+  width: 70%;
+  height: 40px;
+}
+component-teams.loading .item-team p {
+  background-color: #eee;
+  width: 50%;
+  display: inline-block;
 }
