@@ -10,9 +10,6 @@ module.exports = function(options = {}) {
       <li><a href="/auth/google" data-router-server><i class="fa fa-google" aria-hidden="true"></i>Google</a></li>
       <li><a href="/auth/facebook" data-router-server><i class="fa fa-facebook-official" aria-hidden="true"></i>Facebook</a></li>
       <li><a href="/auth/github" data-router-server><i class="fa fa-github" aria-hidden="true"></i>Github</a></li>
-      <li><a href="/auth/reddit" data-router-server><i class="fa fa-reddit" aria-hidden="true"></i>Reddit</a></li>
-      <li><a href="/auth/twitter" data-router-server><i class="fa fa-twitter" aria-hidden="true"></i>Twitter</a></li>
-      <li><a href="/auth/linkedin" data-router-server><i class="fa fa-linkedin" aria-hidden="true"></i>LinkedIn</a></li>
     </ul>
   </component-login>
   `;
