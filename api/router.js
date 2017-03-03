@@ -67,22 +67,17 @@ module.exports = function(server, database) {
       .on('end', async function () {
         try {
           body = JSON.parse(body);
-          console.log(body);
           if (ajv.validate(teams, body)) {
-            console.log('valid');
             const result = await database.insert(teams, [body]);
             response.end('success');
           } else {
-            console.log(ajv.errors);
             response.end('invalid');
           }
-
           response.end('Yes!');
         } catch (error) {
-          console.log(error);
           response.end('errors');
         }
     });
-    response.end('bla');
+    response.end('');
   });
 }

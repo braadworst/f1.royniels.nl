@@ -19,6 +19,15 @@
         "certs": {
           "key": "./certs/key.pem",
           "cert": "./certs/cert.pem"
+        },
+        "strategy" : {
+          "google" : {
+            "authPath" : "/auth/google",
+            "callbackPath" : "/auth/google/callback",
+            "clientId"  : "906777770784-755g7991ejmgib606m0g95eg658h07c2.apps.googleusercontent.com",
+            "clientSecret" : "1NK7PxbUaJaPxU-9bz4RYWRx",
+            "callbackUrl" : "https://localhost:4443/auth/google/callback"
+          }
         }
       }
     }

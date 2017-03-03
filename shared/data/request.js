@@ -3,7 +3,8 @@ const action  = require('../actions/data');
 
 module.exports = (function() {
 
-  const base = 'https://localhost:4444/api/';
+  const base      = 'https://localhost:4444/api/';
+  const loginBase = 'https://localhost:4443/';
 
   return {
     dataset(dataset) {
@@ -13,6 +14,19 @@ module.exports = (function() {
             reject(error);
           } else {
             resolve(JSON.parse(body));
+          }
+        });
+      });
+    },
+    login(path) {
+      return new Promise((resolve, reject) => {
+        request.get({
+          uri : loginBase + path,
+        }, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(body);
           }
         });
       });

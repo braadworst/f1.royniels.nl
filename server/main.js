@@ -3,13 +3,15 @@ const spdy         = require('spdy');
 const watch        = require('redux-watch');
 const createStore  = require('../shared/store');
 const action       = require('../shared/actions/component');
-const isEmpty      = require('lodash/fp/isEmpty');
 
 // Create HTTP2 server
 let server = spdy.createServer(settings.webserver.certs);
 
 // Setup router
 const router = require('../shared/router')(server);
+
+// Setup login routes and strategies
+require('./login')(router);
 
 // Handle static
 require('./static')(server);

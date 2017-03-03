@@ -65,12 +65,7 @@ component-login ul {
   padding: 0;
 }
 component-login li {
-  margin: 0;
-  padding: 0;
-}
-component-login li a {
   text-align: left;
-  display: block;
   color: #666;
   border: 2px solid #333;
   border-radius: 10px;
@@ -80,13 +75,14 @@ component-login li a {
   box-sizing: border-box;
   background-color: black;
   transition: background .3s, color .3s, border-color .3s;
+  cursor: pointer;
 }
-component-login li a:hover {
+component-login li:hover {
   color: white;
   background-color: mediumslateblue;
   border-color: black;
 }
-component-login li a i {
+component-login li i {
   margin-right: 15px;
   font-size: 1.4rem;
 }

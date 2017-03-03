@@ -7,12 +7,12 @@ module.exports = function(options = {}) {
     </div>
     <p>Login with one of the following networks</p>
     <ul>
-      <li><a href=""><i class="fa fa-google" aria-hidden="true"></i>Google</a></li>
-      <li><a href=""><i class="fa fa-facebook-official" aria-hidden="true"></i>Facebook</a></li>
-      <li><a href=""><i class="fa fa-github" aria-hidden="true"></i>Github</a></li>
-      <li><a href=""><i class="fa fa-reddit" aria-hidden="true"></i>Reddit</a></li>
-      <li><a href=""><i class="fa fa-twitter" aria-hidden="true"></i>Twitter</a></li>
-      <li><a href=""><i class="fa fa-linkedin" aria-hidden="true"></i>LinkedIn</a></li>
+      <li data-method="auth/google"><i class="fa fa-google" aria-hidden="true"></i>Google</li>
+      <li data-method="auth/facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i>Facebook</li>
+      <li data-method="auth/github"><i class="fa fa-github" aria-hidden="true"></i>Github</li>
+      <li data-method="auth/reddit"><i class="fa fa-reddit" aria-hidden="true"></i>Reddit</li>
+      <li data-method="auth/twitter"><i class="fa fa-twitter" aria-hidden="true"></i>Twitter</li>
+      <li data-method="auth/linkedin"><i class="fa fa-linkedin" aria-hidden="true"></i>LinkedIn</li>
     </ul>
   </component-login>
   `;

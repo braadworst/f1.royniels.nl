@@ -8,7 +8,6 @@ module.exports = function(teams) {
 }
 
 function row(team) {
-  console.log(team);
   return `
     <a href="">
       <section class="item-team">
