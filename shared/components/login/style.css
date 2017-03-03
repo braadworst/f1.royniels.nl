@@ -1,22 +1,12 @@
-body {
-  background-color: black;
-}
-main {
-  margin-left: 0;
-}
-component-nav {
-  display: none;
-}
 component-login {
   display: block;
-  max-width: 500px;
+  max-width: 350px;
   margin: 50px auto;
   text-align: center;
   color: #666;
 }
 component-login .brand {
   padding: 0;
-  color: #fff;
   display: inline-block;
   margin-bottom: 30px;
 }
@@ -28,17 +18,17 @@ component-login .brand .logo  {
 }
 component-login .brand .first {
   border-radius: 100% 0 0 0;
-  background-color: orangered;
+  background-color: #19647E;
 }
 component-login .brand .second {
-  background-color: gold;
+  background-color: #28AFB0;
 }
 component-login .brand .third {
-  background-color: limegreen;
+  background-color: #F4D35E;
 }
 component-login .brand .fourth {
   border-radius: 0 0 100% 0;
-  background-color: mediumslateblue;
+  background-color: #EE964B;
   position: relative;
 }
 component-login .brand .fourth:after {
@@ -48,10 +38,10 @@ component-login .brand .fourth:after {
   left: 50%;
   right: -50%;
   height: 6px;
-  background-color: mediumslateblue;
+  background-color: #EE964B;
 }
 component-login .brand .name {
-  color: #fff;
+  color: #1F271B;
   margin-left: 30px;
   margin-top: -4px;
   text-transform: uppercase;
@@ -65,22 +55,24 @@ component-login ul {
   padding: 0;
 }
 component-login li {
+  margin: 0;
+  padding: 0;
+}
+component-login li a {
+  display: block;
   text-align: left;
-  color: #666;
-  border: 2px solid #333;
+  color: #19647E;
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 10px;
   font-size: 1.2rem;
   box-sizing: border-box;
-  background-color: black;
-  transition: background .3s, color .3s, border-color .3s;
-  cursor: pointer;
+  background-color: white;
+  transition: background .3s, color .3s;
 }
-component-login li:hover {
+component-login a:hover {
   color: white;
-  background-color: mediumslateblue;
-  border-color: black;
+  background-color: #19647E;
 }
 component-login li i {
   margin-right: 15px;

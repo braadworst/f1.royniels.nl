@@ -6,15 +6,6 @@ module.exports = function(server) {
 
   const router = require('cs-router')(server);
 
-  router.get(constants.url.URL_LOGIN, (request, response, args) => {
-    handle(request, args, 'componentLogin');
-  });
-  router.get(constants.url.URL_LOGOUT, (request, response, args) => {
-    handle(request, args, 'componentLogout');
-  });
-  router.get(constants.url.URL_REGISTER, (request, response, args) => {
-    handle(request, args, 'componentRegister');
-  });
   router.get(constants.url.URL_TEAMS, (request, response, args) => {
     handle(request, args, 'componentTeams');
   });

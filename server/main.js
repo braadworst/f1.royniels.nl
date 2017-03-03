@@ -38,6 +38,28 @@ router.before((request, response, args) => {
   }
 });
 
+// Login route
+router.get('/', (request, response) => {
+  const store      = createStore();
+  const template   = require('./templateLogin');
+  const renderer   = require('./renderer')(template, store);
+  const components = require('../shared/components')(store);
+  components.init(renderer);
+
+  // Callback for response, when the data is loaded
+  renderer.finished(html => {
+    response.end(html);
+  });
+
+  store.dispatch(action.create('componentLogin'));
+
+  return {
+    store,
+    renderer
+  }
+});
+
+
 server.listen(settings.webserver.port, function() {
   console.log('Server listening on port: ' + settings.webserver.port);
 });

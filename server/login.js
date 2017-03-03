@@ -22,7 +22,7 @@ module.exports = function(router) {
       // });
     }
   ));
-  console.log(settings.webserver.strategy.google.authPath);
+
   router.get(settings.webserver.strategy.google.authPath, (request, response) => {
     console.log('authenticate');
     try {
