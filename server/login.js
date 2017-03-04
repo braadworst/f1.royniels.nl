@@ -56,7 +56,8 @@ module.exports = function(router) {
         cookies.set(response, 'token', user.token);
 
         // Check update the token if the user exists, otherwise create new user
-        // await api.createOrUpdateUser(user);
+        console.log(user);
+        await api.createOrUpdateUser(user);
 
         // Finally redirect the user to the standings page
         router.redirect('/standings');
@@ -90,11 +91,11 @@ module.exports = function(router) {
   }
 
   function emailParameters(network, settings, accessToken) {
-    return querystring.stringify(Object.assign(
+    return Object.assign(
       {},
-      { accessToken },
+      { access_token: accessToken },
       settings.email.parameters ? settings.email.parameters : {}
-    ));
+    );
   }
 
   function cleanResult(data) {
@@ -125,11 +126,11 @@ module.exports = function(router) {
   function fetchUser(uri, qs) {
     return new Promise((resolve, reject) => {
       // Get the access token
-      fetch.post({ uri, qs, headers : { 'User-Agent' : 'F1 Manager' } }, (error, result, body) => {
+      fetch.get({ uri, qs, headers : { 'User-Agent' : 'F1 Manager' } }, (error, result, body) => {
         if (error) {
           reject(error);
         } else {
-          resolve(cleanResult(body));
+          resolve(cleanResult(JSON.parse(body)));
         }
       });
     });
@@ -150,7 +151,7 @@ module.exports = function(router) {
           if (error || body.error) {
             reject(body);
           } else {
-            resolve(querystring.parse(body).access_token);
+            resolve(body.access_token);
           }
         }
       });

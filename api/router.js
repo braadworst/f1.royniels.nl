@@ -3,6 +3,7 @@ const engines     = require('../shared/schemas/engines');
 const chassis     = require('../shared/schemas/chassis');
 const circuits    = require('../shared/schemas/circuits');
 const teams       = require('../shared/schemas/teams');
+const users       = require('../shared/schemas/users');
 const Ajv         = require('ajv');
 const ajv         = new Ajv({ coerceTypes : true });
 
@@ -75,24 +76,43 @@ module.exports = function(server, database) {
     });
   });
 
-  router.post('/api/teams', (request, response) => {
-    let body = '';
-    request
-      .on('data', data => body += data)
-      .on('end', async function () {
-        try {
-          body = JSON.parse(body);
-          if (ajv.validate(teams, body)) {
-            const result = await database.insert(teams, [body]);
-            response.end('success');
-          } else {
-            response.end('invalid');
-          }
-          response.end('Yes!');
-        } catch (error) {
-          response.end('errors');
+  router.post('/api/users/create-or-update', async function(request, response) {
+    try {
+      const body = JSON.parse(request.body);
+      console.log(body);
+      if (ajv.validate(users, body)) {
+        const user = await database.findOne(users, 'email', body.email);
+        if (user) {
+          await database.update('token', body.token, user.id);
+        } else {
+          await database.insert(users, [body]);
         }
-    });
-    response.end('');
+        response.end('success');
+      } else {
+        response.end('invalid');
+      }
+    } catch (error) {
+      console.log(error);
+      response.end('');
+    }
+  });
+
+  router.post('/api/teams', async function(request, response) {
+    try {
+      body = JSON.parse(request.body);
+      if (ajv.validate(teams, body)) {
+        const result = await database.insert(teams, [body]);
+        response.end('success');
+      } else {
+        response.end('invalid');
+      }
+      response.end('Yes!');
+    } catch (error) {
+      response.end('errors');
+    }
+  });
+
+  router.noMatch((request, response) => {
+    response.end('404 bitches');
   });
 }

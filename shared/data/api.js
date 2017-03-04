@@ -4,7 +4,6 @@ const action  = require('../actions/data');
 module.exports = (function() {
 
   const base      = 'https://localhost:4444/api/';
-  const loginBase = 'https://localhost:4443/';
 
   return {
     dataset(dataset) {
@@ -32,25 +31,11 @@ module.exports = (function() {
         });
       });
     },
-    findUser(columnName, value) {
+    createOrUpdateUser(data) {
       return new Promise((resolve, reject) => {
-        request.get({
-          uri  : base + 'users/find-by-token',
-          body : json.stringify({ columnName, value })
-        }, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(body);
-          }
-        });
-      });
-    },
-    createUser(data) {
-      return new Promise((resolve, reject) => {
-        request.put({
-          uri  : base + 'users',
-          body : json.stringify(data)
+        request.post({
+          uri  : base + 'users/create-or-update',
+          body : JSON.stringify(data)
         }, (error, response, body) => {
           if (error) {
             reject(error);
