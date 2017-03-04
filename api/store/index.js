@@ -14,5 +14,6 @@ module.exports = function(settings) {
     insert    : require('./queries/insert')(database),
     drop      : require('./queries/drop')(database),
     selectAll : require('./queries/selectAll')(database),
+    findOne   : require('./queries/findOne')(database),
   };
 }

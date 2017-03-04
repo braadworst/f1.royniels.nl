@@ -32,25 +32,11 @@ module.exports = (function() {
         });
       });
     },
-    findUserByEmail(data) {
-      return new Promise((resolve, reject) => {
-        request.get({
-          uri  : base + 'users/find-by-email',
-          body : json.stringify(data)
-        }, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(body);
-          }
-        });
-      });
-    },
-    findUserByToken(data) {
+    findUser(columnName, value) {
       return new Promise((resolve, reject) => {
         request.get({
           uri  : base + 'users/find-by-token',
-          body : json.stringify(data)
+          body : json.stringify({ columnName, value })
         }, (error, response, body) => {
           if (error) {
             reject(error);

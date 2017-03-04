@@ -1,8 +1,8 @@
-module.exports = function() {
+module.exports = (function() {
 
   return {
     getCookies() {
-      let headerCookies = request.headers.cookie : '';
+      let headerCookies = request.headers.cookie ? request.headers.cookie.split('?') : [];
       cookies = {};
 
       headerCookies.forEach(function( cookie ) {
@@ -12,7 +12,7 @@ module.exports = function() {
 
       return cookies;
     },
-    write(response, key, value) {
+    set(response, key, value) {
       response.setHeader('Set-Cookie', [
         key + '=' + value,
         'Secure',
@@ -21,4 +21,4 @@ module.exports = function() {
       ].join('; '));
     }
   }
-}
+}());

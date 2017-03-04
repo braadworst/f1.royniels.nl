@@ -1,5 +1,5 @@
 const watch  = require('redux-watch');
-const data  = require('./request');
+const data  = require('./api');
 const action = require('../actions/data');
 
 module.exports = function(...parameters) {

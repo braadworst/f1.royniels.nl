@@ -8,6 +8,9 @@ module.exports = {
     },
     email : {
       type : 'string'
+    },
+    token : {
+      type : 'string'
     }
   }
 };

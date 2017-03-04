@@ -10,9 +10,6 @@ let server = spdy.createServer(settings.webserver.certs);
 // Setup router
 const router = require('../shared/router')(server);
 
-// Setup sessions
-require('./sessions')(router);
-
 // Setup login routes and strategies
 require('./login')(router);
 
@@ -22,7 +19,7 @@ require('./static')(server);
 // Add before and after for the routes
 router.before((request, response, args) => {
   const store      = createStore();
-  const template   = require('../template/default');
+  const template   = require('./template/default');
   const renderer   = require('./renderer')(template, store);
   const components = require('../shared/components')(store);
   components.init(renderer);
@@ -35,6 +32,28 @@ router.before((request, response, args) => {
   });
 
   // pass over arguments that we need in the routes or after callback
+  return {
+    store,
+    renderer
+  }
+});
+
+// Route the login page, with its own template
+router.get('/', (request, response) => {
+  const store      = createStore();
+  const template   = require('./template/login');
+  const renderer   = require('./renderer')(template, store);
+  const components = require('../shared/components')(store);
+  components.init(renderer);
+
+  // Callback for response, when the data is loaded
+  renderer.finished(html => {
+    response.end(html);
+  });
+
+  // Load the login component
+  store.dispatch(action.create('componentLogin'));
+
   return {
     store,
     renderer

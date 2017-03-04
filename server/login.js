@@ -8,29 +8,8 @@ const encrypt     = require('./encrypt');
 
 module.exports = function(router) {
 
-  // Route the login page, with its own template
-  router.get('/', (request, response) => {
-    const store      = createStore();
-    const template   = require('./template/login');
-    const renderer   = require('./renderer')(template, store);
-    const components = require('../shared/components')(store);
-    components.init(renderer);
-
-    // Callback for response, when the data is loaded
-    renderer.finished(html => {
-      response.end(html);
-    });
-
-    // Load the login component
-    store.dispatch(action.create('componentLogin'));
-
-    return {
-      store,
-      renderer
-    }
-  });
-
   // Setup the routes for each login network
+  const domain   = settings.webserver.domain + ':' + settings.webserver.port;
   const networks = ['facebook', 'google', 'github'];
 
   networks.forEach(network => {
@@ -44,7 +23,7 @@ module.exports = function(router) {
     router.get('/auth/' + network, (request, response) => {
       const parameters = consentParameters(network, networkSettings);
       state = parameters.state;
-      router.redirect(`${ network.consent.url }?${ querystring.stringify(parameters) }`);
+      router.redirect(`${ networkSettings.consent.url }?${ querystring.stringify(parameters) }`);
     });
 
     // We got a temp token, upgrade it to an access token
@@ -53,7 +32,7 @@ module.exports = function(router) {
 
       // Not the right server, redirect home
       if (parameters.state !== state) {
-        router.redirect(domain);
+        router.redirect('/');
       }
 
       try {
@@ -62,25 +41,27 @@ module.exports = function(router) {
           networkSettings.token.url,
           tokenParameters(network, parameters, networkSettings)
         );
+
         // Get the user information from the particular network
         const user = await fetchUser(
           networkSettings.email.url,
-          emailParameters(network, settings, accessToken)
+          emailParameters(network, networkSettings, accessToken)
         );
+
         // Create a new token for the user, that is not bound to any network, so
         // we don't by accident give other people access, when our db gets compromised
         user.token = encrypt.encrypt(uuid());
 
         // Set the cookie
-        cookie.set(response, 'token', user.token);
+        cookies.set(response, 'token', user.token);
 
-        // Check if the user exists, if not add it
-        if (!await api.findUserByEmail(user)) {
-          await api.createUser(user);
-        }
+        // Check update the token if the user exists, otherwise create new user
+        // await api.createOrUpdateUser(user);
+
         // Finally redirect the user to the standings page
         router.redirect('/standings');
       } catch(error) {
+        console.log(error);
         router.redirect('/');
       }
     });
@@ -95,7 +76,7 @@ module.exports = function(router) {
       redirect_uri  : domain + '/auth/' + network + '/callback'
     }, settings.token.parameters ? settings.token.parameters : {});
 
-    return querystring.stringify(parameters);
+    return parameters;
   }
 
   function consentParameters(network, settings) {
@@ -105,7 +86,7 @@ module.exports = function(router) {
       redirect_uri : domain + '/auth/' + network + '/callback',
     }, settings.consent.parameters ? settings.consent.parameters : {});
 
-    return querystring.stringify(parameters);
+    return parameters;
   }
 
   function emailParameters(network, settings, accessToken) {
@@ -167,7 +148,7 @@ module.exports = function(router) {
             body = querystring.parse(body);
           }
           if (error || body.error) {
-            reject(error);
+            reject(body);
           } else {
             resolve(querystring.parse(body).access_token);
           }
