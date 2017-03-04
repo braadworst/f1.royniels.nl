@@ -79,11 +79,12 @@ module.exports = function(server, database) {
   router.post('/api/users/create-or-update', async function(request, response) {
     try {
       const body = JSON.parse(request.body);
-      console.log(body);
       if (ajv.validate(users, body)) {
+        console.log(body);
         const user = await database.findOne(users, 'email', body.email);
+        console.log(user);
         if (user) {
-          await database.update('token', body.token, user.id);
+          await database.update(users, 'token', body.token, user.id);
         } else {
           await database.insert(users, [body]);
         }

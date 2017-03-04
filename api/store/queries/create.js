@@ -17,15 +17,20 @@ module.exports = function(database) {
       Object
         .keys(table.properties)
         .forEach(key => {
-          fields.push({
+          let output = {
             type : table.properties[key].type,
-            name : key
-          });
+            name : key,
+          };
+
+          if (table.properties[key].maxLength) {
+            output.maxLength = table.properties[key].maxLength;
+          }
+          fields.push(output);
         });
 
       // Convert it to string
       fields = fields.map(type => {
-        return `${ type.name } ${ type.type } ${ type.primary ? 'primary key' : ''}`;
+        return `${ type.name } ${ type.type === 'string' ? 'text' : type.type }${ type.maxLength ? '('+ type.maxLength +')' : '' } ${ type.primary ? 'primary key' : ''}`;
       }).join(', ');
 
       database.run(

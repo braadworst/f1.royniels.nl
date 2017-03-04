@@ -10,7 +10,8 @@ module.exports = {
       type : 'string'
     },
     token : {
-      type : 'string'
+      type : 'string',
+      maxLength: 255
     }
   }
 };

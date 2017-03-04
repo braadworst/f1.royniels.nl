@@ -9,6 +9,7 @@ module.exports = function(database) {
   }
 
   return function(table, records) {
+    console.log('insert');
     return new Promise((resolve) => {
 
       // Add all the fields from the schema
@@ -25,7 +26,6 @@ module.exports = function(database) {
       let statement = database.prepare(`INSERT INTO ${ table.title } (${ fields }) VALUES (${ placeholders })`);
       records.forEach(record => statement.run(prefix(record)));
       statement.finalize();
-      console.log('insert into: ' + table.title);
       resolve();
     });
   }

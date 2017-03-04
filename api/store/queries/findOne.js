@@ -8,8 +8,11 @@ module.exports = function(database) {
           if (error) {
             reject(error);
           } else {
-            console.log('selected all records from: ' + table.title);
-            resolve(records);
+            if (Array.isArray(records) && records.length) {
+              resolve(records);
+            } else {
+              resolve(false);
+            }
           }
         }
       );

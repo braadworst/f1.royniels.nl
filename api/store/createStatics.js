@@ -9,9 +9,9 @@ module.exports = async function(database) {
     // await database.drop(teams);
     // await database.create(teams);
 
-    // const users = require('../../shared/schemas/users');
-    // await database.drop(users);
-    // await database.create(users);
+    const users = require('../../shared/schemas/users');
+    await database.drop(users);
+    await database.create(users);
 
     const drivers = require('../../shared/schemas/drivers');
     await database.drop(drivers);
