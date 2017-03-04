@@ -2,16 +2,18 @@ const fetch       = require('request');
 const settings    = require('package-settings');
 const uuid        = require('uuid/').v4;
 const querystring = require('querystring');
-const api         = require('../../shared/data/api');
+const api         = require('../shared/data/api');
+const cookies     = require('./cookies');
+const encrypt     = require('./encrypt');
 
 module.exports = function(router) {
 
   // Route the login page, with its own template
   router.get('/', (request, response) => {
     const store      = createStore();
-    const template   = require('../template/login');
-    const renderer   = require('../renderer')(template, store);
-    const components = require('../../shared/components')(store);
+    const template   = require('./template/login');
+    const renderer   = require('./renderer')(template, store);
+    const components = require('../shared/components')(store);
     components.init(renderer);
 
     // Callback for response, when the data is loaded
@@ -65,11 +67,16 @@ module.exports = function(router) {
           networkSettings.email.url,
           emailParameters(network, settings, accessToken)
         );
-        // Create a session object for the users
+        // Create a new token for the user, that is not bound to any network, so
+        // we don't by accident give other people access, when our db gets compromised
+        user.token = encrypt.encrypt(uuid());
+
+        // Set the cookie
+        cookie.set(response, 'token', user.token);
 
         // Check if the user exists, if not add it
-        if (!await api.userExists(user)) {
-          await api.userCreate(user);
+        if (!await api.findUserByEmail(user)) {
+          await api.createUser(user);
         }
         // Finally redirect the user to the standings page
         router.redirect('/standings');

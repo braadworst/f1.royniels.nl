@@ -18,19 +18,6 @@ module.exports = (function() {
         });
       });
     },
-    login(path) {
-      return new Promise((resolve, reject) => {
-        request.get({
-          uri : loginBase + path,
-        }, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(body);
-          }
-        });
-      });
-    },
     createTeam(data) {
       return new Promise((resolve, reject) => {
         request.post({
@@ -45,10 +32,38 @@ module.exports = (function() {
         });
       });
     },
-    findOrCreateUser(data) {
+    findUserByEmail(data) {
       return new Promise((resolve, reject) => {
-        request.post({
-          uri  : base + 'users/find-or-create',
+        request.get({
+          uri  : base + 'users/find-by-email',
+          body : json.stringify(data)
+        }, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(body);
+          }
+        });
+      });
+    },
+    findUserByToken(data) {
+      return new Promise((resolve, reject) => {
+        request.get({
+          uri  : base + 'users/find-by-token',
+          body : json.stringify(data)
+        }, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(body);
+          }
+        });
+      });
+    },
+    createUser(data) {
+      return new Promise((resolve, reject) => {
+        request.put({
+          uri  : base + 'users',
           body : json.stringify(data)
         }, (error, response, body) => {
           if (error) {

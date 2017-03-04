@@ -10,6 +10,9 @@ let server = spdy.createServer(settings.webserver.certs);
 // Setup router
 const router = require('../shared/router')(server);
 
+// Setup sessions
+require('./sessions')(router);
+
 // Setup login routes and strategies
 require('./login')(router);
 
