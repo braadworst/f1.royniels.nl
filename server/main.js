@@ -28,7 +28,7 @@ router.before((request, response, args) => {
 
   // Callback for response, when the data is loaded
   renderer.finished(html => {
-    response.end(html);
+    response.end(html); 
   });
 
   // pass over arguments that we need in the routes or after callback
