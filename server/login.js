@@ -36,8 +36,7 @@ module.exports = function(router) {
     router.get(network.router.accessToken, (request, response) => {
 
       const params = querystring.parse(request.url.split('?').pop());
-      console.log('have temp');
-      console.log(params);
+
       // Not the right server
       if (params.state !== state) {
         response.writeHead(302, { location : domain });
@@ -66,8 +65,7 @@ module.exports = function(router) {
         } catch (error) {
           body = querystring.parse(body);
         }
-        console.log('upgrade');
-        console.log(body);
+
         if (error || body.error) {
           response.writeHead(302, { location : domain });
         }
@@ -90,10 +88,32 @@ module.exports = function(router) {
             'User-Agent' : network.userAgent
           }
         }, (error, result, body) => {
-          console.log('EMAIL ADDRESS: ');
+          if (error) {
+            response.writeHead(302, { location : domain });
+          }
           try {
             body = JSON.parse(body);
-          } catch(error) {}
+          } catch(error) {
+            response.writeHead(302, { location : domain });
+          }
+
+          // Get all the fields we need and send em to the api for checking
+          if (!Array.isArray(body)) {
+            body = [body];
+          }
+          console.log(body);
+          body = body.map(row => {
+            output = {};
+            if (row.email) {
+              output.email = row.email;
+            }
+
+            if (row.name) {
+              output.name = row.name;
+            }
+
+            return output;
+          });
           console.log(body);
           response.writeHead(302, { location : domain + network.router.success });
         });
