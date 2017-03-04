@@ -1,6 +1,6 @@
 const loaded      = require('./html/loaded');
 const loading     = require('./html/loading');
-const bulkRequest = require('../../data/bulkRequest');
+const apiBulk = require('../../data/apiBulk');
 const moment      = require('moment');
 
 module.exports = () => {
@@ -8,7 +8,7 @@ module.exports = () => {
     async create(renderer, store) {
       try {
         renderer.render(loading());
-        let { circuits, drivers } = await bulkRequest('circuits', 'drivers', store);
+        let { circuits, drivers } = await apiBulk('circuits', 'drivers', store);
 
         // set parameters based on the current date
         circuits = circuits.map(circuit => {

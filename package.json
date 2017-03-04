@@ -15,7 +15,7 @@
         }
       },
       "webserver": {
-        "domain" : "https://localhost",
+        "domain": "https://localhost",
         "port": 4443,
         "certs": {
           "key": "./certs/key.pem",
@@ -23,60 +23,57 @@
         },
         "networks": {
           "google": {
-            "userAgent" : "F1 Manager",
-            "clientId" : "906777770784-755g7991ejmgib606m0g95eg658h07c2.apps.googleusercontent.com",
-            "clientSecret" : "1NK7PxbUaJaPxU-9bz4RYWRx",
-            "scope" : "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me",
-            "requestUri" : "https://accounts.google.com/o/oauth2/v2/auth",
-            "requestQs" : {
-              "response_type" : "code"
+            "clientId": "906777770784-755g7991ejmgib606m0g95eg658h07c2.apps.googleusercontent.com",
+            "clientSecret": "1NK7PxbUaJaPxU-9bz4RYWRx",
+            "consent": {
+              "url": "https://accounts.google.com/o/oauth2/v2/auth",
+              "parameters": {
+                "response_type": "code",
+                "scope": "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me"
+              }
             },
-            "accessTokenUri" : "https://www.googleapis.com/oauth2/v4/token",
-            "accessTokenQs" : {
-              "grant_type" : "authorization_code"
+            "token": {
+              "url": "https://www.googleapis.com/oauth2/v4/token",
+              "parameters": {
+                "grant_type": "authorization_code"
+              }
             },
-            "emailUri" : "https://www.googleapis.com/oauth2/v1/userinfo",
-            "router" : {
-              "request" : "/auth/google",
-              "accessToken" : "/auth/google/callback",
-              "email"     : "/auth/google/email",
-              "success"   : "/teams"
-            }
+            "email": "https://www.googleapis.com/oauth2/v1/userinfo"
           },
           "facebook": {
-            "userAgent" : "F1 Manager",
-            "clientId" : "754074994750154",
-            "clientSecret" : "c41aec90cf93cb4825bceae46c2237f9",
-            "scope" : "email",
-            "requestUri" : "https://www.facebook.com/v2.8/dialog/oauth",
-            "requestQs" : {
-              "response_type" : "code"
+            "clientId": "754074994750154",
+            "clientSecret": "c41aec90cf93cb4825bceae46c2237f9",
+            "consent": {
+              "url": "https://www.facebook.com/v2.8/dialog/oauth",
+              "parameters": {
+                "scope": "email",
+                "response_type": "code"
+              }
             },
-            "accessTokenUri" : "https://graph.facebook.com/v2.8/oauth/access_token",
-            "emailUri" : "https://graph.facebook.com/me",
-            "emailUrlQs" : {
-              "fields" : "email,name"
+            "token": {
+              "url": "https://graph.facebook.com/v2.8/oauth/access_token"
             },
-            "router" : {
-              "request" : "/auth/facebook",
-              "accessToken" : "/auth/facebook/callback",
-              "email"     : "/auth/facebook/email",
-              "success"   : "/teams"
+            "email": {
+              "url": "https://graph.facebook.com/me",
+              "parameters": {
+                "fields": "email,name"
+              }
             }
           },
           "github": {
-            "userAgent" : "F1 Manager",
-            "clientId" : "62cf31b86a186dc08f43",
-            "clientSecret" : "cf3cb495f64c137e2a4a09992e8b8fc018ab80cb",
-            "scope" : "user:email",
-            "requestUri" : "https://github.com/login/oauth/authorize",
-            "accessTokenUri" : "https://github.com/login/oauth/access_token",
-            "emailUri" : "https://api.github.com/user/emails",
-            "router" : {
-              "request" : "/auth/github",
-              "accessToken" : "/auth/github/callback",
-              "email"     : "/auth/github/email",
-              "success"   : "/teams"
+            "clientId": "62cf31b86a186dc08f43",
+            "clientSecret": "cf3cb495f64c137e2a4a09992e8b8fc018ab80cb",
+            "consent": {
+              "url": "https://github.com/login/oauth/authorize",
+              "parameters": {
+                "scope": "user:email"
+              }
+            },
+            "token": {
+              "url": "https://github.com/login/oauth/access_token"
+            },
+            "email": {
+              "url": "https://api.github.com/user/emails"
             }
           }
         }
@@ -140,6 +137,7 @@
     "ajv": "^4.11.3",
     "camelize": "^1.0.0",
     "cheerio": "^0.22.0",
+    "client-sessions": "^0.7.0",
     "compression": "^1.6.2",
     "cs-router": "^1.0.2",
     "decamelize": "^1.2.0",

@@ -1,7 +1,7 @@
 const loading     = require('./html/loading');
 const loaded      = require('./html/loaded');
 const noResults   = require('./html/noResults');
-const bulkRequest = require('../../data/bulkRequest');
+const apiBulk = require('../../data/apiBulk');
 
 module.exports = function() {
 
@@ -9,7 +9,7 @@ module.exports = function() {
     async create(renderer, store) {
       try {
         renderer.render(loading());
-        const { teams } = await bulkRequest('teams', store);
+        const { teams } = await apiBulk('teams', store);
         if (teams.length) {
           renderer.render(loaded(teams), true);
         } else {

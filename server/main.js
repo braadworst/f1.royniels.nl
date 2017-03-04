@@ -19,7 +19,7 @@ require('./static')(server);
 // Add before and after for the routes
 router.before((request, response, args) => {
   const store      = createStore();
-  const template   = require('./template');
+  const template   = require('../template/default');
   const renderer   = require('./renderer')(template, store);
   const components = require('../shared/components')(store);
   components.init(renderer);
@@ -37,28 +37,6 @@ router.before((request, response, args) => {
     renderer
   }
 });
-
-// Login route
-router.get('/', (request, response) => {
-  const store      = createStore();
-  const template   = require('./templateLogin');
-  const renderer   = require('./renderer')(template, store);
-  const components = require('../shared/components')(store);
-  components.init(renderer);
-
-  // Callback for response, when the data is loaded
-  renderer.finished(html => {
-    response.end(html);
-  });
-
-  store.dispatch(action.create('componentLogin'));
-
-  return {
-    store,
-    renderer
-  }
-});
-
 
 server.listen(settings.webserver.port, function() {
   console.log('Server listening on port: ' + settings.webserver.port);

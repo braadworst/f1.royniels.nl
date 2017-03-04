@@ -60,6 +60,26 @@ module.exports = function(server, database) {
     response.end(JSON.stringify(records));
   });
 
+  router.post('/api/users/find-or-create', async function(request, response) {
+    let body = '';
+    request
+      .on('data', data => body += data)
+      .on('end', async function () {
+        try {
+          body = JSON.parse(body);
+          if (ajv.validate(teams, body)) {
+            const result = await database.insert(teams, [body]);
+            response.end('success');
+          } else {
+            response.end('invalid');
+          }
+          response.end('Yes!');
+        } catch (error) {
+          response.end('errors');
+        }
+    });
+  });
+
   router.post('/api/teams', (request, response) => {
     let body = '';
     request

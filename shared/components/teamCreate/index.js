@@ -1,11 +1,11 @@
-const Ajv         = require('ajv');
-const ajv         = new Ajv({ coerceTypes : true });
-const loaded      = require('./html/loaded');
-const loading     = require('./html/loading');
-const failed      = require('./html/failed');
-const bulkRequest = require('../../data/bulkRequest');
-const schema      = require('../../schemas/teams');
-const request     = require('../../data/request');
+const Ajv     = require('ajv');
+const ajv     = new Ajv({ coerceTypes : true });
+const loaded  = require('./html/loaded');
+const loading = require('./html/loading');
+const failed  = require('./html/failed');
+const apiBulk = require('../../data/apiBulk');
+const schema  = require('../../schemas/teams');
+const api     = require('../../data/api');
 
 // TEMP
 const userId = 1;
@@ -22,7 +22,7 @@ module.exports = function() {
         renderer.render(loading());
         const data = Object.assign(
           {},
-          await bulkRequest('drivers', 'engines', 'chassis', store),
+          await apiBulk('drivers', 'engines', 'chassis', store),
           { startBudget }
         );
         renderer.render(loaded(data), true);
@@ -59,7 +59,7 @@ module.exports = function() {
       // } else {
         try {
           console.log('start sending');
-          await request.createTeam(data);
+          await api.createTeam(data);
         } catch (error) {
           console.log(error);
         }
