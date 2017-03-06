@@ -1,39 +1,51 @@
-const watch      = require('redux-watch');
-const constants  = require('../constants');
+module.exports = function(state) {
 
-module.exports = function(store) {
-
-  // Register new components in this singular location, we use this list to trigger
-  // callbacks like added, init, create and remove
-  const components = {
-    componentNav          : require('./nav')(),
-    componentPageSwitcher : require('./pageSwitcher')(),
-    componentLogin        : require('./login')(),
-    componentLogout       : require('./logout')(),
-    componentRegister     : require('./register')(),
-    componentTeams        : require('./teams')(),
-    componentTeamDetail   : require('./teamDetail')(),
-    componentTeamCreate   : require('./teamCreate')(),
-    componentRaces        : require('./races')(),
-    componentStandings    : require('./standings')(),
-    componentRules        : require('./rules')(),
+  let methods = {
+    create  : {},
+    added   : {},
+    removed : {}
   }
+
+  function register(name, component) {
+    methods.create[name] = method();
+    methods.added[name] = method();
+    methods.removed[name] = method();
+    component(methods.create[name], methods.added[name], methods.removed[name]);
+  }
+
+  function method() {
+    return async function(callback) {
+      try {
+        await callback(render, state);
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
+  }
+
+  // We have to explicitly call the register on every component, browiserify doesn't
+  // work with dynamic requires, which makes sense. Might look into a automated
+  // process later.
+  register('nav', require('./nav'));
+  register('pageSwitcher', require('./pageSwitcher'));
+  register('login', require('./login'));
+  register('logout', require('./logout'));
+  register('teams', require('./teams'));
+  register('teamCreate', require('./teamCreate'));
+  register('races', require('./races'));
+  register('standings', require('./standings'));
+  register('rules', require('./rules'));
 
   return {
     init(renderer) {
-      let watcher = watch(store.getState, 'component');
-
-      store.subscribe(watcher((state) => {
-        if (!components[state.component]) {
-          console.log(`Component hasn't been registered yet: ${state.component}`);
-          return;
+      state.watch('component', (component) => {
+        if (methods[component.type][component.name]) {
+          console.log(`Component: ${ component.name } (${ component.type})`);
+          methods[component.type][component.name]();
+        } else {
+          console.log(`Component hasn't been registered yet: ${component.name}`);
         }
-
-        if (components[state.component][state.type]) {
-          console.log(`Component: ${ state.component } (${ state.type})`);
-          components[state.component][state.type](renderer, store);
-        }
-      }));
+      });
     },
     list() {
       return Object.keys(components);

@@ -3,43 +3,35 @@ const ajv     = new Ajv({ coerceTypes : true });
 const loaded  = require('./html/loaded');
 const loading = require('./html/loading');
 const failed  = require('./html/failed');
-const apiBulk = require('../../data/apiBulk');
 const schema  = require('../../schemas/teams');
-const api     = require('../../data/api');
 
 // TEMP
 const userId = 1;
 
-module.exports = function() {
+module.exports = function(create, added, removed) {
 
   // Total budget
   const startBudget = 150000000;
   let budget        = startBudget;
 
-  return {
-    async create(renderer, store) {
-      try {
-        renderer.render(loading());
-        const data = Object.assign(
-          {},
-          await apiBulk('drivers', 'engines', 'chassis', store),
-          { startBudget }
-        );
-        renderer.render(loaded(data), true);
-      } catch(errors) {
-        console.log(errors);
-        renderer.render(failed());
-      }
-    },
-    init(renderer, store) {
-      addHandlers(store);
-    },
-    added(renderer, store) {
-      addHandlers(store);
+  create(async function(render, state) {
+    try {
+      render(loading());
+      render(loaded({
+        drivers : await state.get('drivers'),
+        engines : await state.get('engines'),
+        chassis : await state.get('chassis'),
+      }));
+    } catch(errors) {
+      render(failed());
     }
-  }
+  });
 
-  function addHandlers(store) {
+  added((render, state) => {
+    addHandlers(state);
+  });
+
+  function addHandlers(state) {
     const drivers = [].slice.call(document.querySelectorAll('.item-create-driver'));
     const engines = [].slice.call(document.querySelectorAll('.item-create-engine'));
     const chassis = [].slice.call(document.querySelectorAll('.item-create-chassis'));
@@ -48,7 +40,6 @@ module.exports = function() {
 
     // Add button listeners
     save.addEventListener('click', async function(event) {
-      console.log('clicked')
       event.preventDefault();
       let data = getFormData();
 
@@ -59,7 +50,7 @@ module.exports = function() {
       // } else {
         try {
           console.log('start sending');
-          await api.createTeam(data);
+          await state.createTeam(data);
         } catch (error) {
           console.log(error);
         }

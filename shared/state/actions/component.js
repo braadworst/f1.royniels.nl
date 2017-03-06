@@ -2,31 +2,31 @@ const constants = require('../constants');
 
 module.exports = (function() {
   return {
-    init(component, page = false) {
+    init(name, page = false) {
       return {
         type : constants.component.COMPONENT_INIT,
-        component,
+        name,
         page
       }
     },
-    create(component, page = false) {
+    create(name, page = false) {
       return {
         type : constants.component.COMPONENT_CREATE,
-        component,
+        name,
         page
       }
     },
-    removed(component, page = false) {
+    removed(name, page = false) {
       return {
         type : constants.component.COMPONENT_REMOVED,
-        component,
+        name,
         page
       }
     },
-    added(component, page = false) {
+    added(name, page = false) {
       return {
         type : constants.component.COMPONENT_ADDED,
-        component,
+        name,
         page
       }
     }

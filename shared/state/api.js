@@ -1,21 +1,19 @@
 const request = require('request');
 const action  = require('../actions/data');
 
-module.exports = (function() {
+module.exports = function(store) {
 
-  const base      = 'https://localhost:4444/api/';
+  const base = 'https://localhost:4444/api/';
 
   return {
-    dataset(dataset) {
-      return new Promise((resolve, reject) => {
-        request(base + dataset, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(JSON.parse(body));
-          }
-        });
-      });
+    drivers() {
+      return dataset('drivers');
+    },
+    engines() {
+      return dataset('engines');
+    },
+    chassis() {
+      return dataset('chassis');
     },
     createTeam(data) {
       return new Promise((resolve, reject) => {
@@ -60,4 +58,17 @@ module.exports = (function() {
       });
     }
   }
-}());
+
+  function dataset(name) {
+    return new Promise((resolve, reject) => {
+      store.dispatch(action.loading(name));
+      request(base + name, (error, response, body) => {
+        if (error) {
+          store.dispatch(action.failed(name, error));
+        } else {
+          store.dispatch(action.loaded(name, JSON.parse(body)));
+        }
+      });
+    });
+  }
+}
