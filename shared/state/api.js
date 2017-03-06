@@ -1,72 +1,116 @@
+const Ajv = require('ajv');
+const ajv = new Ajv({ coerceTypes : true });
 const request = require('request');
-const action  = require('../actions/data');
+const schemas = {
+  teams       : require('./schemas/teams'),
+  users       : require('./schemas/users'),
+  results     : require('./schemas/results'),
+  predictions : require('./schemas/predictions'),
+};
 
-module.exports = function(store) {
+module.exports = function() {
 
   const base = 'https://localhost:4444/api/';
 
   return {
-    drivers() {
-      return dataset('drivers');
+    drivers : {
+      list() {
+        return list('drivers');
+      }
     },
-    engines() {
-      return dataset('engines');
+    chassis : {
+      list() {
+        return list('chassis');
+      }
     },
-    chassis() {
-      return dataset('chassis');
+    engines : {
+      list() {
+        return list('engines');
+      }
     },
-    createTeam(data) {
-      return new Promise((resolve, reject) => {
-        request.post({
-          uri     : base + 'teams',
-          body    : JSON.stringify(data),
-        }, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(body);
-          }
-        });
-      });
+    circuits : {
+      list() {
+        return list('circuits');
+      }
     },
-    createOrUpdateUser(data) {
-      return new Promise((resolve, reject) => {
-        request.post({
-          uri  : base + 'users/create-or-update',
-          body : JSON.stringify(data)
-        }, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(body);
-          }
-        });
-      });
+    teams : {
+      list() {
+        return list('teams');
+      },
+      findBy(column, value) {
+        return findBy('teams', column, value);
+      },
+      upsert(record) {
+        return upsert('teams', record);
+      }
     },
-    findUser(data) {
-      return new Promise((resolve, reject) => {
-        request.post({
-          uri  : base + 'users/find',
-          body : JSON.stringify(data)
-        }, (error, response, body) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(body);
-          }
-        });
-      });
+    users : {
+      findBy(column, value) {
+        return findBy('users', column, value);
+      },
+      upsert(record) {
+        return upsert('users', record);
+      }
+    },
+    predictions : {
+      findBy(column, value) {
+        return findBy('predictions', column, value);
+      },
+      upsert(record) {
+        return upsert('predictions', record);
+      }
+    },
+    points : {
+      list() {
+        return list('points');
+      }
+    },
+    results : {
+      upsert(record) {
+        return upsert('results');
+      }
     }
   }
 
-  function dataset(name) {
+  function upsert(name, record) {
     return new Promise((resolve, reject) => {
-      store.dispatch(action.loading(name));
+      if (ajv.validate(schemas[name], record)) {
+        request.put({
+          uri  : base + name,
+          body : JSON.stringify(record),
+          json : true
+        }, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(JSON.parse(body));
+          }
+        });
+      } else {
+        reject(ajv.errors);
+      }
+    });
+  }
+
+  function findBy(name, column, value) {
+    return new Promise((resolve, reject) => {
+      request(base + name + '/find/' + column + '/' + value, (error, response, body) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(JSON.parse(body));
+        }
+      });
+    });
+  }
+
+  function list(name) {
+    return new Promise((resolve, reject) => {
       request(base + name, (error, response, body) => {
         if (error) {
-          store.dispatch(action.failed(name, error));
+          reject(error);
         } else {
-          store.dispatch(action.loaded(name, JSON.parse(body)));
+          resolve(JSON.parse(body));
         }
       });
     });

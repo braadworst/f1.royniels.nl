@@ -1,7 +1,10 @@
 const settings = require('package-settings');
+const paths    = require('../shared/routing/paths');
+const cookies  = require('./cookies');
+const protocol = require('spdy');
 
 // Create HTTP2 server
-let server = require('spdy').createServer(settings.webserver.certs);
+let server = protocol.createServer(settings.webserver.certs);
 
 // Setup router
 const router = require('../shared/routing/router')(server);
@@ -9,22 +12,61 @@ const router = require('../shared/routing/router')(server);
 // Handle statics
 router.before(require('serve-static')('public'));
 
+// Setup the middleware for a new store, components and the renderer
+router.before((request, response, next) => {
+  let renderer;
+  if (request.url === '/') {
+    renderer = require('./renderer')(require('./templates/login'));
+  } else {
+    renderer = require('./renderer')(require('./templates/login'));
+  }
+  const state      = require('../shared/state');
+  const components = require('../shared/components')(renderer, state);
+  next({ state, renderer, components });
+});
+
+// Logged in middleware
+router.before(async function(request, response, next, relay) {
+  const token = cookies.getCookies(request).token;
+  if (!token) {
+    router.redirect(paths.LOGIN);
+  } else {
+    try {
+      const user = await relay.get('data.user');
+      if (!user) {
+        router.redirect(paths.LOGIN);
+        return;
+      }
+    } catch (error) {
+      router.redirect(paths.LOGIN);
+      return;
+    }
+  }
+  next();
+}, paths.LOGIN);
+
+// Render nav except on login page
+router.before(async function(request, response, next) {
+  await component.create('nav');
+  next();
+}, paths.LOGIN);
+
+// Logout route
+router.get(paths.LOGOUT, (request, response) => {
+  cookies.unset(response, 'token');
+  router.redirect(paths.LOGIN);
+});
+
+// Route the login page
+router.get(paths.LOGIN, (request, response, next, relay) => {
+  relay.components.create('login');
+  next();
+});
+
 // Setup login routes and strategies
 require('./login')(router);
 
-// Add before and after for the routes
-router.before(async function(request, response, next) {
-  const renderer   = require('./renderer');
-  const state      = require('../shared/state')(require('./template/default'));
-  const components = require('../shared/components')(renderer.render, state);
-
-  renderer.template();
-
-  await component.create('nav');
-
-  next({ state, components });
-}, '/');
-
+// Add the state and render the whole page
 router.after((request, response, next, relay) => {
   relay.renderer.state(relay.state.get());
   response.end(relay.renderer.html());

@@ -1,6 +1,6 @@
 const paths = require('./paths');
 
-module.exports = (function(server) {
+module.exports = function(server) {
 
   const router = require('cs-router')(server);
 
@@ -36,4 +36,4 @@ module.exports = (function(server) {
   });
 
   return router;
-}());
+};
