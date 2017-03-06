@@ -1,8 +1,5 @@
-const constants = require('./paths');
+const paths = require('./paths');
 
-// Add new methods here, this url helper can be used (mainly in templates but
-// not limited) to get a path to a specific page, this is the prefered way.
-// Don't use hardcoded urls! They are hard to maintain and error prone.
 module.exports = (function() {
   return {
     login(...params) {

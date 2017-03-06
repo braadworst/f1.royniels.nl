@@ -54,7 +54,6 @@ module.exports = function(renderer, state) {
   // work with dynamic requires, which makes sense. Might look into a automated
   // process later.
   register('nav', require('./nav'));
-  register('pageSwitcher', require('./pageSwitcher'));
   register('login', require('./login'));
   register('teams', require('./teams'));
   register('teamCreate', require('./teamCreate'));
