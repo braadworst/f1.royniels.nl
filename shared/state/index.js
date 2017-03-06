@@ -8,7 +8,7 @@ const actions = {
   menuActive : require('./actions/menuActive')
 }
 
-module.exports = function(preloadedState) {
+module.exports = (function(preloadedState) {
 
   const store = redux.createStore(
       redux.combineReducers({
@@ -33,10 +33,19 @@ module.exports = function(preloadedState) {
       watched[name] = store.subscribe(watcher(callback));
     },
     get(name) {
+      if (!name) {
+        return store.getState();
+      }
       return store.getState(name);
     },
     dispatch(...parameters) {
+      const actionName = parameters.shift();
 
+      if (!actionName) {
+        throw new Error(`When you want to dispatch an action, you need to specify a name`);
+      }
+
+      actions[actionName](parameters);
     }
   }
-}
+}());

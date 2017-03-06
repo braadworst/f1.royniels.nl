@@ -1,39 +1,33 @@
-const constants = require('../constants');
+const constants = require('./paths');
 
 // Add new methods here, this url helper can be used (mainly in templates but
 // not limited) to get a path to a specific page, this is the prefered way.
 // Don't use hardcoded urls! They are hard to maintain and error prone.
 module.exports = (function() {
   return {
-    home(...params) {
-      return merge(constants.url.URL_HOME, params);
-    },
     login(...params) {
-      return merge(constants.url.URL_LOGIN, params);
+      return merge(paths.LOGIN, params);
     },
     logout(...params) {
-      return merge(constants.url.URL_LOGOUT, params);
-    },
-    register(...params) {
-      return merge(constants.url.URL_REGISTER, params);
+      return merge(paths.LOGOUT, params);
     },
     teams(...params) {
-      return merge(constants.url.URL_TEAMS, params);
+      return merge(paths.TEAMS, params);
     },
     teamDetail(...params) {
-      return merge(constants.url.URL_TEAM_DETAIL, params);
+      return merge(paths.TEAM_DETAIL, params);
     },
     teamCreate(...params) {
-      return merge(constants.url.URL_TEAM_CREATE, params);
+      return merge(paths.TEAM_CREATE, params);
     },
     races(...params) {
-      return merge(constants.url.URL_RACES, params);
+      return merge(paths.RACES, params);
     },
     standings(...params) {
-      return merge(constants.url.URL_STANDINGS, params);
+      return merge(paths.STANDINGS, params);
     },
     rules(...params) {
-      return merge(constants.url.URL_RULES, params);
+      return merge(paths.RULES, params);
     },
   }
 

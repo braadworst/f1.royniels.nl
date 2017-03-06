@@ -1,4 +1,4 @@
-module.exports = function(state) {
+module.exports = function(render, state) {
 
   let methods = {
     create  : {},
@@ -37,16 +37,27 @@ module.exports = function(state) {
   register('rules', require('./rules'));
 
   return {
-    init(renderer) {
-      state.watch('component', (component) => {
-        if (methods[component.type][component.name]) {
-          console.log(`Component: ${ component.name } (${ component.type})`);
-          methods[component.type][component.name]();
-        } else {
-          console.log(`Component hasn't been registered yet: ${component.name}`);
-        }
-      });
+    create(name) {
+      if (create[name]) {
+        return create[name]();
+      } else {
+        console.warn(`No create method registed for: ${name}`);
+      }
     },
+    added(name) {
+      if (added[name]) {
+        return added[name]();
+      } else {
+        console.warn(`No added method registed for: ${name}`);
+      }
+    },
+    removed(name) {
+      if (removed[name]) {
+        return removed[name]();
+      } else {
+        console.warn(`No removed method registed for: ${name}`);
+      }
+    }
     list() {
       return Object.keys(components);
     }

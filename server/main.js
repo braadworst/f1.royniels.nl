@@ -1,11 +1,10 @@
-const settings    = require('package-settings');
-const action      = require('../shared/actions/component');
+const settings = require('package-settings');
 
 // Create HTTP2 server
 let server = require('spdy').createServer(settings.webserver.certs);
 
 // Setup router
-const router = require('../shared/router')(server);
+const router = require('../shared/routing/router')(server);
 
 // Handle statics
 router.before(require('serve-static')('public'));
@@ -15,22 +14,21 @@ require('./login')(router);
 
 // Add before and after for the routes
 router.before(async function(request, response, next) {
-  const store      = require('../shared/store')();
-  const template   = require('./template/default');
-  const renderer   = require('./renderer')(template, store);
-  const components = require('../shared/components')(store);
-  components.init(renderer);
+  const renderer   = require('./renderer');
+  const state      = require('../shared/state')(require('./template/default'));
+  const components = require('../shared/components')(renderer.render, state);
 
-  store.dispatch(action.create('componentNav'));
+  renderer.template();
 
-  // Callback for response, when the data is loaded
-  renderer.finished(html => {
-    response.end(html);    
-  });
+  await component.create('nav');
 
-  // pass over arguments that we need in the routes or after callback
-  next({ store, renderer });
+  next({ state, components });
 }, '/');
+
+router.after((request, response, next, relay) => {
+  relay.renderer.state(relay.state.get());
+  response.end(relay.renderer.html());
+});
 
 server.listen(settings.webserver.port, function() {
   console.log('Server listening on port: ' + settings.webserver.port);
