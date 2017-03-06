@@ -5,12 +5,60 @@ const querystring = require('querystring');
 const api         = require('../shared/data/api');
 const cookies     = require('./cookies');
 const encrypt     = require('./encrypt');
+const createStore = require('../shared/store');
+const action      = require('../shared/actions/component');
 
 module.exports = function(router) {
 
   // Setup the routes for each login network
   const domain   = settings.webserver.domain + ':' + settings.webserver.port;
   const networks = ['facebook', 'google', 'github'];
+
+  // First thing we do, check if a user is logged in, if not redirect home
+  router.before( async function(request, response, next) {
+    const token = cookies.getCookies(request).token;
+    if (!token) {
+      router.redirect('/');
+    } else {
+      try {
+        const user = await api.findUser({ columnName : 'token', value : encrypt.decrypt(token)});
+        if (!user) {
+          router.redirect('/');
+          return;
+        }
+      } catch (error) {
+        console.log(error);
+        router.redirect('/');
+        return;
+      }
+    }
+    next();
+  }, '/');
+
+  // Logout route
+  router.get('/logout', (request, response) => {
+    cookies.unset(response, 'token');
+    router.redirect('/');
+  });
+
+  // Route the login page, with its own template
+  router.get('/', (request, response, next) => {
+    const store      = createStore();
+    const template   = require('./template/login');
+    const renderer   = require('./renderer')(template, store);
+    const components = require('../shared/components')(store);
+    components.init(renderer);
+
+    // Callback for response, when the data is loaded
+    renderer.finished(html => {
+      response.end(html);
+    });
+
+    // Load the login component
+    store.dispatch(action.create('componentLogin'));
+
+    next({ store, renderer });
+  });
 
   networks.forEach(network => {
 
@@ -56,7 +104,6 @@ module.exports = function(router) {
         cookies.set(response, 'token', user.token);
 
         // Check update the token if the user exists, otherwise create new user
-        console.log(user);
         await api.createOrUpdateUser(user);
 
         // Finally redirect the user to the standings page

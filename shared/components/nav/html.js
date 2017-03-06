@@ -17,7 +17,7 @@ module.exports = function(step) {
         <li><a href="${ url.races() }">Races</a></li>
         <li><a href="${ url.standings() }">Standings</a></li>
         <li><a href="${ url.rules() }">Rules</a></li>
-        <li><a href="${ url.logout() }">Logout</a></li>
+        <li><a href="${ url.logout() }" data-router-server>Logout</a></li>
       </ul>
     </nav>
   </component-nav>

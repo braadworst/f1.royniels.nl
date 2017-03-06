@@ -1,8 +1,10 @@
+const moment = require('moment');
+
 module.exports = (function() {
 
   return {
-    getCookies() {
-      let headerCookies = request.headers.cookie ? request.headers.cookie.split('?') : [];
+    getCookies(request) {
+      let headerCookies = request.headers.cookie ? request.headers.cookie.split(';') : [];
       cookies = {};
 
       headerCookies.forEach(function( cookie ) {
@@ -17,7 +19,19 @@ module.exports = (function() {
         key + '=' + value,
         'Secure',
         'SameSite=Strict',
-        'Max-Age=' + 60 * 60 * 24
+        'Expires=' + moment().utc().add(1, 'day').toString(),
+        'Domain=localhost',
+        'Path=/'
+      ].join('; '));
+    },
+    unset(response, key) {
+      response.setHeader('Set-Cookie', [
+        key + '=',
+        'Secure',
+        'SameSite=Strict',
+        'Expires=' + moment().utc().subtract(1, 'day').toString(),
+        'Domain=localhost',
+        'Path=/'
       ].join('; '));
     }
   }

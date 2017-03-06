@@ -62,18 +62,13 @@ module.exports = function(server, database) {
   });
 
   router.post('/api/users/find', async function(request, response) {
-    let body = '';
-    request
-      .on('data', data => body += data)
-      .on('end', async function () {
-        try {
-          body = JSON.parse(body);
-          const result = await database.findOne(users, body.columnName, body.value);
-          response.end(JSON.stringify(result));
-        } catch (error) {
-          response.end('errors');
-        }
-    });
+    try {
+      body = JSON.parse(body);
+      const result = await database.findOne(users, body.columnName, body.value);
+      response.end(JSON.stringify(result));
+    } catch (error) {
+      response.end('errors');
+    }
   });
 
   router.post('/api/users/create-or-update', async function(request, response) {

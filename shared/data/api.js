@@ -44,6 +44,20 @@ module.exports = (function() {
           }
         });
       });
+    },
+    findUser(data) {
+      return new Promise((resolve, reject) => {
+        request.post({
+          uri  : base + 'users/find',
+          body : JSON.stringify(data)
+        }, (error, response, body) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(body);
+          }
+        });
+      });
     }
   }
 }());

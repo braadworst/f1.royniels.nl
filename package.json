@@ -39,7 +39,7 @@
               }
             },
             "email": {
-              "url" : "https://www.googleapis.com/oauth2/v1/userinfo"
+              "url": "https://www.googleapis.com/oauth2/v1/userinfo"
             }
           },
           "facebook": {
@@ -159,6 +159,7 @@
     "redux-thunk": "^2.2.0",
     "redux-watch": "^1.1.1",
     "request": "^2.79.0",
+    "serve-static": "^1.12.1",
     "spdy": "^3.4.4",
     "sqlite3": "^3.1.8",
     "uuid": "^3.0.1"
