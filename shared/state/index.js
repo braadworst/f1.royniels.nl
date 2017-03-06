@@ -1,24 +1,18 @@
 const watch   = require('redux-watch');
 const redux   = require('redux');
-const watched = {};
-const actions = {
-  component  : require('./actions/component'),
-  createTeam : require('./actions/createTeam'),
-  data       : require('./actions/data'),
-  menuActive : require('./actions/menuActive')
-}
+const actions = require('./actions');
 
 module.exports = (function(preloadedState) {
 
+  let watched = {};
+
   const store = redux.createStore(
-      redux.combineReducers({
-        data      : require('../reducers/data'),
-        component  : require('../reducers/component'),
-        menuActive : require('../reducers/menuActive')
-      }),
-      preloadedState
-    );
-  }
+    redux.combineReducers({
+      data       : require('./reducers/data'),
+      menuActive : require('./reducers/menuActive')
+    }),
+    preloadedState
+  );
 
   return {
     unwatch(name) {
@@ -33,10 +27,20 @@ module.exports = (function(preloadedState) {
       watched[name] = store.subscribe(watcher(callback));
     },
     get(name) {
-      if (!name) {
-        return store.getState();
+      output = store.getState();
+
+      if (!name || typeof name !== 'string') {
+        return output;
       }
-      return store.getState(name);
+
+      name.split('.').forEach(key => {
+        if (!output[key]) {
+          throw new Error(`State cannot get the values for key ${ key }`);
+        };
+        output = output[key];
+      });
+
+      return output;
     },
     dispatch(...parameters) {
       const actionName = parameters.shift();

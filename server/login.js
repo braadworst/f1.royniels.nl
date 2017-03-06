@@ -2,7 +2,7 @@ const fetch       = require('request');
 const settings    = require('package-settings');
 const uuid        = require('uuid/').v4;
 const querystring = require('querystring');
-const api         = require('../shared/state/api');
+const api         = require('../shared/api');
 const encrypt     = require('./encrypt');
 
 module.exports = function(router) {
@@ -55,7 +55,7 @@ module.exports = function(router) {
         cookies.set(response, 'token', user.token);
 
         // Check update the token if the user exists, otherwise create new user
-        await api.createOrUpdateUser(user);
+        await api.user.upsert(user);
 
         // Finally redirect the user to the standings page
         router.redirect('/standings');

@@ -1,4 +1,3 @@
-const constants = require('../constants');
 const initial   = {
   loading : {},
   failed  : {},
@@ -8,21 +7,19 @@ const initial   = {
 module.exports = function(state = initial, action) {
   let output;
   switch(action.type) {
-    case constants.data.DATA_ALL_LOADED :
-      return Object.assign({}, state, action);
-    case constants.data.DATA_LOADING :
+    case 'dataLoading' :
       output = Object.assign({}, state);
-      output.loading[action.dataset] = true;
+      output.loading[action.name] = true;
       return output;
-    case constants.data.DATA_FAILED :
+    case 'dataFailed' :
       output = Object.assign({}, state);
-      output.loading[action.dataset] = false;
-      output.failed[action.dataset]  = action.error;
+      output.loading[action.name] = false;
+      output.failed[action.name]  = action.error;
       return output;
-    case constants.data.DATA_LOADED :
+    case 'dataLoaded' :
       output = Object.assign({}, state);
-      output.loading[action.dataset] = false;
-      output.data[action.dataset]    = action.records;
+      output.loading[action.name] = false;
+      output.data[action.name]    = action.records;
       return output;
     default :
       return state;

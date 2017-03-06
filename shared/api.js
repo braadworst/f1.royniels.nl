@@ -1,5 +1,5 @@
-const Ajv = require('ajv');
-const ajv = new Ajv({ coerceTypes : true });
+const Ajv     = require('ajv');
+const ajv     = new Ajv({ coerceTypes : true });
 const request = require('request');
 const schemas = {
   teams       : require('./schemas/teams'),
