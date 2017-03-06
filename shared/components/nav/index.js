@@ -1,24 +1,24 @@
 const loaded = require('./loaded')();
 
-module.exports = function(create, added, removed) {
+module.exports = function(init) {
 
-  create((render, state) => {
-    console.log('NAV CREATE');
-    render(loaded);
-  });
-
-  added((render, state) => {
-    console.log('NAV ADDED');
-    switcher();
-    state.watch('menuActive', active => {
-      setActive(active);
-    });
-    setActive(state.get('menuActive.active'));
-  });
-
-  removed((render, state) => {
-    state.unwatch('menuActive');
-  });
+  return {
+    create : init((render, state) => {
+      console.log('NAV CREATE');
+      render(loaded);
+    }),
+    added : init((render, state) => {
+      console.log('NAV ADDED');
+      switcher();
+      state.watch('menuActive', active => {
+        setActive(active);
+      });
+      setActive(state.get('menuActive.active'));
+    }),
+    removed : init((render, state) => {
+      state.unwatch('menuActive');
+    })
+  }
 
   function switcher() {
     const switcher = document.querySelector('#nav .close');

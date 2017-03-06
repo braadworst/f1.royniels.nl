@@ -5,29 +5,30 @@ const failed  = require('./failed')();
 // TEMP
 const userId = 1;
 
-module.exports = function(create, added, removed) {
+module.exports = init => {
 
   // Total budget
   const startBudget = 150000000;
   let budget        = startBudget;
 
-  create(async function(render, state) {
-    try {
-      render(loading);
-      render(loaded(
-        await state.get('data.drivers'),
-        await state.get('data.engines'),
-        await state.get('data.chassis'),
-        startBudget
-      ));
-    } catch(errors) {
-      render(failed);
-    }
-  });
-
-  added((render, state) => {
-    addHandlers(state);
-  });
+  return {
+    create : init(async function(render, state) {
+      try {
+        render(loading);
+        render(loaded(
+          await state.get('data.drivers'),
+          await state.get('data.engines'),
+          await state.get('data.chassis'),
+          startBudget
+        ));
+      } catch(errors) {
+        render(failed);
+      }
+    }),
+    added : init((render, state) => {
+      addHandlers(state);
+    })
+  }
 
   function addHandlers(state) {
     const drivers = [].slice.call(document.querySelectorAll('.item-create-driver'));

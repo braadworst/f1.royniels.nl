@@ -1,7 +1,9 @@
-const loaded = require('./loaded');
+const loaded = require('./loaded')();
 
-module.exports = create => {
-  create(render => {
-    render(loaded);
-  });
+module.exports = init => {
+  return {
+    create : init(render => {
+      render(loaded);
+    })
+  }
 }

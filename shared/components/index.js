@@ -1,28 +1,22 @@
 module.exports = function(renderer, state) {
 
-  let methods = {
-    create  : {},
-    added   : {},
-    removed : {}
-  }
+  let components = {};
 
   function register(name, component) {
-    methods.create[name] = method;
-    methods.added[name] = method;
-    methods.removed[name] = method;
-    component(methods.create[name], methods.added[name], methods.removed[name]);
+    components[name] = component(method);
+    console.log(components[name]);
   }
 
   function handle(type, name) {
-    if (methods[type][name]) {
-      return methods[type][name]();
+    if (components[name][type]) {
+      return components[name][type]();
     } else {
       console.warn(`No ${ type } method registed for: ${name}`);
     }
   }
 
-  function method() {
-    return async function(callback) {
+  function method(callback) {
+    return async function() {
       try {
         await callback(renderer.render, state, handle);
       } catch (error) {

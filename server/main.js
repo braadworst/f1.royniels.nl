@@ -14,6 +14,7 @@ router.before(require('./statics'));
 
 // Setup the middleware for a new store, components and the renderer
 router.before((request, response, next) => {
+  console.log('setup renderer, state and componets');
   let renderer;
   if (request.url === '/') {
     renderer = require('./renderer')(require('./templates/login'));
