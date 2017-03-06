@@ -4,7 +4,6 @@ module.exports = function(renderer, state) {
 
   function register(name, component) {
     components[name] = component(method);
-    console.log(components[name]);
   }
 
   function handle(type, name) {

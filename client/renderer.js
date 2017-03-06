@@ -37,7 +37,7 @@ module.exports = (function(renderer) {
 
   return {
     initialize(componentName = 'component') {
-      components = [].slice.call(document.querySelectorAll(`[id^="${ componentName }"]`));
+      const components = [].slice.call(document.querySelectorAll(`[id^="${ componentName }"]`));
       components.forEach(component => {
         const name = component.getAttribute('id')
         registered.push(name);

@@ -1,6 +1,6 @@
 module.exports = function(options = {}) {
   return `
-  <section id="componentLogin">
+  <section id="login">
     <div class="brand">
       <span class="logo first"></span><span class="logo second"></span><span class="logo third"></span><span class="logo fourth"></span>
       <span class="name">F1 Manager</span>

@@ -2,7 +2,7 @@ const watch   = require('redux-watch');
 const redux   = require('redux');
 const actions = require('./actions');
 
-module.exports = (function(preloadedState) {
+module.exports = function(preloadedState) {
 
   let watched = {};
 
@@ -52,4 +52,4 @@ module.exports = (function(preloadedState) {
       actions[actionName](parameters);
     }
   }
-}());
+};

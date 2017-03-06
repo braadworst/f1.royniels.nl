@@ -1,6 +1,6 @@
 const loaded = require('./loaded')();
 
-module.exports = function(init) {
+module.exports = init => {
 
   return {
     create : init((render, state) => {

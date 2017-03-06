@@ -6,7 +6,6 @@ module.exports = function(template) {
 
   return {
     render(input) {
-      console.log(input);
       let component = cheerio.load('<div>' + input + '</div>');
       output(component('div')[0].firstChild.next.name).replaceWith(input);
     },
