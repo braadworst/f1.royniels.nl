@@ -32,17 +32,23 @@ module.exports = function(renderer, state) {
   }
 
   // Listen for dom event changes
-  renderer.added(name => {
-    handle('create', name);
-  });
+  if (renderer.added) {
+    renderer.added(name => {
+      handle('create', name);
+    });
+  }
 
-  renderer.removed(name => {
-    handle('removed', name);
-  });
+  if (renderer.removed) {
+    renderer.removed(name => {
+      handle('removed', name);
+    });
+  }
 
   // Run for the first time so all the added handlers run for serverside rendered
   // templates
-  render.initialize();
+  if (renderer.initialize) {
+    renderer.initialize();
+  }
 
   // We have to explicitly call the register on every component, browiserify doesn't
   // work with dynamic requires, which makes sense. Might look into a automated
@@ -59,7 +65,7 @@ module.exports = function(renderer, state) {
   return {
     create(name) {
       handle('create', name);
-    }
+    },
     added(name) {
       handle('added', name);
     },
