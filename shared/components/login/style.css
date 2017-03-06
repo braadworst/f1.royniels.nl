@@ -1,37 +1,36 @@
-#componentLogin {
-  display: block;
+#login {
   max-width: 350px;
   margin: 50px auto;
   text-align: center;
   color: #666;
 }
-#componentLogin .brand {
+#login .brand {
   padding: 0;
   display: inline-block;
   margin-bottom: 30px;
 }
-#componentLogin .brand .logo  {
+#login .brand .logo  {
   display: inline-block;
   width: 26px;
   height: 26px;
   vertical-align: middle;
 }
-#componentLogin .brand .first {
+#login .brand .first {
   border-radius: 100% 0 0 0;
   background-color: #19647E;
 }
-#componentLogin .brand .second {
+#login .brand .second {
   background-color: #28AFB0;
 }
-#componentLogin .brand .third {
+#login .brand .third {
   background-color: #F4D35E;
 }
-#componentLogin .brand .fourth {
+#login .brand .fourth {
   border-radius: 0 0 100% 0;
   background-color: #EE964B;
   position: relative;
 }
-#componentLogin .brand .fourth:after {
+#login .brand .fourth:after {
   content: ' ';
   position: absolute;
   top: -10px;
@@ -40,7 +39,7 @@
   height: 6px;
   background-color: #EE964B;
 }
-#componentLogin .brand .name {
+#login .brand .name {
   color: #1F271B;
   margin-left: 30px;
   margin-top: -4px;
@@ -49,16 +48,16 @@
   vertical-align: middle;
   display: inline-block;
 }
-#componentLogin ul {
+#login ul {
   list-style: none;
   margin: 30px 0 0 0;
   padding: 0;
 }
-#componentLogin li {
+#login li {
   margin: 0;
   padding: 0;
 }
-#componentLogin li a {
+#login li a {
   display: block;
   text-align: left;
   color: #19647E;
@@ -70,11 +69,11 @@
   background-color: white;
   transition: background .3s, color .3s;
 }
-#componentLogin a:hover {
+#login a:hover {
   color: white;
   background-color: #19647E;
 }
-#componentLogin li i {
+#login li i {
   margin-right: 15px;
   font-size: 1.4rem;
 }

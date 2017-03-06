@@ -1,9 +1,6 @@
-const Ajv     = require('ajv');
-const ajv     = new Ajv({ coerceTypes : true });
-const loaded  = require('./html/loaded');
-const loading = require('./html/loading');
-const failed  = require('./html/failed');
-const schema  = require('../../schemas/teams');
+const loaded  = require('./loaded');
+const loading = require('./loading')();
+const failed  = require('./failed')();
 
 // TEMP
 const userId = 1;
@@ -16,14 +13,15 @@ module.exports = function(create, added, removed) {
 
   create(async function(render, state) {
     try {
-      render(loading());
-      render(loaded({
-        drivers : await state.get('drivers'),
-        engines : await state.get('engines'),
-        chassis : await state.get('chassis'),
-      }));
+      render(loading);
+      render(loaded(
+        await state.get('data.drivers'),
+        await state.get('data.engines'),
+        await state.get('data.chassis'),
+        startBudget
+      ));
     } catch(errors) {
-      render(failed());
+      render(failed);
     }
   });
 
@@ -41,16 +39,8 @@ module.exports = function(create, added, removed) {
     // Add button listeners
     save.addEventListener('click', async function(event) {
       event.preventDefault();
-      let data = getFormData();
-
-      // Validate input
-      // if (!ajv.validate(JSON.parse(schema), data)) {
-      //   console.log(ajv.errors);
-      //   console.log(data);
-      // } else {
         try {
-          console.log('start sending');
-          await state.createTeam(data);
+          await state.dispatch('dataCreateTeam', getFormData());
         } catch (error) {
           console.log(error);
         }

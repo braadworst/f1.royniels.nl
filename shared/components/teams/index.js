@@ -1,23 +1,20 @@
-const loading     = require('./html/loading');
-const loaded      = require('./html/loaded');
-const noResults   = require('./html/noResults');
-const apiBulk = require('../../data/apiBulk');
+const loading = require('./loading')();
+const loaded  = require('./loaded');
+const empty   = require('./empty')();
+const failed  = require('./failed')();
 
-module.exports = function() {
-
-  return {
-    async create(renderer, store) {
-      try {
-        renderer.render(loading());
-        const { teams } = await apiBulk('teams', store);
-        if (teams.length) {
-          renderer.render(loaded(teams), true);
-        } else {
-          renderer.render(noResults(), true);
-        }
-      } catch(errors) {
-        console.log(errors)
+module.exports = create => {
+  create(async function(render, state) => {
+    try {
+      render(loading);
+      const teams = state.get('data.teams');
+      if (teams.length) {
+        render(loaded(teams));
+      } else {
+        render(empty);
       }
+    } catch(errors) {
+      render(failed);
     }
-  }
+  });
 }

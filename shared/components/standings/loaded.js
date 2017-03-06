@@ -1,6 +1,6 @@
-module.exports = function(options = {}) {
+module.exports = function() {
   return `
-  <#standings class="animation-page-in">
+  <section id="standings" class="animation-page-in">
     <h1>Standings</h1>
     <ul class="group-standings">
     <li>
@@ -256,6 +256,6 @@ module.exports = function(options = {}) {
       </div>
     </li>
     </ul>
-  </#standings>
+  </section>
   `;
 }

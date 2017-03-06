@@ -1,11 +1,11 @@
-module.exports = function(options) {
+module.exports = function(drivers, engines, chassis, budget) {
   return `
-  <#team-create class="animation-page-in">
+  <section id="teamCreate" class="animation-page-in">
     <form class="pure-form">
       <div class="pure-g">
       <div class="pure-u-1-1 pure-u-md-1-3">
         <div class="content">
-          <h2>€ <span class="budget">${ options.startBudget.toLocaleString() }</span></h2>
+          <h2>€ <span class="budget">${ budget.toLocaleString() }</span></h2>
         </div>
       </div>
         <div class="pure-u-1-1 pure-u-md-1-3">
@@ -23,18 +23,18 @@ module.exports = function(options) {
 
     <h1 class="section-header">Select drivers</h1>
     <section class="pure-g">
-      ${ options.drivers.map(rowDriver).join('') }
+      ${ drivers.map(rowDriver).join('') }
     </section>
     <h1 class="section-header">Select engines</h1>
     <section class="pure-g">
-      ${ options.engines.map(rowEngine).join('') }
+      ${ engines.map(rowEngine).join('') }
     </section>
     <h1 class="section-header">Select chassis</h1>
     <section class="pure-g">
-      ${ options.chassis.map(rowChassis).join('') }
+      ${ chassis.map(rowChassis).join('') }
     </section>
 
-  </#team-create>
+  </section>
   `;
 }
 
