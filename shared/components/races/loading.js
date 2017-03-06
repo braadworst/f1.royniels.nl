@@ -2,12 +2,12 @@ const range = require('lodash/range');
 
 module.exports = function(options) {
   return `
-  <component-races class="animation-page-in loading">
+  <section id="races" class="animation-page-in loading">
     <h1>Race results</h1>
     <div class="pure-g">
       ${ range(20).map(row).join('') }
     </div>
-  </component-races>
+  </section>
   `;
 }
 

@@ -2,7 +2,7 @@ const range = require('lodash/range');
 
 module.exports = function() {
   return `
-  <component-team-create class="animation-page-in loading">
+  <section id="componentTeamCreate" class="animation-page-in loading">
     <form class="pure-form">
       <div class="pure-g">
       <div class="pure-u-1-1 pure-u-md-1-3">
@@ -36,7 +36,7 @@ module.exports = function() {
       ${ range(10).map(rowChassis).join('') }
     </section>
 
-  </component-team-create>
+  </section>
   `;
 }
 

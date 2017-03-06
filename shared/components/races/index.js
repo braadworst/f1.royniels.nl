@@ -1,29 +1,31 @@
-const loaded      = require('./html/loaded');
-const loading     = require('./html/loading');
-const apiBulk = require('../../data/apiBulk');
-const moment      = require('moment');
+const moment  = require('moment');
+const loaded  = require('./loaded');
+const loading = require('./loading')();
+const failed  = require('./failed')();
 
-module.exports = () => {
-  return {
-    async create(renderer, store) {
-      try {
-        renderer.render(loading());
-        let { circuits, drivers } = await apiBulk('circuits', 'drivers', store);
+module.exports = create => {
+  create(async function(render, state) => {
+    try {
+      render(loading);
 
-        // set parameters based on the current date
-        circuits = circuits.map(circuit => {
-          circuit.date = moment(circuit.date, 'DD-MM-YYYY');
-          return Object.assign({}, circuit, { passed : circuit.date.isSameOrBefore(moment()) }
-          )
-        });
+      let circuits = await state.get('data.circuits');
 
-        // Set upcoming race
-        circuits[circuits.findIndex(circuit => !circuit.passed)].upcoming = true;
+      // set parameters based on the current date
+      circuits = circuits.map(circuit => {
+        circuit.date = moment(circuit.date, 'DD-MM-YYYY');
+        return Object.assign({}, circuit, { passed : circuit.date.isSameOrBefore(moment()) }
+        )
+      });
 
-        renderer.render(loaded({ circuits, drivers }), true);
-      } catch (error) {
-        console.log(error);
-      }
+      // Set upcoming race
+      circuits[circuits.findIndex(circuit => !circuit.passed)].upcoming = true;
+
+      render(loaded(
+        circuits,
+        drivers  : await state.get('data.drivers')
+      );
+    } catch (error) {
+      render(failed);
     }
-  }
+  });
 }

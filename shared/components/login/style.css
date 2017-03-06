@@ -1,37 +1,37 @@
-component-login {
+#componentLogin {
   display: block;
   max-width: 350px;
   margin: 50px auto;
   text-align: center;
   color: #666;
 }
-component-login .brand {
+#componentLogin .brand {
   padding: 0;
   display: inline-block;
   margin-bottom: 30px;
 }
-component-login .brand .logo  {
+#componentLogin .brand .logo  {
   display: inline-block;
   width: 26px;
   height: 26px;
   vertical-align: middle;
 }
-component-login .brand .first {
+#componentLogin .brand .first {
   border-radius: 100% 0 0 0;
   background-color: #19647E;
 }
-component-login .brand .second {
+#componentLogin .brand .second {
   background-color: #28AFB0;
 }
-component-login .brand .third {
+#componentLogin .brand .third {
   background-color: #F4D35E;
 }
-component-login .brand .fourth {
+#componentLogin .brand .fourth {
   border-radius: 0 0 100% 0;
   background-color: #EE964B;
   position: relative;
 }
-component-login .brand .fourth:after {
+#componentLogin .brand .fourth:after {
   content: ' ';
   position: absolute;
   top: -10px;
@@ -40,7 +40,7 @@ component-login .brand .fourth:after {
   height: 6px;
   background-color: #EE964B;
 }
-component-login .brand .name {
+#componentLogin .brand .name {
   color: #1F271B;
   margin-left: 30px;
   margin-top: -4px;
@@ -49,16 +49,16 @@ component-login .brand .name {
   vertical-align: middle;
   display: inline-block;
 }
-component-login ul {
+#componentLogin ul {
   list-style: none;
   margin: 30px 0 0 0;
   padding: 0;
 }
-component-login li {
+#componentLogin li {
   margin: 0;
   padding: 0;
 }
-component-login li a {
+#componentLogin li a {
   display: block;
   text-align: left;
   color: #19647E;
@@ -70,11 +70,11 @@ component-login li a {
   background-color: white;
   transition: background .3s, color .3s;
 }
-component-login a:hover {
+#componentLogin a:hover {
   color: white;
   background-color: #19647E;
 }
-component-login li i {
+#componentLogin li i {
   margin-right: 15px;
   font-size: 1.4rem;
 }

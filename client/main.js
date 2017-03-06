@@ -1,15 +1,11 @@
 require('babel-polyfill');
 
 document.addEventListener("DOMContentLoaded", function(event) {
-  const state     = require('../shared/state')(window.__PRELOADED_STATE__);
-  const router    = require('../shared/routing/router');
-  const component = require('../shared/components')(state);
-  const renderer  = require('./renderer')(state);
+  const state = require('../shared/state')(window.__PRELOADED_STATE__);
 
-  router.before(request => {
+  require('../shared/routing/router').before(request => {
     return { state };
   });
 
-  component.init(renderer);
-  renderer.init(component);
+  require('../shared/components')(require('./renderer'), state);
 });

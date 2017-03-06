@@ -1,10 +1,7 @@
-const html    = require('./html');
+const loaded = require('./loaded')();
 
-module.exports = function() {
-
-  return {
-    create(renderer) {
-      renderer.render(html(), true);
-    }
-  }
+module.exports = create => {
+  create(render => {
+    render(loaded);
+  });
 }

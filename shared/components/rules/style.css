@@ -1,43 +1,43 @@
-component-rules {
+#rules {
   display: block;
 }
-component-rules .content {
+#rules .content {
   padding: 15px;
   margin: 5px;
   background-color: #fff;
   height: 100%;
 }
-component-rules h4 {
+#rules h4 {
   margin-bottom: 0;
 }
-component-rules table {
+#rules table {
   width: 100%;
   table-layout: fixed;
 }
-component-rules th {
+#rules th {
   color: #aaa;
   border-bottom: 3px solid gold;
   font-weight: 300;
   text-align: left;
   padding: 5px 0;
 }
-component-rules th:last-child {
+#rules th:last-child {
   text-align: right;
 }
-component-rules td {
+#rules td {
   padding: 10px;
   border-bottom: 1px solid #eee;
 }
-component-rules td:last-child {
+#rules td:last-child {
   text-align: right;
   font-weight: 400;
 }
-component-rules .pure-g {
+#rules .pure-g {
   align-items: stretch;
 }
 
 @media (max-width: 35.5em) {
-  component-rules .content {
+  #rules .content {
     height: auto;
   }
 }

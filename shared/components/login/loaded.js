@@ -1,6 +1,6 @@
 module.exports = function(options = {}) {
   return `
-  <component-login>
+  <section id="componentLogin">
     <div class="brand">
       <span class="logo first"></span><span class="logo second"></span><span class="logo third"></span><span class="logo fourth"></span>
       <span class="name">F1 Manager</span>
@@ -11,6 +11,6 @@ module.exports = function(options = {}) {
       <li><a href="/auth/facebook" data-router-server><i class="fa fa-facebook-official" aria-hidden="true"></i>Facebook</a></li>
       <li><a href="/auth/github" data-router-server><i class="fa fa-github" aria-hidden="true"></i>Github</a></li>
     </ul>
-  </component-login>
+  </section>
   `;
 }

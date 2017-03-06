@@ -1,71 +1,66 @@
-const camelize      = require('camelize');
-const decamelize    = require('decamelize');
-const morphdom      = require('morphdom');
-const action        = require('../shared/actions/component');
+module.exports = (function(renderer) {
 
-module.exports = function(store) {
+  let registered = {}, removed, added;
 
-  let registeredComponents = {};
+  function prepare(html) {
+    // Convert the string to HTML, fucked up shit dom strings :S
+    let wrapper = document.createElement('div');
+    wrapper.innerHTML = html.trim().replace( /(^|>)\s+|\s+(?=<|$)/g, '$1');
+    return wrapper.firstChild;
+  }
+
+  function addLoaderElement(html) {
+    // We will add an element at the end of the component so we can be sure
+    // that when the added hooks is called the whole component is loaded, there
+    // is no proper way to see when the whole component has been added to the
+    // dom with morphdom, performance gain I guess
+    // We will only do this for the loaded component, loading and error don't
+    // need any triggers
+    let loaded = document.createElement('div');
+    loaded.classList.add('component-loaded');
+    html.appendChild(loaded);
+
+    return html;
+  }
 
   return {
-    init(component) {
-      component
-        .list()
-        .forEach(type => {
-          let domComponent = document.querySelector(decamelize(type, '-'));
-          if (domComponent && domComponent.children.length) {
-            registeredComponents[decamelize(type, '-')] = true;
-            let options = {};
-            if (store && store.getState() && store.getState().component && store.getState().component.options) {
-              options = store.getState().component.options;
-            }
-            store.dispatch(action.init(type, options));
-          }
-        });
+    initialize(componentName = 'component') {
+      components = [].slice.call(document.querySelectorAll(`[id^="${ componentName }"]`));
+      components.forEach(component => {
+        const name = component.getAttribute('id')
+        registered.push(name);
+        added(name);
+      });
     },
-    render(component, loadedComponent = false) {
-      // Convert the string to HTML, fucked up shit dom strings :S
-      let wrapper = document.createElement('div');
-      wrapper.innerHTML = component.trim().replace( /(^|>)\s+|\s+(?=<|$)/g, '$1');
-      component = wrapper.firstChild;
+    added(callback) {
+      added = callback;
+    },
+    removed(callback) {
+      removed = callback;
+    },
+    render(newHtml) {
 
-      // Get the current container on the page
-      let currentComponent = document.querySelector(component.tagName);
+      newHtml     = prepare(newHtml);
+      currentHtml = addLoaderElement(document.querySelector(newHTML.getAttribute('id')));
 
-      // We will add an element at the end of the component so we can be sure
-      // that when the added hooks is called the whole component is loaded, there
-      // is no proper way to see when the whole component has been added to the
-      // dom with morphdom, performance gain I guess
-      // We will only do this for the loaded component, loading and error don't
-      // need any triggers
-      if (currentComponent && loadedComponent) {
-
-        let loaded = document.createElement('div');
-        loaded.classList.add('component-loaded');
-        component.appendChild(loaded);
-
-        morphdom(currentComponent, component, {
-          onNodeAdded(node) {
-            if (typeof node === 'object' && node.tagName && node.classList.contains('component-loaded')) {
-              let name = node.parentNode.tagName.toLowerCase();
-              if (!registeredComponents[name]) {
-                registeredComponents[name] = true;
-                store.dispatch(action.added(camelize(name)));
-              }
+      morphdom(currentHtml, newHtml, {
+        onNodeDiscarded(node) {
+          if (node.getAttribute('id') && registered[node.getAttribute('id')]) {
+            const name = node.getAttribute('id');
+            delete registered[name];
+            removed(name);
+          }
+        },
+        onNodeAdded(node) {
+          if (typeof node === 'object' && node.tagName && node.classList.contains('component-loaded')) {
+            const name = node.parentNode.getAttribute('id');
+            if (!registeredComponents[name]) {
+              registeredComponents[name] = true;
+              added(name);
             }
           }
-        });
-      } else if (currentComponent) {
-        morphdom(currentComponent, component, {
-          onNodeDiscarded(node) {
-            if (node.tagName && registeredComponents[node.tagName.toLowerCase()]) {
-              let name = node.tagName.toLowerCase();
-              delete registeredComponents[name];
-              store.dispatch(action.removed(camelize(name)));
-            }
-          }
-        });
-      }
+        }
+      });
     }
   }
-}
+}());

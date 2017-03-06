@@ -1,38 +1,34 @@
-const html   = require('./html');
-const watch  = require('redux-watch');
+const loaded = require('./loaded')();
 
-module.exports = function() {
+module.exports = function(create, added, removed) {
 
-  let unsubscribe;
+  create((render, state, component) => {
+    render(loaded);
+  });
 
-  return {
-    create(renderer, store) {''
-      renderer.render(html());
-    },
-    init(renderer, store) {
-      subscribe(renderer, store);
-      setActive(store.getState().menuActive.active);
-      switcher();
-    },
-    added(renderer, store) {
-      subscribe(renderer, store);
-    },
-    removed() {
-      unsubscribe();
-    }
-  }
+  added((render, state, component) => {
+    switcher();
+    state.watch('menuActive', active => {
+      setActive(active);
+    });
+    setActive(state.get('menuActive.active'));
+  });
+
+  removed((render, state, component) => {
+    state.unwatch('menuActive');
+  });
 
   function switcher() {
-    const switcher = document.querySelector('component-nav .close');
+    const switcher = document.querySelector('#nav .close');
     switcher.addEventListener('click', e => {
       e.preventDefault();
-      document.querySelector('component-nav').classList.toggle('closed');
+      document.querySelector('#nav').classList.toggle('closed');
       document.querySelector('main').classList.toggle('full');
     });
   }
 
   function setActive(active) {
-    const links = [].slice.call(document.querySelectorAll('component-nav a'));
+    const links = [].slice.call(document.querySelectorAll('#nav a'));
     links.forEach(link => {
       if (link.getAttribute('href') === active) {
         link.classList.add('active');
@@ -40,10 +36,5 @@ module.exports = function() {
         link.classList.remove('active');
       }
     });
-  }
-
-  function subscribe(renderer, store) {
-    let watcher = watch(store.getState, 'menuActive.active');
-    unsubscribe = store.subscribe(watcher(active => setActive(active)));
   }
 }

@@ -1,8 +1,8 @@
-let url = require('../../url');
+let url = require('../../routing/url');
 
 module.exports = function(step) {
   return `
-  <component-nav>
+  <section id="nav">
     <nav>
       <a href="" class="close"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
       <ul>
@@ -20,6 +20,6 @@ module.exports = function(step) {
         <li><a href="${ url.logout() }" data-router-server>Logout</a></li>
       </ul>
     </nav>
-  </component-nav>
+  </section>
   `;
 }

@@ -1,11 +1,11 @@
-module.exports = function(options) {
+module.exports = function(circuits, drivers) {
   return `
-  <component-races class="animation-page-in">
+  <section id="races" class="animation-page-in">
     <h1>Race results</h1>
     <div class="pure-g">
-      ${ options.circuits.map(circuit => row(circuit, options.drivers)).join('') }
+      ${ circuits.map(circuit => row(circuit, drivers)).join('') }
     </div>
-  </component-races>
+  </section>
   `;
 }
 

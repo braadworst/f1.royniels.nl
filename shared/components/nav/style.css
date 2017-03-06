@@ -1,4 +1,4 @@
-component-nav {
+#nav {
   position: fixed;
   z-index: 1;
   background-color: #000;
@@ -8,22 +8,22 @@ component-nav {
   transition: left .5s;
   left: 0;
 }
-component-nav.closed {
+#nav.closed {
   left: -250px;
 }
-component-nav ul {
+#nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-component-nav li:first-child {
+#nav li:first-child {
   margin-right: 20px;
 }
-component-nav li,
-component-nav a {
+#nav li,
+#nav a {
   margin: 0;
 }
-component-nav a {
+#nav a {
   padding: 10px 15px;
   display: block;
   text-decoration: none;
@@ -32,16 +32,16 @@ component-nav a {
   text-transform: uppercase;
   transition: color .5s;
 }
-component-nav .active {
+#nav .active {
   color: #fff;
 }
-component-nav .active:hover {
+#nav .active:hover {
   color: #fff;
 }
-component-nav a:hover {
+#nav a:hover {
   color: rgba(255, 255, 255, .8);
 }
-component-nav .close {
+#nav .close {
   padding: 10px;
   position: absolute;
   top: 50%;
@@ -56,10 +56,10 @@ component-nav .close {
   margin-top: -25px;
   transition: border-radius .3s, right .3s, box-shadow .3s, color .3s, background .3s;
 }
-component-nav .close i {
+#nav .close i {
   transition: transform 1s;
 }
-component-nav.closed .close {
+#nav.closed .close {
   border-radius: 0 15px 15px 0;
   right: -50px;
   border-width: 2px 2px 2px 0;
@@ -67,36 +67,36 @@ component-nav.closed .close {
   background-color: #6075E0;
   color: #fff;
 }
-component-nav.closed .close i {
+#nav.closed .close i {
   transform: rotate(180deg);
 }
-component-nav .brand {
+#nav .brand {
   padding: 30px 15px 20px 15px;
   color: #fff;
   display: inline-block;
 }
-component-nav .brand .logo  {
+#nav .brand .logo  {
   display: inline-block;
   width:10px;
   height: 10px;
   vertical-align: middle;
 }
-component-nav .brand .first {
+#nav .brand .first {
   border-radius: 100% 0 0 0;
   background-color: orangered;
 }
-component-nav .brand .second {
+#nav .brand .second {
   background-color: gold;
 }
-component-nav .brand .third {
+#nav .brand .third {
   background-color: limegreen;
 }
-component-nav .brand .fourth {
+#nav .brand .fourth {
   border-radius: 0 0 100% 0;
   background-color: mediumslateblue;
   position: relative;
 }
-component-nav .brand .fourth:after {
+#nav .brand .fourth:after {
   content: ' ';
   position: absolute;
   top: -5px;
@@ -105,7 +105,7 @@ component-nav .brand .fourth:after {
   height: 3px;
   background-color: mediumslateblue;
 }
-component-nav .brand .name {
+#nav .brand .name {
   color: #fff;
   margin-left: 18px;
   margin-top: -4px;

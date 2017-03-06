@@ -1,9 +1,9 @@
 module.exports = function(teams) {
   return `
-  <component-teams class="animation-page-in">
+  <#teams class="animation-page-in">
     <h1>All teams</h1>
     ${ teams.map(row).join('') }
-  </component-teams>
+  </#teams>
   `;
 }
 

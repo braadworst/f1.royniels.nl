@@ -1,107 +1,107 @@
   display: block;
-  component-team-create {
+  #team-create {
 }
-component-team-create .pure-form {
+#team-create .pure-form {
   background-color: #fff;
   margin: 0 0 30px 0;
   padding: 15px;
 }
-component-team-create .pure-form h2 {
+#team-create .pure-form h2 {
   color: #aaa;
   margin-top: 9px;
 }
-component-team-create h2 {
+#team-create h2 {
   margin: 0;
 }
-component-team-create .pure-form input[type="text"] {
+#team-create .pure-form input[type="text"] {
   width: 100%;
 }
-component-team-create .pure-form .content {
+#team-create .pure-form .content {
   margin: 0 10px;
 }
 
-component-team-create .item-create {
+#team-create .item-create {
   background-color: #fff;
   overflow: hidden;
   margin: 5px;
   cursor: pointer;
   transition: background-color .3s, opacity .3s;
 }
-component-team-create .item-create .item-media {
+#team-create .item-create .item-media {
   box-sizing: border-box;
   height: 250px;
   overflow: hidden;
 }
-component-team-create .item-create .item-body {
+#team-create .item-create .item-body {
   padding: 10px;
 }
-component-team-create .item-create .item-body h1 {
+#team-create .item-create .item-body h1 {
   font-size: 1.7rem;
   line-height: 1.7rem;
 }
-component-team-create .item-create .item-body h1,
-component-team-create .item-create .item-body p {
+#team-create .item-create .item-body h1,
+#team-create .item-create .item-body p {
   margin: 0 0 10px 0;
 }
-component-team-create .item-create .item-body .team {
+#team-create .item-create .item-body .team {
   color: #ccc;
   text-transform: uppercase;
   font-size: .9rem;
 }
-component-team-create .item-create .item-body .price {
+#team-create .item-create .item-body .price {
   background-color: orangered;
   color: #fff;
   padding: 5px;
   border-radius: 3px;
 }
-component-team-create .item-create .item-body p:last-child {
+#team-create .item-create .item-body p:last-child {
   margin-top: 15px;
 }
-component-team-create .item-create-selected {
+#team-create .item-create-selected {
   background-color: mediumslateblue;
   color: #fff;
 }
-component-team-create .item-create-selected .item-body .price {
+#team-create .item-create-selected .item-body .price {
   background-color: rgba(0, 0, 0, .1);
 }
-component-team-create .item-create-selected .item-media {
+#team-create .item-create-selected .item-media {
   border: 5px solid mediumslateblue;
 }
-component-team-create .item-create-inactive {
+#team-create .item-create-inactive {
   opacity: .3;
   cursor: default;
 }
 
-component-team-create.loading .pure-form .content {
+#team-create.loading .pure-form .content {
   background-color: #eee;
   height: 42px;
 }
-component-team-create.loading .pure-form .pure-u-1-1:last-child .content {
+#team-create.loading .pure-form .pure-u-1-1:last-child .content {
   background-color: mediumslateblue;
 }
-component-team-create.loading .item-media {
+#team-create.loading .item-media {
   border: 10px solid white;
   background-color: #eee;
   text-align: center;
 }
-component-team-create.loading .item-create .item-body .price {
+#team-create.loading .item-create .item-body .price {
   width: 100px;
   display: inline-block;
 }
-component-team-create.loading .item-create .item-body .team {
+#team-create.loading .item-create .item-body .team {
   background-color: #eee;
   width: 30%
 }
-component-team-create.loading .item-create .item-body h1 {
+#team-create.loading .item-create .item-body h1 {
   background-color: #eee;
   width: 80%;
 }
 
 @media screen and (max-width: 48em) {
-  component-team-create .pure-form .pure-u-1-1 {
+  #team-create .pure-form .pure-u-1-1 {
     margin-bottom: 10px;
   }
-  component-team-create .pure-form .pure-u-1-1 h2 {
+  #team-create .pure-form .pure-u-1-1 h2 {
     text-align: center;
   }
 }
