@@ -11,13 +11,17 @@ module.exports = (function() {
 
       <link rel="stylesheet" href="/public/css/styles.css">
 
-      <script src="/public/js/main.min.js"></script> 
+      <script src="/public/js/main.min.js"></script>
 
     </head>
     <body>
-      <component-nav></component-nav>
+      <section id="nav"></section>
       <main>
-        <component-page-switcher></component-page-switcher>
+        <section id="teamCreate"></section>
+        <section id="races"></section>
+        <section id="rules"></section>
+        <section id="standings"></section>
+        <section id="teams"></section>
       </main>
       <script class="state"></script>
     </body>

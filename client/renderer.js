@@ -23,6 +23,18 @@ module.exports = (function(renderer) {
     return html;
   }
 
+  function addPlaceholder(parent, component) {
+    // We cannot really remove an element from the dom, otherwise we wouldn't
+    // know where to place it next time, so we will insert an empty placeholder
+    // element
+    let placeholder = document.createElement(component.nodeName);
+    document.setAttribute('id', component.getAttribute('id'));
+
+    // TODO checkout if appending to the end, causes for problems, for now it is
+    // fine because our pages are only shown one at the time.
+    parent.appendChild(placeholder);
+  }
+
   return {
     initialize(componentName = 'component') {
       components = [].slice.call(document.querySelectorAll(`[id^="${ componentName }"]`));
@@ -46,6 +58,7 @@ module.exports = (function(renderer) {
       morphdom(currentHtml, newHtml, {
         onNodeDiscarded(node) {
           if (node.getAttribute('id') && registered[node.getAttribute('id')]) {
+            addPlaceholder(node.parentNode, node);
             const name = node.getAttribute('id');
             delete registered[name];
             removed(name);
