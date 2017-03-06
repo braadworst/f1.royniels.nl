@@ -13,7 +13,7 @@ module.exports = function(template) {
       output('.state').replaceWith(`<script>window.__PRELOADED_STATE__ = ${JSON.stringify(state)}</script>`);
     },
     html() {
-      callback(output.html().trim().replace( /(^|>)\s+|\s+(?=<|$)/g, '$1'));
+      return output.html().trim().replace( /(^|>)\s+|\s+(?=<|$)/g, '$1');
     }
   }
 }

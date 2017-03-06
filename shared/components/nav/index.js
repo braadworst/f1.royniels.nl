@@ -2,11 +2,13 @@ const loaded = require('./loaded')();
 
 module.exports = function(create, added, removed) {
 
-  create((render, state, component) => {
+  create((render, state) => {
+    console.log('NAV CREATE');
     render(loaded);
   });
 
-  added((render, state, component) => {
+  added((render, state) => {
+    console.log('NAV ADDED');
     switcher();
     state.watch('menuActive', active => {
       setActive(active);
@@ -14,7 +16,7 @@ module.exports = function(create, added, removed) {
     setActive(state.get('menuActive.active'));
   });
 
-  removed((render, state, component) => {
+  removed((render, state) => {
     state.unwatch('menuActive');
   });
 

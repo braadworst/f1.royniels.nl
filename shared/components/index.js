@@ -7,9 +7,9 @@ module.exports = function(renderer, state) {
   }
 
   function register(name, component) {
-    methods.create[name] = method();
-    methods.added[name] = method();
-    methods.removed[name] = method();
+    methods.create[name] = method;
+    methods.added[name] = method;
+    methods.removed[name] = method;
     component(methods.create[name], methods.added[name], methods.removed[name]);
   }
 
