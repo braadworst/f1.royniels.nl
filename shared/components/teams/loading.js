@@ -4,7 +4,7 @@ module.exports = function() {
   return `
   <section id="teams" class="animation-page-in loading">
     <h1>All teams</h1>
-    ${ range(20).map().join('') }
+    ${ range(20).map(row).join('') }
   </section>
   `;
 }

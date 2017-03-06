@@ -4,7 +4,7 @@ const loading = require('./loading')();
 const failed  = require('./failed')();
 
 module.exports = create => {
-  create(async function(render, state) => {
+  create(async function(render, state) {
     try {
       render(loading);
 
@@ -22,8 +22,8 @@ module.exports = create => {
 
       render(loaded(
         circuits,
-        drivers  : await state.get('data.drivers')
-      );
+        await state.get('data.drivers')
+      ));
     } catch (error) {
       render(failed);
     }

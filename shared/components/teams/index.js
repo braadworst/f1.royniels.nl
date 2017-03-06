@@ -4,7 +4,7 @@ const empty   = require('./empty')();
 const failed  = require('./failed')();
 
 module.exports = create => {
-  create(async function(render, state) => {
+  create(async function(render, state) {
     try {
       render(loading);
       const teams = state.get('data.teams');
