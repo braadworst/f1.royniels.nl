@@ -5,7 +5,7 @@ const querystring = require('querystring');
 const api         = require('../shared/api');
 const encrypt     = require('./encrypt');
 
-module.exports = function(router) {
+module.exports = function(router) { 
 
   // Setup the routes for each login network
   const domain   = settings.webserver.domain + ':' + settings.webserver.port;

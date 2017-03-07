@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   require('../shared/routing/router')().before(request => {
     return { state };
-  });
+  }); 
 
   require('../shared/components')(require('./renderer'), state);
 });

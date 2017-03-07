@@ -2,7 +2,7 @@ const moment = require('moment');
 
 module.exports = (function() {
 
-  return {
+  return { 
     getCookies(request) {
       let headerCookies = request.headers.cookie ? request.headers.cookie.split(';') : [];
       cookies = {};

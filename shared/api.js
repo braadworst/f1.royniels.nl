@@ -8,7 +8,7 @@ const schemas = {
   predictions : require('./schemas/predictions'),
 };
 
-module.exports = function() {
+module.exports = function() { 
 
   const base = 'https://localhost:4444/api/';
 

@@ -73,15 +73,6 @@ module.exports = function(renderer, state) {
         if (callbacks.removed) {
           callbacks.removed();
         }
-      },
-      watch() {
-        watch
-          .forEach(name => {
-            if (typeof name !== 'string') {
-              throw new Error('Please use a string value for data you want to watch');
-            }
-            state.watch(name);
-          })
       }
     }
 
