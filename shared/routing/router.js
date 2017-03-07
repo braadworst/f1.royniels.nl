@@ -17,7 +17,7 @@ module.exports = function(server) {
   router.get(paths.RACES, async function(request, response, next, relay) {
     await relay.components.create('races');
     relay.state.dispatch('menuActive', request.url);
-    next();
+    next(); 
   });
   router.get(paths.STANDINGS, async function(request, response, next, relay) {
     await relay.components.create('standings');

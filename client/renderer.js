@@ -1,3 +1,5 @@
+const morphdom = require('morphdom');
+
 module.exports = (function(renderer) {
 
   let registered = {}, removed, added;
@@ -51,13 +53,12 @@ module.exports = (function(renderer) {
       removed = callback;
     },
     render(newHtml) {
-
-      newHtml     = prepare(newHtml);
-      currentHtml = addLoaderElement(document.querySelector(newHTML.getAttribute('id')));
+      newHtml           = prepare(newHtml);
+      const currentHtml = addLoaderElement(document.querySelector('#' + newHtml.getAttribute('id')));
 
       morphdom(currentHtml, newHtml, {
         onNodeDiscarded(node) {
-          if (node.getAttribute('id') && registered[node.getAttribute('id')]) {
+          if (node.getAttribute && registered[node.getAttribute('id')]) {
             addPlaceholder(node.parentNode, node);
             const name = node.getAttribute('id');
             delete registered[name];

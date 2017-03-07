@@ -14,7 +14,7 @@ module.exports = component => {
         circuit.passed = circuit.date.isSameOrBefore(moment());
         return circuit;
       });
-      circuits[circuits.findIndex(circuit => !circuit.passed)].upcoming = true;
+      // circuits[circuits.findIndex(circuit => !circuit.passed)].upcoming = true;
       component.render(loaded(circuits, drivers));
     });
 }
