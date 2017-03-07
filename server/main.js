@@ -14,7 +14,6 @@ router.before(require('./statics'));
 
 // Setup the middleware for a new store, components and the renderer
 router.before((request, response, next) => {
-  console.log('setup renderer, state and componets');
   let renderer;
   if (request.url === '/') {
     renderer = require('./renderer')(require('./templates/login'));
@@ -27,43 +26,39 @@ router.before((request, response, next) => {
 });
 
 // Logged in middleware
-router.before(async function(request, response, next, relay) {
-  console.log('check logged in status');
-  const token = cookies.getCookies(request).token;
-  if (!token) {
-    router.redirect(paths.LOGIN);
-  } else {
-    try {
-      const user = await relay.state.get('data.user');
-      if (!user) {
-        router.redirect(paths.LOGIN);
-        return;
-      }
-    } catch (error) {
-      router.redirect(paths.LOGIN);
-      return;
-    }
-  }
-  next();
-}, paths.LOGIN);
+// router.before(async function(request, response, next, relay) {
+//   const token = cookies.getCookies(request).token;
+//   if (!token) {
+//     router.redirect(paths.LOGIN);
+//   } else {
+//     try {
+//       const user = await relay.state.get('data.user');
+//       if (!user) {
+//         router.redirect(paths.LOGIN);
+//         return;
+//       }
+//     } catch (error) {
+//       router.redirect(paths.LOGIN);
+//       return;
+//     }
+//   }
+//   next();
+// }, paths.LOGIN);
 
 // Render nav except on login page
-router.before(async function(request, response, next, relay) {
-  console.log('Render navigation');
-  await relay.components.create('nav');
+router.before((request, response, next, relay) => {
+  relay.components.create('nav');
   next();
 }, paths.LOGIN);
 
 // Logout route
 router.get(paths.LOGOUT, (request, response) => {
-  console.log('logout route');
   cookies.unset(response, 'token');
   router.redirect(paths.LOGIN);
 });
 
 // Route the login page
 router.get(paths.LOGIN, (request, response, next, relay) => {
-  console.log('login route');
   relay.components.create('login');
   next();
 });
@@ -73,7 +68,6 @@ require('./login')(router);
 
 // Add the state and render the whole page
 router.after((request, response, next, relay) => {
-  console.log('after, response');
   relay.renderer.state(relay.state.get());
   response.end(relay.renderer.html());
 });

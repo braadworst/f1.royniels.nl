@@ -8,7 +8,7 @@ module.exports = (request, response, next) => {
   const extension = path.parse(pathname).ext;
 
   const fileTypes = {
-    // '.ico'  : 'image/x-icon',
+    '.ico'  : 'image/x-icon',
     '.html' : 'text/html',
     '.js'   : 'text/javascript',
     '.json' : 'application/json',
@@ -25,6 +25,7 @@ module.exports = (request, response, next) => {
   // Not static
   if (!fileTypes[extension]) {
     next();
+    return;
   }
 
   fs.exists(pathname, (exist) => {

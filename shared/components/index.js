@@ -7,10 +7,12 @@ module.exports = function(renderer, state) {
   }
 
   function handle(type, name) {
+    console.log(type, name);
     if (components[name][type]) {
       return components[name][type]();
     } else {
       console.warn(`No ${ type } method registed for: ${name}`);
+      return false;
     }
   }
 
@@ -56,13 +58,13 @@ module.exports = function(renderer, state) {
 
   return {
     create(name) {
-      handle('create', name);
+      return handle('create', name);
     },
     added(name) {
-      handle('added', name);
+      return handle('added', name);
     },
     removed(name) {
-      handle('removed', name);
+      return handle('removed', name);
     }
   }
 }

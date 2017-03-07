@@ -6,6 +6,7 @@ const failed  = require('./failed')();
 module.exports = init => {
   return {
     create : init(async function(render, state) {
+      console.log('Create team');
       try {
         render(loading);
         const teams = state.get('data.teams');

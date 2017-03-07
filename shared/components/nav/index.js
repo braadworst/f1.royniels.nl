@@ -3,12 +3,11 @@ const loaded = require('./loaded')();
 module.exports = init => {
 
   return {
-    create : init((render, state) => {
-      console.log('NAV CREATE');
+    create : init(render => {
+      console.log('render nav');
       render(loaded);
     }),
     added : init((render, state) => {
-      console.log('NAV ADDED');
       switcher();
       state.watch('menuActive', active => {
         setActive(active);

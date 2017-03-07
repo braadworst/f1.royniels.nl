@@ -114,3 +114,16 @@
   vertical-align: middle;
   display: inline-block;
 }
+main {
+  padding: 25px;
+  margin-left: 250px;
+  transition: margin .5s;
+}
+main.full {
+  margin-left: 0;
+}
+@media (max-width: 64em) {
+  main {
+    margin-left: 0;
+  }
+}
