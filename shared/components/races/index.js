@@ -3,8 +3,6 @@ const loaded  = require('./loaded');
 const loading = require('./loading')();
 const failed  = require('./failed')();
 
-const loaded = require('./loaded')();
-
 module.exports = component => {
   component
     .data('circuits', 'drivers')

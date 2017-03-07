@@ -2,11 +2,12 @@ const loaded = require('./loaded')();
 
 module.exports = component => {
   component
+    .data('menuActive')
     .loaded(() => component.render(loaded))
-    .ready(() => {
+    .ready(menuActive => {
       switcher();
-      component.watch('menuActive', active => setActive(active));
-      setActive(component.get('menuActive'));
+      component.watch('menuActive', menuActive => setActive(menuActive));
+      setActive(menuActive);
     })
     .removed(() => {
       component.unwatch('menuActive');
