@@ -1,6 +1,7 @@
 const watch   = require('redux-watch');
 const redux   = require('redux');
 const actions = require('./actions');
+const api     = require('../api');
 
 module.exports = function(preloadedState) {
 
@@ -41,6 +42,12 @@ module.exports = function(preloadedState) {
       });
 
       return output;
+    },
+    api(name, method = 'list', ...parameters) {
+      if (!api[name] || !api[name][method]) {
+        return new Error(`Could not find api call ${ name } with method ${ method }`);
+      }
+      return api[name][method](parameters);
     },
     dispatch(...parameters) {
       const actionName = parameters.shift();

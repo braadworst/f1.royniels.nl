@@ -16,9 +16,9 @@ module.exports = init => {
       try {
         render(loading);
         render(loaded(
-          await state.get('data.drivers'),
-          await state.get('data.engines'),
-          await state.get('data.chassis'),
+          await state.api('drivers'),
+          await state.api('engines'),
+          await state.api('chassis'),
           startBudget
         ));
       } catch(errors) {
