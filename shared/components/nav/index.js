@@ -18,7 +18,7 @@ module.exports = component => {
     switcher.addEventListener('click', e => {
       e.preventDefault();
       document.querySelector('#nav').classList.toggle('closed');
-      document.querySelector('main').classList.toggle('full');
+      document.querySelector('#switcher').classList.toggle('full');
     });
   }
 

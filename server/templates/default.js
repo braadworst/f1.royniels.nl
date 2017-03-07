@@ -16,13 +16,7 @@ module.exports = (function() {
     </head>
     <body>
       <section id="nav"></section>
-      <main>
-        <section id="teamCreate"></section>
-        <section id="races"></section>
-        <section id="rules"></section>
-        <section id="standings"></section>
-        <section id="teams"></section>
-      </main>
+      <section id="switcher"></section>
       <script class="state"></script>
     </body>
   </html>

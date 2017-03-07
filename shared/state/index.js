@@ -10,7 +10,8 @@ module.exports = function(preloadedState) {
   const store = redux.createStore(
     redux.combineReducers({
       data       : require('./reducers/data'),
-      menuActive : require('./reducers/menuActive')
+      menuActive : require('./reducers/menuActive'),
+      switcher   : require('./reducers/switcher'),
     }),
     preloadedState
   );

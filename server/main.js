@@ -48,6 +48,7 @@ router.before((request, response, next) => {
 // Render nav except on login page
 router.before(async function(request, response, next, relay) {
   await relay.components.create('nav');
+  await relay.components.create('switcher');
   next();
 }, paths.LOGIN);
 

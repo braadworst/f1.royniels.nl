@@ -7,5 +7,6 @@ module.exports = (function() {
     { name : 'teams', code : require('./teams') },
     { name : 'races', code : require('./races') },
     { name : 'login', code : require('./login') },
+    { name : 'switcher', code : require('./switcher') },
   ];
 }());
