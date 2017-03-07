@@ -1,27 +1,111 @@
 module.exports = function(renderer, state) {
 
-  let components = {};
+  let registered = {};
 
-  function register(name, component) {
-    components[name] = component(method);
-  }
+  require('./register').forEach(component => {
+    register(component.name, component.code);
+  });
 
-  function handle(type, name) {
-    console.log(type, name);
-    if (components[name][type]) {
-      return components[name][type]();
-    } else {
-      console.warn(`No ${ type } method registed for: ${name}`);
-      return false;
+  function exists(name) {
+    if (!registered[name]) {
+      throw new Error(`Component ${ name } hasn't been registered`);
     }
   }
 
-  function method(callback) {
-    return async function() {
-      try {
-        await callback(renderer.render, state, handle);
-      } catch (error) {
-        throw new Error(error);
+  async function initialize(name) {
+    exists(name);
+    const component = registered[name].component();
+    try {
+      component.loading();
+      await component.data();
+      component.loaded();
+    } catch (error) {
+      console.log(error);
+      component.error(error);
+    }
+  }
+
+  function register(name, code) {
+    registered[name] = component();
+    return code(registered[name].exposed());
+  }
+
+  function component() {
+    let callbacks = {}, names = [], datasets = [];
+    const component = {
+      data : async function() {
+        datasets = [];
+        for (let name of names) {
+          datasets.push([]);
+          // datasets.push(await state.get(name));
+        }
+      },
+      loading() {
+        if (callbacks.loading) {
+          callbacks.loading();
+        }
+      },
+      loaded() {
+        if (callbacks.loaded) {
+          callbacks.loaded(...datasets);
+        }
+      },
+      error(error) {
+        if (callbacks.error) {
+          callback.error(error);
+        }
+      },
+      ready() {
+        if (callbacks.ready) {
+          callbacks.ready();
+        }
+      },
+      removed() {
+        if (callbacks.removed) {
+          callbacks.removed();
+        }
+      }
+    }
+
+    return {
+      exposed() {
+        const exposed = {
+          data(...newNames) {
+            names = newNames;
+            return exposed;
+          },
+          loading(callback) {
+            callbacks.loading = callback;
+            return exposed;
+          },
+          loaded(callback) {
+            callbacks.loaded = callback;
+            return exposed;
+          },
+          error(callback) {
+            callbacks.error = callback;
+            return exposed;
+          },
+          ready(callback) {
+            callbacks.ready = callback;
+            return exposed;
+          },
+          removed(callback) {
+            callbacks.removed = callback;
+            return exposed;
+          },
+          render(html) {
+            renderer.render(html);
+            return exposed;
+          },
+          save(name, record) {
+            return exposed;
+          }
+        }
+        return exposed;
+      },
+      component() {
+        return component;
       }
     }
   }
@@ -29,13 +113,15 @@ module.exports = function(renderer, state) {
   // Listen for dom event changes
   if (renderer.added) {
     renderer.added(name => {
-      handle('create', name);
+      exists(name);
+      registered[name].ready();
     });
   }
 
   if (renderer.removed) {
     renderer.removed(name => {
-      handle('removed', name);
+      exists(name);
+      registered[name].removed();
     });
   }
 
@@ -45,26 +131,9 @@ module.exports = function(renderer, state) {
     renderer.initialize();
   }
 
-  // We have to explicitly call the register on every component, browiserify doesn't
-  // work with dynamic requires, which makes sense. Might look into a automated
-  // process later.
-  register('nav', require('./nav'));
-  register('login', require('./login'));
-  register('teams', require('./teams'));
-  register('teamCreate', require('./teamCreate'));
-  register('races', require('./races'));
-  register('standings', require('./standings'));
-  register('rules', require('./rules'));
-
   return {
     create(name) {
-      return handle('create', name);
-    },
-    added(name) {
-      return handle('added', name);
-    },
-    removed(name) {
-      return handle('removed', name);
+      return initialize(name);
     }
   }
 }

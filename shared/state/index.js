@@ -44,6 +44,9 @@ module.exports = function(preloadedState) {
       return output;
     },
     api(name, method = 'list', ...parameters) {
+      // Get from cache
+      if (state.get('data.' + name))
+
       if (!api[name] || !api[name][method]) {
         return new Error(`Could not find api call ${ name } with method ${ method }`);
       }
