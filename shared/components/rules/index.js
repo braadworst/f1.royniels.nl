@@ -1,9 +1,6 @@
 const loaded = require('./loaded')();
 
-module.exports = init => {
-  return {
-    create : init(render => {
-      render(loaded);
-    })
-  }
+module.exports = component => {
+  component
+    .loaded(() => component.render(loaded));
 }

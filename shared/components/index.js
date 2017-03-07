@@ -21,7 +21,7 @@ module.exports = function(renderer, state) {
       component.loaded();
     } catch (error) {
       console.log(error);
-      component.error(error);
+      component.failed(error);
     }
   }
 
@@ -50,9 +50,9 @@ module.exports = function(renderer, state) {
           callbacks.loaded(...datasets);
         }
       },
-      error(error) {
-        if (callbacks.error) {
-          callback.error(error);
+      failed(error) {
+        if (callbacks.failed) {
+          callback.failed(error);
         }
       },
       ready() {
@@ -82,8 +82,8 @@ module.exports = function(renderer, state) {
             callbacks.loaded = callback;
             return exposed;
           },
-          error(callback) {
-            callbacks.error = callback;
+          failed(callback) {
+            callbacks.failed = callback;
             return exposed;
           },
           ready(callback) {

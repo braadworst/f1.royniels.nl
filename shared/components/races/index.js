@@ -3,31 +3,20 @@ const loaded  = require('./loaded');
 const loading = require('./loading')();
 const failed  = require('./failed')();
 
-module.exports = init => {
-  return {
-    create : init(async function(render, state) {
-      try {
-        render(loading);
+const loaded = require('./loaded')();
 
-        let circuits = await state.get('data.circuits');
-
-        // set parameters based on the current date
-        circuits = circuits.map(circuit => {
-          circuit.date = moment(circuit.date, 'DD-MM-YYYY');
-          return Object.assign({}, circuit, { passed : circuit.date.isSameOrBefore(moment()) }
-          )
-        });
-
-        // Set upcoming race
-        circuits[circuits.findIndex(circuit => !circuit.passed)].upcoming = true;
-
-        render(loaded(
-          circuits,
-          await state.get('data.drivers')
-        ));
-      } catch (error) {
-        render(failed);
-      }
-    })
-  }
+module.exports = component => {
+  component
+    .data('circuits', 'drivers')
+    .loading(() => component.render(loading))
+    .failed(() => component.render(failed))
+    .loaded((circuits, drivers) => {
+      circuits = circuits.map(circuit => {
+        circuit.date = moment(circuit.date, 'DD-MM-YYYY');
+        circuit.passed = circuit.date.isSameOrBefore(moment());
+        return circuit;
+      });
+      circuits[circuits.findIndex(circuit => !circuit.passed)].upcoming = true;
+      component.render(loaded(circuits, drivers));
+    });
 }
