@@ -7,7 +7,7 @@ module.exports = component => {
   let startBudget = 150000000;
 
   component
-    .data('drivers', 'engines', 'chassis', 'user')
+    .data('drivers', 'engines', 'chassis')
     .loading(() => component.render(loading))
     .failed(() => component.render(failed))
     .loaded((drivers, engines, chassis, user) => {

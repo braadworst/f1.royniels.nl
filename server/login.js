@@ -4,8 +4,9 @@ const uuid        = require('uuid/').v4;
 const querystring = require('querystring');
 const api         = require('../shared/api');
 const encrypt     = require('./encrypt');
+const cookies     = require('./cookies');
 
-module.exports = function(router) { 
+module.exports = function(router) {
 
   // Setup the routes for each login network
   const domain   = settings.webserver.domain + ':' + settings.webserver.port;
@@ -55,7 +56,7 @@ module.exports = function(router) {
         cookies.set(response, 'token', user.token);
 
         // Check update the token if the user exists, otherwise create new user
-        await api.user.upsert(user);
+        await api.set.user(user);
 
         // Finally redirect the user to the standings page
         router.redirect('/standings');
