@@ -65,16 +65,12 @@ module.exports = function(preloadedState) {
                 break;
             }
           } else {
-            console.log('loading');
             store.dispatch(actions.dataLoading(name));
             try {
-              console.log('get records');
               const records = await api.get[name]();
-              console.log(records);
               store.dispatch(actions.dataLoaded(name, records));
               resolve(records);
             } catch (error) {
-              console.log(error);
               store.dispatch(actions.dataFailed(name, error));
               reject(error);
             }

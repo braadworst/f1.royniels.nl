@@ -102,8 +102,8 @@
   "scripts": {
     "css": "node_modules/.bin/minify --output public/css/styles.css shared/css/styles.css",
     "js": "node_modules/.bin/browserify client/main.js --outfile public/js/main.min.js -t [ babelify --presets [ latest ] ] --ignore-missing --debug",
-    "js-build": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing | node_modules/.bin/uglifyjs public/js/main.js --output public/js/main.min.js",
-    "js-file-size": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la | sort",
+    "js-min": "node_modules/.bin/browserify client/main.js -t [ babelify --presets [ latest ] ] --ignore-missing | uglifyjs > public/js/main.min.js && rm -f public/js/main.js",
+    "js-file-size": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la --sort=size",
     "certs": "rm -rf certs && mkdir certs && openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout certs/key.pem -out certs/cert.pem",
     "api": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony api/main.js",
     "serve": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony server/main.js",
@@ -124,7 +124,6 @@
     "url": "https://github.com/braadworst/f1.royniels.nl/issues"
   },
   "devDependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.22.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
     "babelify": "^7.3.0",
@@ -132,18 +131,16 @@
     "minifier": "^0.8.1",
     "npm-watch": "^0.1.8",
     "purecss": "^0.6.2",
-    "uglify-js": "^2.7.5"
+    "uglify-js-harmony": "^2.7.5"
   },
   "homepage": "https://github.com/braadworst/f1.royniels.nl#readme",
   "dependencies": {
     "ajv": "^4.11.3",
-    "camelize": "^1.0.0",
     "cheerio": "^0.22.0",
     "compression": "^1.6.2",
     "cs-router": "^1.0.2",
-    "decamelize": "^1.2.0",
+    "fetcha": "0.0.0",
     "lodash": "^4.17.4",
-    "moment": "^2.17.1",
     "morphdom": "^2.3.1",
     "package-settings": "^1.0.0",
     "redux": "^3.6.0",
@@ -152,6 +149,7 @@
     "request": "^2.79.0",
     "spdy": "^3.4.4",
     "sqlite3": "^3.1.8",
+    "superagent": "^3.5.0",
     "uuid": "^3.0.1"
   }
 }

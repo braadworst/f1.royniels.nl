@@ -5,7 +5,7 @@ module.exports = function(server) {
   const router = require('cs-router')(server);
 
   router.get(paths.TEAMS, async function(request, response, next, relay) {
-    await relay.components.create('switcher', 'teams');
+    await relay.components.create('switcher', 'teams')
     relay.state.dispatch('menu', request.url);
     next();
   });

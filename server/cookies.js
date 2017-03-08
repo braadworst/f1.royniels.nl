@@ -1,8 +1,8 @@
-const moment = require('moment');
+const fetcha = require('fetcha');
 
 module.exports = (function() {
 
-  return { 
+  return {
     getCookies(request) {
       let headerCookies = request.headers.cookie ? request.headers.cookie.split(';') : [];
       cookies = {};
@@ -19,7 +19,7 @@ module.exports = (function() {
         key + '=' + value,
         'Secure',
         'SameSite=Strict',
-        'Expires=' + moment().utc().add(1, 'day').toString(),
+        // 'Expires=' + fetcha.parse().utc().add(1, 'day').toString(),
         'Domain=localhost',
         'Path=/'
       ].join('; '));
@@ -29,7 +29,7 @@ module.exports = (function() {
         key + '=',
         'Secure',
         'SameSite=Strict',
-        'Expires=' + moment().utc().subtract(1, 'day').toString(),
+        'Expires=' + fetcha.parse().utc().subtract(1, 'day').toString(),
         'Domain=localhost',
         'Path=/'
       ].join('; '));

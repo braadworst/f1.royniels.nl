@@ -18,7 +18,7 @@ function row(circuit, drivers) {
       </div>
       <div class="item-body">
         <h1>${ circuit.name } ${ circuit.upcoming ? '(upcoming)' : ''}</h1>
-        <p>${ circuit.date.format('MMMM Do YYYY') }</p>
+        <p>${ circuit.date }</p>
       </div>
       <div class="item-footer">
         <form method="post" class="pure-form pure-form-stacked">

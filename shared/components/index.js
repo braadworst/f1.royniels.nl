@@ -18,12 +18,12 @@ module.exports = function(renderer, state) {
     try {
       component.loading();
       const datasets = await component.data();
-      if (datasets.filter(dataset => Array.isArray(dataset) && dataset.length > 0).length === 0) {
+      if (datasets && datasets.filter(dataset => Array.isArray(dataset) && dataset.length > 0).length === 0) {
         component.empty();
       }
-      component.loaded();
+      await component.loaded();
     } catch (error) {
-      console.log('ERROR');
+      console.log(error);
       component.failed(error);
     }
   }
@@ -41,16 +41,15 @@ module.exports = function(renderer, state) {
         for (let name of datasetNames) {
           datasets.push(await state.get(name));
         }
-        return datasets;
       },
       loading() {
         if (callbacks.loading) {
           callbacks.loading();
         }
       },
-      loaded() {
+      loaded : async function() {
         if (callbacks.loaded) {
-          callbacks.loaded(...datasets);
+          await callbacks.loaded(...datasets);
         }
       },
       empty() {

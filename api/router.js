@@ -10,11 +10,12 @@ const ajv         = new Ajv({ coerceTypes : true });
 module.exports = function(server, database) {
   const router = require('cs-router')(server);
 
-  router.before((request, response) => {
+  router.before((request, response, next) => {
     response.setHeader('Content-Type', 'application/vnd.api+json');
     response.setHeader('Access-Control-Allow-Origin', '*');
     // TODO add overflow limit
     console.log(request.method, request.url);
+    next();
   });
 
   router.get('/api/teams', async function(request, response) {

@@ -1,7 +1,7 @@
-const Ajv     = require('ajv');
-const ajv     = new Ajv({ coerceTypes : true });
-const request = require('request');
-const schemas = {
+// const Ajv        = require('ajv');
+// const ajv        = new Ajv({ coerceTypes : true });
+const superagent = require('superagent');
+const schemas    = {
   teams       : require('./schemas/teams'),
   users       : require('./schemas/users'),
   results     : require('./schemas/results'),
@@ -33,38 +33,38 @@ module.exports = (function() {
 
   function upsert(name) {
     return function(options) {
-      return new Promise((resolve, reject) => {
-        if (ajv.validate(schemas[name], record)) {
-          request.put({
-            uri  : base + name,
-            body : JSON.stringify(record),
-            json : true
-          }, (error, response, body) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(JSON.parse(body));
-            }
-          });
-        } else {
-          reject(ajv.errors);
-        }
-      });
+      // return new Promise((resolve, reject) => {
+      //   if (ajv.validate(schemas[name], record)) {
+      //     request.put({
+      //       uri  : base + name,
+      //       body : JSON.stringify(record),
+      //       json : true
+      //     }, (error, response, body) => {
+      //       if (error) {
+      //         reject(error);
+      //       } else {
+      //         resolve(JSON.parse(body));
+      //       }
+      //     });
+      //   } else {
+      //     reject(ajv.errors);
+      //   }
+      // });
     }
   }
 
   function find(name) {
     return function(options) {
       return new Promise((resolve, reject) => {
-        console.log(base + name);
-        request(base + name, (error, response, body) => {
-          console.log('done');
-          if (error) {
-            reject(error);
-          } else {
-            resolve(JSON.parse(body));
-          }
-        });
+        superagent
+          .get(base + name)
+          .end((error, response) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(response.body);
+            }
+          });
       });
     }
   }
