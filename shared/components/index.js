@@ -125,6 +125,9 @@ module.exports = function(renderer, state) {
           },
           options() {
             return settings;
+          },
+          state(name) {
+            return state.state(name);
           }
         }
         return exposed;
@@ -137,17 +140,17 @@ module.exports = function(renderer, state) {
   }
 
   // Listen for dom event changes
-  if (renderer.added) {
-    renderer.added(name => {
+  if (renderer.ready) {
+    renderer.ready(name => {
       exists(name);
-      registered[name].ready();
+      registered[name].component().ready();
     });
   }
 
   if (renderer.removed) {
     renderer.removed(name => {
       exists(name);
-      registered[name].removed();
+      registered[name].component().removed();
     });
   }
 

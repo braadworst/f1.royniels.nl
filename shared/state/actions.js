@@ -9,6 +9,6 @@ module.exports = {
     return { type : 'dataFailed', name, error, status : 'failed' };
   },
   menu(path) {
-    return { type : 'active', path };
+    return { type : 'active', active : path };
   }
 }

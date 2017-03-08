@@ -6,6 +6,7 @@ module.exports = component => {
     .ready(() => {
       switcher();
       component.watch('menu.active', active => setActive(active));
+      setActive(component.state('menu.active'));
     })
     .removed(() => {
       component.unwatch('menu.active');

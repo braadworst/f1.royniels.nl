@@ -2,10 +2,10 @@ const djv        = require('djv');
 const validator  = new djv();
 const superagent = require('superagent');
 
-validator.addSchema(require('./schemas/teams'))
-validator.addSchema(require('./schemas/users'))
-validator.addSchema(require('./schemas/results'))
-validator.addSchema(require('./schemas/predictions'));
+// validator.addSchema(require('./schemas/teams'))
+// validator.addSchema(require('./schemas/users'))
+// validator.addSchema(require('./schemas/results'))
+// validator.addSchema(require('./schemas/predictions'));
 
 module.exports = (function() {
 
@@ -61,7 +61,6 @@ module.exports = (function() {
           .get(base + name)
           .end((error, response) => {
             if (error) {
-              console.log(base + name);
               reject(error);
             } else {
               resolve(response.body);

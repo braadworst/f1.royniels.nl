@@ -14,7 +14,6 @@ module.exports = component => {
       component.render(loaded(drivers, engines, chassis, startBudget));
     })
     .ready(() => {
-
       const drivers = [].slice.call(document.querySelectorAll('.item-create-driver'));
       const engines = [].slice.call(document.querySelectorAll('.item-create-engine'));
       const chassis = [].slice.call(document.querySelectorAll('.item-create-chassis'));

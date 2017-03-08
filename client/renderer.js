@@ -2,7 +2,7 @@ const morphdom = require('morphdom');
 
 module.exports = (function(renderer) {
 
-  let registered = {}, removed, added;
+  let registered = {}, removed, ready;
 
   function prepare(html) {
     // Convert the string to HTML, fucked up shit dom strings :S
@@ -26,16 +26,19 @@ module.exports = (function(renderer) {
   }
 
   return {
-    initialize(componentName = 'component') {
-      const components = [].slice.call(document.querySelectorAll(`[id^="${ componentName }"]`));
+    initialize() {
+      console.log('renderer init');
+      const components = [].slice.call(document.querySelectorAll(`[id]`));
       components.forEach(component => {
-        const name = component.getAttribute('id')
-        registered.push(name);
-        added(name);
+        const name = component.getAttribute('id');
+        if (name) {
+          registered[name] = true;
+          ready(name);
+        }
       });
     },
-    added(callback) {
-      added = callback;
+    ready(callback) {
+      ready = callback;
     },
     removed(callback) {
       removed = callback;
@@ -57,7 +60,7 @@ module.exports = (function(renderer) {
             const name = node.parentNode.getAttribute('id');
             if (!registeredComponents[name]) {
               registeredComponents[name] = true;
-              added(name);
+              ready(name);
             }
           }
         }

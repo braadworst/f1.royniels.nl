@@ -35,6 +35,16 @@ module.exports = function(preloadedState) {
     set(name) {
 
     },
+    state(name) {
+      let state = store.getState();
+      name.split('.').forEach(key => {
+        if (!state[key]) {
+          throw new Error(`The name ${ name } could not be found on the state`);
+        }
+        state = state[key];
+      });
+      return state;
+    },
     get(name) {
       return new Promise((resolve, reject) => {
         (async function(){
