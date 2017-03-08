@@ -72,6 +72,12 @@ router.after((request, response, next, relay) => {
   response.end(relay.renderer.html());
 });
 
+router.noMatch((request, response) => {
+  response.writeHead(404, {'Content-Type' : 'text/plain'});
+  response.write('Page not found');
+  response.end();
+});
+
 server.listen(settings.webserver.port, function() {
   console.log('Server listening on port: ' + settings.webserver.port);
 });

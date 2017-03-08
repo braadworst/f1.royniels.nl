@@ -110,6 +110,8 @@ module.exports = function(server, database) {
   });
 
   router.noMatch((request, response) => {
-    response.end('404 bitches');
+    response.writeHead(404, {'Content-Type' : 'text/plain'});
+    response.write('Page not found');
+    response.end();
   });
 }
