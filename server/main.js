@@ -22,7 +22,7 @@ router.before((request, response, next) => {
   }
   const state      = require('../shared/state')();
   const components = require('../shared/components')(renderer, state);
-  next({ state, renderer, components });
+  next({ state, components, renderer });
 });
 
 // Logged in middleware
@@ -48,7 +48,6 @@ router.before((request, response, next) => {
 // Render nav except on login page
 router.before(async function(request, response, next, relay) {
   await relay.components.create('nav');
-  await relay.components.create('switcher');
   next();
 }, paths.LOGIN);
 
@@ -59,8 +58,8 @@ router.get(paths.LOGOUT, (request, response) => {
 });
 
 // Route the login page
-router.get(paths.LOGIN, (request, response, next, relay) => {
-  relay.components.create('login');
+router.get(paths.LOGIN, async function(request, response, next, relay) {
+  await relay.components.create('login');
   next();
 });
 

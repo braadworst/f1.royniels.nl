@@ -1,6 +1,6 @@
 module.exports = function(id) {
   return `
-  <section id="swicther">
+  <section id="switcher">
     ${ switcher(id) }
   </section>
   `;

@@ -12,6 +12,6 @@ module.exports = {
     return { type : 'menuActive', path };
   },
   switcher(page) {
-    return { type : 'switcher', page };
+    return { type : 'switch', page };
   }
 }

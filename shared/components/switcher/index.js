@@ -1,13 +1,17 @@
 const loaded = require('./loaded');
+const loaded = require('./failed')();
 
 module.exports = component => {
   component
-    .data('switcher.page')
-    .loaded(page => {
-      component.render(loaded(page));
-      component.watch('switcher.page', async function(page) {
-        component.render(loaded(page));
-        await component.create(page);
-      });
+    .loaded(async function() {
+      const page = component.parameters();
+      if (page) {
+        try {
+          component.render(loaded(page));
+          await component.create(page);
+        } catch (error) {
+          component.render(failed);
+        }
+      }
     });
 }

@@ -12,9 +12,9 @@ module.exports = function(renderer, state) {
     }
   }
 
-  async function initialize(name) {
+  async function initialize(name, parameters) {
     exists(name);
-    const component = registered[name].component();
+    const component = registered[name].component(parameters);
     try {
       component.loading();
       const datasets = await component.data();
@@ -34,7 +34,7 @@ module.exports = function(renderer, state) {
   }
 
   function component() {
-    let callbacks = {}, data = [], datasets = [], watch = [], unwatch = [];
+    let callbacks = {}, data = [], datasets = [], watch = [], unwatch = [], parameters;
     const component = {
       data : async function() {
         datasets = [];
@@ -122,10 +122,17 @@ module.exports = function(renderer, state) {
             state.unwatch(name);
             return exposed;
           },
+          create(name, ...parameters) {
+            return initialize(name, parameters);
+          },
+          parameters() {
+            return parameters;
+          }
         }
         return exposed;
       },
-      component() {
+      component(newParameters) {
+        parameters = newParameters;
         return component;
       }
     }
@@ -153,8 +160,8 @@ module.exports = function(renderer, state) {
   }
 
   return {
-    create(name) {
-      return initialize(name);
+    create(name, ...parameters) {
+      return initialize(name, parameters);
     }
   }
 }

@@ -26,7 +26,9 @@ module.exports = function(preloadedState) {
     },
     watch(name, callback) {
       const watcher = watch(store.getState, name);
-      watched[name] = store.subscribe(watcher(callback));
+      watched[name] = store.subscribe(watcher(data => {
+        callback(data);
+      }));
     },
     get(name) {
       output = store.getState();
@@ -60,7 +62,7 @@ module.exports = function(preloadedState) {
         throw new Error(`When you want to dispatch an action, you need to specify a name`);
       }
 
-      actions[actionName](parameters);
+      store.dispatch(actions[actionName](...parameters));
     }
   }
 };
