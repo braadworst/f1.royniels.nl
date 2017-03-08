@@ -2,7 +2,7 @@ const djv        = require('djv');
 const validator  = new djv();
 const superagent = require('superagent');
 
-// validator.addSchema(require('./schemas/teams'))
+validator.addSchema(require('./schemas/teams'));
 // validator.addSchema(require('./schemas/users'))
 // validator.addSchema(require('./schemas/results'))
 // validator.addSchema(require('./schemas/predictions'));
