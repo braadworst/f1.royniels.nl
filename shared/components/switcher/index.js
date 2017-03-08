@@ -1,5 +1,5 @@
 const loaded = require('./loaded');
-const loaded = require('./failed')();
+const failed = require('./failed')();
 
 module.exports = component => {
   component
