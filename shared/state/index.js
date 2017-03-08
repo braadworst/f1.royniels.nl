@@ -9,14 +9,16 @@ module.exports = function(preloadedState) {
 
   const store = redux.createStore(
     redux.combineReducers({
-      data       : require('./reducers/data'),
-      menuActive : require('./reducers/menuActive'),
-      switcher   : require('./reducers/switcher'),
+      data : require('./reducers/data'),
+      menu : require('./reducers/menu')
     }),
     preloadedState
   );
 
-  return {
+  const exposed = {
+    preloaded() {
+      return store.getState();
+    },
     unwatch(name) {
       if (!watched[name]) {
         throw new Error(`${ name } ins't watched by the state`);
@@ -30,30 +32,55 @@ module.exports = function(preloadedState) {
         callback(data);
       }));
     },
-    get(name) {
-      output = store.getState();
+    set(name) {
 
-      if (!name || typeof name !== 'string') {
-        return output;
-      }
-
-      name.split('.').forEach(key => {
-        if (!output[key]) {
-          throw new Error(`State cannot get the values for key ${ key }`);
-        };
-        output = output[key];
-      });
-
-      return output;
     },
-    api(name, method = 'list', ...parameters) {
-      // Get from cache
-      if (state.get('data.' + name))
+    get(name) {
+      return new Promise((resolve, reject) => {
+        (async function(){
+          if (!name || typeof name !== 'string') {
+            reject(new Error('Please provide a name for the data you want to get'));
+            return;
+          }
 
-      if (!api[name] || !api[name][method]) {
-        return new Error(`Could not find api call ${ name } with method ${ method }`);
-      }
-      return api[name][method](parameters);
+          const data = store.getState().data[name];
+
+          if (data) {
+            switch (data.status) {
+              case 'failed' :
+                reject(data.error);
+                break;
+              case 'loaded' :
+                resolve(data.records);
+                break;
+              case 'loading' :
+                exposed.watch('data.' + name, data => {
+                  if (data.status === 'loaded') {
+                    resolve(data.records);
+                  } else if (data.status) {
+                    reject(data.error);
+                  }
+                  exposed.unwatch('data.' + name);
+                });
+                break;
+            }
+          } else {
+            console.log('loading');
+            store.dispatch(actions.dataLoading(name));
+            try {
+              console.log('get records');
+              const records = await api.get[name]();
+              console.log(records);
+              store.dispatch(actions.dataLoaded(name, records));
+              resolve(records);
+            } catch (error) {
+              console.log(error);
+              store.dispatch(actions.dataFailed(name, error));
+              reject(error);
+            }
+          }
+        }());
+      });
     },
     dispatch(...parameters) {
       const actionName = parameters.shift();
@@ -65,4 +92,6 @@ module.exports = function(preloadedState) {
       store.dispatch(actions[actionName](...parameters));
     }
   }
+
+  return exposed;
 };

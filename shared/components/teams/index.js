@@ -7,7 +7,7 @@ module.exports = component => {
   component
     .data('teams')
     .loading(() => component.render(loading))
-    .failed(() => component.render(failed))
+    .failed(() => { console.log('render failed'); component.render(failed)})
     .empty(() => component.render(empty))
-    .loaded(data => component.render(loaded(data)));
+    // .loaded(data => component.render(loaded(data)));
 }

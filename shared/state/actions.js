@@ -1,17 +1,14 @@
 module.exports = {
   dataLoading(name) {
-    return { type : 'dataLoading', name };
+    return { type : 'dataLoading', name, status : 'loading' };
   },
   dataLoaded(name, records) {
-    return { type : 'dataLoaded', name, records };
+    return { type : 'dataLoaded', name, records, status : 'loaded' };
   },
   dataFailed(name, error) {
-    return { type : 'dataFailed', name, error };
+    return { type : 'dataFailed', name, error, status : 'failed' };
   },
-  menuActive(path) {
-    return { type : 'menuActive', path };
-  },
-  switcher(page) {
-    return { type : 'switch', page };
+  menu(path) {
+    return { type : 'active', path };
   }
 }

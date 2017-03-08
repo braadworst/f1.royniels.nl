@@ -23,7 +23,7 @@ module.exports = function(renderer, state) {
       }
       component.loaded();
     } catch (error) {
-      console.log(error);
+      console.log('ERROR');
       component.failed(error);
     }
   }
@@ -34,13 +34,12 @@ module.exports = function(renderer, state) {
   }
 
   function component() {
-    let callbacks = {}, data = [], datasets = [], watch = [], unwatch = [], parameters;
+    let callbacks = {}, datasetNames = [], datasets = [], watch = [], unwatch = [], parameters;
     const component = {
       data : async function() {
         datasets = [];
-        for (let name of data) {
-          datasets.push([]);
-          // datasets.push(await state.get(name));
+        for (let name of datasetNames) {
+          datasets.push(await state.get(name));
         }
         return datasets;
       },
@@ -80,7 +79,7 @@ module.exports = function(renderer, state) {
       exposed() {
         const exposed = {
           data(...names) {
-            data = names;
+            datasetNames = [...datasetNames, ...names];
             return exposed;
           },
           loading(callback) {

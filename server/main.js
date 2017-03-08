@@ -68,7 +68,7 @@ require('./login')(router);
 
 // Add the state and render the whole page
 router.after((request, response, next, relay) => {
-  relay.renderer.state(relay.state.get());
+  relay.renderer.state(relay.state.preloaded());
   response.end(relay.renderer.html());
 });
 

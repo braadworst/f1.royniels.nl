@@ -1,26 +1,9 @@
-const initial   = {
-  loading : {},
-  failed  : {},
-  data    : {}
-}
-
-module.exports = function(state = initial, action) {
-  let output;
+module.exports = function(state = {}, action) {
   switch(action.type) {
+    case 'dataFailed'  :
     case 'dataLoading' :
-      output = Object.assign({}, state);
-      output.loading[action.name] = true;
-      return output;
-    case 'dataFailed' :
-      output = Object.assign({}, state);
-      output.loading[action.name] = false;
-      output.failed[action.name]  = action.error;
-      return output;
-    case 'dataLoaded' :
-      output = Object.assign({}, state);
-      output.loading[action.name] = false;
-      output.data[action.name]    = action.records;
-      return output;
+    case 'dataLoaded'  :
+      return Object.assign({}, state, { [action.name] : action });
     default :
       return state;
   }

@@ -8,111 +8,64 @@ const schemas = {
   predictions : require('./schemas/predictions'),
 };
 
-module.exports = function() { 
+module.exports = (function() {
 
   const base = 'https://localhost:4444/api/';
 
   return {
-    drivers : {
-      list() {
-        return list('drivers');
-      }
+    get : {
+      drivers          : find('drivers'),
+      chassis          : find('chassis'),
+      engines          : find('engines'),
+      circuits         : find('circuits'),
+      teams            : find('teams'),
+      team             : find('teams'),
+      user             : find('users'),
+      predictions      : find('predictions'),
+      points           : find('points'),
     },
-    chassis : {
-      list() {
-        return list('chassis');
-      }
-    },
-    engines : {
-      list() {
-        return list('engines');
-      }
-    },
-    circuits : {
-      list() {
-        return list('circuits');
-      }
-    },
-    teams : {
-      list() {
-        return list('teams');
-      },
-      findBy(column, value) {
-        return findBy('teams', column, value);
-      },
-      upsert(record) {
-        return upsert('teams', record);
-      }
-    },
-    users : {
-      findBy(column, value) {
-        return findBy('users', column, value);
-      },
-      upsert(record) {
-        return upsert('users', record);
-      }
-    },
-    predictions : {
-      findBy(column, value) {
-        return findBy('predictions', column, value);
-      },
-      upsert(record) {
-        return upsert('predictions', record);
-      }
-    },
-    points : {
-      list() {
-        return list('points');
-      }
-    },
-    results : {
-      upsert(record) {
-        return upsert('results');
-      }
+    set : {
+      teamUpsert       : upsert('team'),
+      predictionUpsert : upsert('predictions'),
+      results          : upsert('results'),
+    }
+  };
+
+  function upsert(name) {
+    return function(options) {
+      return new Promise((resolve, reject) => {
+        if (ajv.validate(schemas[name], record)) {
+          request.put({
+            uri  : base + name,
+            body : JSON.stringify(record),
+            json : true
+          }, (error, response, body) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(JSON.parse(body));
+            }
+          });
+        } else {
+          reject(ajv.errors);
+        }
+      });
     }
   }
 
-  function upsert(name, record) {
-    return new Promise((resolve, reject) => {
-      if (ajv.validate(schemas[name], record)) {
-        request.put({
-          uri  : base + name,
-          body : JSON.stringify(record),
-          json : true
-        }, (error, response, body) => {
+  function find(name) {
+    return function(options) {
+      return new Promise((resolve, reject) => {
+        console.log(base + name);
+        request(base + name, (error, response, body) => {
+          console.log('done');
           if (error) {
             reject(error);
           } else {
             resolve(JSON.parse(body));
           }
         });
-      } else {
-        reject(ajv.errors);
-      }
-    });
-  }
-
-  function findBy(name, column, value) {
-    return new Promise((resolve, reject) => {
-      request(base + name + '/find/' + column + '/' + value, (error, response, body) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(JSON.parse(body));
-        }
       });
-    });
+    }
   }
-
-  function list(name) {
-    return new Promise((resolve, reject) => {
-      request(base + name, (error, response, body) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(JSON.parse(body));
-        }
-      });
-    });
-  }
-}
+}());
