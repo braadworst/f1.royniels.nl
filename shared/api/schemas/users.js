@@ -12,6 +12,10 @@ module.exports = {
     token : {
       type : 'string',
       maxLength: 255
+    },
+    isAdmin : {
+      type : 'boolean',
+      default : 'false'
     }
   }
 };

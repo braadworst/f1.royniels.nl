@@ -1,12 +1,14 @@
-const loaded = require('./loaded')();
+const loaded = require('./loaded');
 
 module.exports = component => {
   component
-    .loaded(() => component.render(loaded))
+    .data('menu', 'myTeams', 'user')
+    .loaded((menu, myTeams, user) => {
+      component.render(loaded(menu, myTeams, user));
+    })
     .ready(() => {
       switcher();
       component.watch('menu.active', active => setActive(active));
-      setActive(component.state('menu.active'));
     })
     .removed(() => {
       component.unwatch('menu.active');

@@ -2,6 +2,7 @@ const watch   = require('redux-watch');
 const redux   = require('redux');
 const actions = require('./actions');
 const api     = require('../api');
+const query   = require('../api/query');
 
 module.exports = function(preloadedState) {
 
@@ -11,7 +12,6 @@ module.exports = function(preloadedState) {
     redux.combineReducers({
       data : require('./reducers/data'),
       menu : require('./reducers/menu'),
-      menu : require('./reducers/me'),
     }),
     preloadedState
   );
@@ -36,18 +36,15 @@ module.exports = function(preloadedState) {
     set(name) {
 
     },
-    state(name) {
-      let state = store.getState();
-      name.split('.').forEach(key => {
-        if (!state[key]) {
-          throw new Error(`The name ${ name } could not be found on the state`);
-        }
-        state = state[key];
-      });
-      return state;
-    },
-    get(name) {
+    data(name) {
       return new Promise((resolve, reject) => {
+
+        // first check if it is data or a regular state element
+        if (store.getState()[name]) {
+          resolve(store.getState()[name]);
+          return;
+        }
+
         (async function(){
           if (!name || typeof name !== 'string') {
             reject(new Error('Please provide a name for the data you want to get'));
@@ -78,7 +75,7 @@ module.exports = function(preloadedState) {
           } else {
             store.dispatch(actions.dataLoading(name));
             try {
-              const records = await api.get[name]();
+              const records = await api.get[name](await querystring(name));
               store.dispatch(actions.dataLoaded(name, records));
               resolve(records);
             } catch (error) {
@@ -97,6 +94,17 @@ module.exports = function(preloadedState) {
       }
 
       store.dispatch(actions[actionName](...parameters));
+    }
+  }
+
+  // TODO have a look if we can smoothen this process
+  async function querystring(name) {
+    switch(name) {
+      case 'myTeams' :
+        const user = await exposed.data('user');
+        return query().filter('userId', user.id).fields('teams', 'id', 'name');
+      default :
+        return '';
     }
   }
 

@@ -10,8 +10,5 @@ module.exports = {
   },
   menu(path) {
     return { type : 'active', active : path };
-  },
-  me(record) {
-    return { type : 'me', record};
   }
 }

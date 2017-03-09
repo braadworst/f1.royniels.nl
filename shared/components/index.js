@@ -39,7 +39,7 @@ module.exports = function(renderer, state) {
       data : async function() {
         datasets = [];
         for (let name of datasetNames) {
-          datasets.push(await state.get(name));
+          datasets.push(await state.data(name));
         }
       },
       loading() {

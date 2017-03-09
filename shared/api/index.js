@@ -8,22 +8,22 @@ module.exports = (function() {
 
   return {
     get : {
-      user             : (query) => find('users', query),
-      drivers          : () => find('drivers'),
-      chassis          : () => find('chassis'),
-      engines          : () => find('engines'),
-      circuits         : () => find('circuits'),
-      teams            : () => find('teams'),
-      team             : (query) => find('teams', query),
-      userTeams        : (query) => find('teams', query),
-      predictions      : (query) => find('predictions', query),
-      points           : () => find('points'),
+      user        : find('users'),
+      drivers     : find('drivers'),
+      chassis     : find('chassis'),
+      engines     : find('engines'),
+      circuits    : find('circuits'),
+      teams       : find('teams'),
+      team        : find('teams'),
+      myTeams     : find('teams'),
+      predictions : find('predictions'),
+      points      : find('points'),
     },
     set : {
-      user       : upsert('users'),
-      team       : upsert('teams'),
-      prediction : upsert('predictions'),
-      result     : upsert('results'),
+      user        : upsert('users'),
+      team        : upsert('teams'),
+      predictions : upsert('predictions'),
+      result      : upsert('results'),
     }
   };
 
@@ -49,24 +49,25 @@ module.exports = (function() {
     }
   }
 
-  function find(name, options) {
-    console.log(base + name);
-    return new Promise((resolve, reject) => {
-      let querystring = '';
-      if (options) {
-        querystring = options.serialize();
-      }
-      superagent
-        .get(base + name)
-        .query(querystring)
-        .set('Content-Type', 'application/vnd.api+json')
-        .end((error, response) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(jsonapi.parse(response.body));
-          }
-        });
-    });
+  function find(name) {
+    return function(options) {
+      return new Promise((resolve, reject) => {
+        if (options && options.serialize) {
+          options = options.serialize();
+        }
+
+        superagent
+          .get(base + name)
+          .query(options)
+          .set('Content-Type', 'application/vnd.api+json')
+          .end((error, response) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(jsonapi.parse(response.body));
+            }
+          });
+      });
+    }
   }
 }());

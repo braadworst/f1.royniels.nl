@@ -41,7 +41,7 @@ router.before(async function(request, response, next, relay) {
         router.redirect(paths.LOGIN);
         return;
       }
-      relay.state.dispatch('me', user);
+      relay.state.dispatch('dataLoaded', 'user', user);
     } catch (error) {
       router.redirect(paths.LOGIN);
       return;

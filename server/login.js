@@ -57,17 +57,17 @@ module.exports = function(router) {
         cookies.set(response, 'token', encrypt.encrypt(user.token));
 
         // Check update the token if the user exists, otherwise create new user
-        let currentUser = await api.get.user(query().filter('token', user.token));
+        const currentUser = await api.get.user(query().filter('email', user.email));
 
-        if (currentUser.length) {
+        if (currentUser) {
           // Check if there is already a username on the current object, if not
           // and we found one on a new login set it
           if (!currentUser.name && user.name) {
             currentUser.name = user.name;
           }
-          currentUser.token = user.token;
-          user = currentUser;
+          user.id = currentUser.id;
         }
+
         await api.set.user(user);
 
         // Finally redirect the user to the standings page
@@ -143,7 +143,6 @@ module.exports = function(router) {
         .set('User-Agent', 'F1 Manager')
         .end((error, response) => {
           if (error) {
-            console.log('fetchUSer');
             reject(error);
           } else {
             resolve(cleanResult(response.body));
@@ -153,7 +152,6 @@ module.exports = function(router) {
   }
 
   function fetchAccessToken(uri, qs) {
-    console.log(uri);
     return new Promise((resolve, reject) => {
       // Get the access token
       superagent
