@@ -1,7 +1,10 @@
 const settings = require('package-settings');
-const paths    = require('../shared/routing/paths');
-const cookies  = require('./cookies');
 const protocol = require('spdy');
+const cookies  = require('./cookies');
+const encrypt  = require('./encrypt');
+const paths    = require('../shared/routing/paths');
+const api      = require('../shared/api');
+const query    = require('../shared/api/query');
 
 // Create HTTP2 server
 let server = protocol.createServer(settings.webserver.certs);
@@ -26,24 +29,26 @@ router.before((request, response, next) => {
 });
 
 // Logged in middleware
-// router.before(async function(request, response, next, relay) {
-//   const token = cookies.getCookies(request).token;
-//   if (!token) {
-//     router.redirect(paths.LOGIN);
-//   } else {
-//     try {
-//       const user = await relay.state.get('data.user');
-//       if (!user) {
-//         router.redirect(paths.LOGIN);
-//         return;
-//       }
-//     } catch (error) {
-//       router.redirect(paths.LOGIN);
-//       return;
-//     }
-//   }
-//   next();
-// }, paths.LOGIN);
+router.before(async function(request, response, next, relay) {
+  let token = cookies.getCookies(request).token;
+  if (!token) {
+    router.redirect(paths.LOGIN);
+  } else {
+    token = encrypt.decrypt(token);
+    try {
+      const user = await api.get.user(query().filter('token', token));
+      if (!user) {
+        router.redirect(paths.LOGIN);
+        return;
+      }
+      relay.state.dispatch('me', user);
+    } catch (error) {
+      router.redirect(paths.LOGIN);
+      return;
+    }
+  }
+  next();
+}, paths.LOGIN);
 
 // Render nav except on login page
 router.before(async function(request, response, next, relay) {

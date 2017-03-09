@@ -51,14 +51,14 @@ module.exports = function(router) {
 
         // Create a new token for the user, that is not bound to any network, so
         // we don't by accident give other people access, when our db gets compromised
-        user.token = encrypt.encrypt(uuid());
+        user.token = uuid();
 
         // Set the cookie
-        cookies.set(response, 'token', user.token);
+        cookies.set(response, 'token', encrypt.encrypt(user.token));
 
         // Check update the token if the user exists, otherwise create new user
         let currentUser = await api.get.user(query().filter('token', user.token));
-        console.log(currentUser);
+
         if (currentUser.length) {
           // Check if there is already a username on the current object, if not
           // and we found one on a new login set it

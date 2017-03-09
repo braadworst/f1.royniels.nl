@@ -1,12 +1,16 @@
 const crypto      = require('crypto');
-const cipher      = crypto.createCipher('aes-256-ctr', 'This is the passphrase biatch!!!');
-const decipher    = crypto.createDecipher('aes-256-ctr', 'This is the passphrase biatch!!!');
 
-module.exports = { 
-  encrypt(value) {
-    return cipher.update(value, 'utf-8', 'hex');
+module.exports = {
+  encrypt(text){
+    var cipher  = crypto.createCipher('aes-256-ctr', 'This is the passphrase biatch!!!');
+    var crypted = cipher.update(text,'utf-8','hex')
+    crypted += cipher.final('hex');
+    return crypted;
   },
-  decrypt(value) {
-    return decipher.update(value, 'utf-8', 'hex');
+  decrypt(text){
+    var decipher = crypto.createDecipher('aes-256-ctr', 'This is the passphrase biatch!!!');
+    var dec      = decipher.update(text,'hex','utf-8')
+    dec += decipher.final('utf-8');
+    return dec;
   }
 }
