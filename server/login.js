@@ -5,6 +5,7 @@ const querystring = require('querystring');
 const api         = require('../shared/api');
 const encrypt     = require('./encrypt');
 const cookies     = require('./cookies');
+const query       = require('../shared/api/query');
 
 module.exports = function(router) {
 
@@ -43,7 +44,7 @@ module.exports = function(router) {
         );
 
         // Get the user information from the particular network
-        const user = await fetchUser(
+        let user = await fetchUser(
           networkSettings.email.url,
           emailParameters(network, networkSettings, accessToken)
         );
@@ -56,12 +57,23 @@ module.exports = function(router) {
         cookies.set(response, 'token', user.token);
 
         // Check update the token if the user exists, otherwise create new user
-        await api.set.user({ record : user, column : 'token' });
+        let currentUser = await api.get.user(query().filter('token', user.token));
+        console.log(currentUser);
+        if (currentUser.length) {
+          // Check if there is already a username on the current object, if not
+          // and we found one on a new login set it
+          if (!currentUser.name && user.name) {
+            currentUser.name = user.name;
+          }
+          currentUser.token = user.token;
+          user = currentUser;
+        }
+        await api.set.user(user);
 
         // Finally redirect the user to the standings page
         router.redirect('/standings');
       } catch(error) {
-        console.log(error.message);
+        console.log(error);
         router.redirect('/');
       }
     });

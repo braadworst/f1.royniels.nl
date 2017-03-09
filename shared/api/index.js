@@ -49,20 +49,23 @@ module.exports = (function() {
     }
   }
 
-  function find(name) {
-    return function(options) {
-      return new Promise((resolve, reject) => {
-        superagent
-          .get(base + name)
-          .set('Content-Type', 'application/vnd.api+json')
-          .end((error, response) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(response.body);
-            }
-          });
-      });
-    }
+  function find(name, options) {
+    return new Promise((resolve, reject) => {
+      querystring = '';
+      if (options) {
+        querystring = options.serialize();
+      }
+      superagent
+        .get(base + name)
+        .query(querystring)
+        .set('Content-Type', 'application/vnd.api+json')
+        .end((error, response) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(jsonapi.parse(response.body));
+          }
+        });
+    });
   }
 }());
