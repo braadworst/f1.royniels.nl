@@ -34,6 +34,7 @@ module.exports = function(server, database) {
     .get('/users', handlers.get)
     .get('/drivers', handlers.get)
     .get('/chassis', handlers.get)
+    .get('/engines', handlers.get)
     .get('/predictions', handlers.get)
     .get('/points', handlers.get)
     .post('/users', handlers.post)
