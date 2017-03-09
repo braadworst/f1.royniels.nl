@@ -19,7 +19,7 @@ module.exports = (function() {
       if (Array.isArray(data)) {
         data = data.map(resource => serialize(resource, type));
       } else {
-        // data = serialize(data);
+        data = serialize(data, type);
       }
       return {
         data

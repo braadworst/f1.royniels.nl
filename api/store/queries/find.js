@@ -4,21 +4,23 @@ module.exports = function(database) {
 
       console.log(options);
 
-      let placeholders = {},
+      let placeholders = [],
           table        = schema.title,
           where        = '',
           fields       = '*',
           sort         = '',
           pagination   = '';
 
-      if (options.filter) {
-
+      if (options.filters) {
+        let fields   = options.filters.map(row => row.field + ' = ?');
+        placeholders = options.filters.map(row => row.value );
+        where = `WHERE ${ fields.join('AND') }`;
       }
 
       if (options.pagination) {
         let offset;
         let limit;
-        options.pagination.map(row => {
+        options.pagination.forEach(row => {
           if (row.field === 'number') {
             offset = row.value;
           }
@@ -50,7 +52,11 @@ module.exports = function(database) {
           if (error) {
             reject(error);
           } else {
-            resolve(records);
+            if (records.length === 1) {
+              resolve(records.pop());
+            } else {
+              resolve(records);
+            }
           }
         }
       );
