@@ -110,6 +110,7 @@ module.exports = function(renderer, state) {
             return exposed;
           },
           save(name, record) {
+            console.log(name, record);
             state.save(name, record);
             return exposed;
           },
@@ -155,11 +156,17 @@ module.exports = function(renderer, state) {
     });
   }
 
-  // Run for the first time so all the added handlers run for serverside rendered
-  // templates
-  if (renderer.initialize) {
-    renderer.initialize();
-  }
+  try {
+    (async function() {
+      // Set all loaded data on initial load
+      let keys = Object.keys(registered);
+      for (let key of keys) {
+        registered[key].exposed().data();
+        await registered[key].component().data();
+        registered[key].component().ready();
+      }
+    }());
+  } catch (error) {}
 
   return {
     create(name, ...settings) {

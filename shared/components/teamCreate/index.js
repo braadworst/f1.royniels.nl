@@ -7,14 +7,13 @@ module.exports = component => {
   let startBudget = 150000000;
 
   component
-    .data('drivers', 'engines', 'chassis')
+    .data('user', 'drivers', 'engines', 'chassis')
     .loading(() => component.render(loading))
     .failed(() => component.render(failed))
-    .loaded((drivers, engines, chassis, user) => {
+    .loaded((user, drivers, engines, chassis) => {
       component.render(loaded(drivers, engines, chassis, startBudget));
     })
-    .ready(() => {
-      console.log('ready');
+    .ready((user) => {
       const drivers = [].slice.call(document.querySelectorAll('.item-create-driver'));
       const engines = [].slice.call(document.querySelectorAll('.item-create-engine'));
       const chassis = [].slice.call(document.querySelectorAll('.item-create-chassis'));
@@ -25,6 +24,7 @@ module.exports = component => {
 
       // Add button listeners
       save.addEventListener('click', async function(event) {
+        console.log('click biatch')
         event.preventDefault();
           try {
             await component.save('teams', getFormData());
@@ -52,7 +52,7 @@ module.exports = component => {
         let engine       = document.querySelector('.item-create-engine.item-create-selected');
         let chassis      = document.querySelector('.item-create-chassis.item-create-selected');
         let name         = document.querySelector('[name="name"]').value;
-        let output       = { userId };
+        let output       = { userId : user.id };
 
         if (name) {
           output.name = name;
