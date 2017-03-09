@@ -1,24 +1,32 @@
-module.exports = function(state = {}, action) {
+const initial = {
+  load : {},
+  save : {}
+}
+
+module.exports = function(state = initial, action) {
+  let output;
   switch(action.type) {
     case 'dataSaved'   :
     case 'dataSaving'  :
     case 'dataNotSaved'  :
-      return Object.assign({}, state, { save : record(action) });
+      output = Object.assign({}, state);
+      output.save[action.name] = record(action);
+      return output;
     case 'dataNotLoaded'  :
     case 'dataLoading' :
     case 'dataLoaded'  :
-      return Object.assign({}, state, { load : record(action) });
+      output = Object.assign({}, state);
+      output.load[action.name] = record(action);
+      return output;
     default :
       return state;
   }
 
   function record(action) {
     return {
-      [action.name] : {
-        error   : action.error,
-        status  : action.status,
-        records : action.records
-      }
+      error   : action.error,
+      status  : action.status,
+      records : action.records
     }
   }
 }

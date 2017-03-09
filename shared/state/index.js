@@ -72,7 +72,7 @@ module.exports = function(preloadedState) {
             return;
           }
 
-          const state         = store.getState().data.load[name];
+          const state = store.getState().data.load[name];
 
 
           const stateFullName = 'data.load.' + name;
