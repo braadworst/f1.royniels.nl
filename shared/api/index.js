@@ -60,6 +60,7 @@ module.exports = (function() {
       return new Promise((resolve, reject) => {
         superagent
           .get(base + name)
+          .set('Content-Type', 'application/vnd.api+json')
           .end((error, response) => {
             if (error) {
               reject(error);

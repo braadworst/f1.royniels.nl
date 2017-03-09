@@ -135,6 +135,7 @@
   },
   "homepage": "https://github.com/braadworst/f1.royniels.nl#readme",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "cheerio": "^0.22.0",
     "cs-router": "^1.0.2",
     "is-my-json-valid": "^2.16.0",

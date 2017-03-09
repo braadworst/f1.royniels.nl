@@ -1,8 +1,5 @@
 const datasets = require('./datasets');
 
-// Add static(ish) data to the database
-// Add function serialize to ensure everything is ran in order
-// This stuff might run at all time, nothing from the client will influence this
 module.exports = async function(database) {
   try {
     // const teams = require('../../shared/schemas/teams');

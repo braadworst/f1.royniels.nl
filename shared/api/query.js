@@ -38,7 +38,7 @@ module.exports = function() {
     },
     sort(...fields) {
       if(!fields.length) {
-        throw New error('Please provide fields you want to sort on');
+        throw new Error('Please provide fields you want to sort on');
       }
       sort.push({
         key   : 'sort',

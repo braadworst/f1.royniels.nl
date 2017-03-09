@@ -5,7 +5,7 @@ const failed  = require('./failed')();
 
 module.exports = component => {
   component
-    .data('teams')
+    .data('teams', 'drivers', 'engines', 'chassis')
     .loading(() => component.render(loading))
     .failed(() => component.render(failed))
     .empty(() => component.render(empty))
