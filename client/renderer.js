@@ -1,8 +1,9 @@
 const morphdom = require('morphdom');
+const uuid     = require('uuid/').v4;
 
 module.exports = (function(renderer) {
 
-  let registered = {}, removed, ready;
+  let removed, ready;
 
   function prepare(html) {
     // Convert the string to HTML, fucked up shit dom strings :S
@@ -11,30 +12,32 @@ module.exports = (function(renderer) {
     return wrapper.firstChild;
   }
 
-  function addLoaderElement(html) {
-    // We will add an element at the end of the component so we can be sure
-    // that when the added hooks is called the whole component is loaded, there
-    // is no proper way to see when the whole component has been added to the
-    // dom with morphdom, performance gain I guess
-    // We will only do this for the loaded component, loading and error don't
-    // need any triggers
-    let loaded = document.createElement('div');
-    loaded.classList.add('component-loaded');
-    html.appendChild(loaded);
-
-    return html;
-  }
-
   return {
     initialize() {
-      const components = [].slice.call(document.querySelectorAll(`[id]`));
-      components.forEach(component => {
-        const name = component.getAttribute('id');
-        if (name) {
-          registered[name] = true;
-          ready(name);
-        }
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.removedNodes) {
+            mutation.removedNodes.forEach(node => {
+              if (node.getAttribute('id')) {
+                removed(node.getAttribute('id'));
+              }
+            })
+          }
+          if (mutation.addedNodes) {
+            mutation.addedNodes.forEach(node => {
+              if (node.getAttribute('id')) {
+                // TODO: Dirty fix to wait for the children being loaded
+                setTimeout(function() {
+                  ready(node.getAttribute('id'));
+                }, 500);
+              }
+            })
+          }
+        });
       });
+
+      // pass in the target node, as well as the observer options
+      observer.observe(document.querySelector('body'), { childList : true, subtree : true});
     },
     ready(callback) {
       ready = callback;
@@ -42,28 +45,13 @@ module.exports = (function(renderer) {
     removed(callback) {
       removed = callback;
     },
-    render(newHtml) {
-      newHtml           = prepare(newHtml);
-      const currentHtml = addLoaderElement(document.querySelector('#' + newHtml.getAttribute('id')));
-
-      morphdom(currentHtml, newHtml, {
-        onNodeDiscarded(node) {
-          if (node.getAttribute && registered[node.getAttribute('id')]) {
-            const name = node.getAttribute('id');
-            delete registered[name];
-            removed(name);
-          }
-        },
-        onNodeAdded(node) {
-          if (typeof node === 'object' && node.tagName && node.classList.contains('component-loaded')) {
-            const name = node.parentNode.getAttribute('id');
-            if (!registeredComponents[name]) {
-              registeredComponents[name] = true;
-              ready(name);
-            }
-          }
-        }
-      });
+    render(html) {
+      html = prepare(html);
+      const name    = html.getAttribute('id');
+      const current = document.querySelector('#' + name);
+      if (current) {
+        current.innerHTML = html.innerHTML;
+      }
     }
   }
 }());

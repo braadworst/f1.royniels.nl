@@ -73,7 +73,8 @@ module.exports = function(preloadedState) {
           }
 
           const state         = store.getState().data.load[name];
-          console.log(store.getState().data, name);
+
+
           const stateFullName = 'data.load.' + name;
           if (state) {
             status(state, stateFullName, resolve, reject);
