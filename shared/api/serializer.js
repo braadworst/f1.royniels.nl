@@ -16,7 +16,6 @@ module.exports = (function() {
 
   const exposed = {
     serialize(type, data) {
-      console.log(type, data.length);
       if (Array.isArray(data)) {
         data = data.map(resource => serialize(resource, type));
       } else {

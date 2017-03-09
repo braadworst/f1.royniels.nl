@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = (function() {
 
   let exposed, filters = [], fieldsets = [], sorts = [], includes = [], pages = [];
 
@@ -40,7 +40,7 @@ module.exports = function() {
       if(!fields.length) {
         throw new Error('Please provide fields you want to sort on');
       }
-      sort.push({
+      sorts.push({
         key   : 'sort',
         value : fields.join(',')
       });
@@ -55,19 +55,35 @@ module.exports = function() {
         value : resources.join(',')
       });
     },
-    toString() {
-      return
-        parametersToString(fieldsets) +
-        parametersToString(sorts) +
-        parametersToString(includes) +
-        parametersToString(pages) +
-        parametersToString(filters);
+    serialize() {
+      return [sorts, includes, pages, filters, fieldsets]
+        .reduce((setOutput, set) => {
+          return setOutput + set.reduce((rowOutput, row) => {
+            return rowOutput + `${ row.key }=${ row.value }&`;
+          }, '');
+        }, '');
+    },
+    parse(serialized) {
+      if (!serialized) {
+        return false;
+      }
+      return serialized
+        .split('&')
+        .filter(row => row)
+        .map(row => {
+          row = row.split('=');
+          return {
+            key : row.shift(),
+            values : row.shift()
+          };
+        })
+        .map(row => {
+          row.values = row.values.split(',')
+          return row;
+        });
     }
   }
 
-  function parametersToString(parameters) {
-    return parameters.reduce(row => `${ row.key }=${ row.value }&`);
-  }
 
   return exposed;
-}
+}());

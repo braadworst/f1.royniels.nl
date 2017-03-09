@@ -8,7 +8,6 @@ module.exports = function(database) {
           if (error) {
             reject(error);
           } else {
-            console.log('selected all records from: ' + table.title);
             resolve(records);
           }
         }

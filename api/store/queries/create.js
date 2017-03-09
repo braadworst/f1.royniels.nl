@@ -40,7 +40,6 @@ module.exports = function(database) {
           if (error) {
             reject(error);
           } else {
-            console.log('created: ' + table.title);
             resolve();
           }
         }

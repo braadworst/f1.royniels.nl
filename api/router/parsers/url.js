@@ -6,6 +6,7 @@ module.exports = (request, response, next, relay) => {
   const path      = parsedUrl.pathname.split('/').slice(1);
   const type      = path.shift();
   const id        = path.length ? path.shift() : false;
-  const options   = {};
+  const options   = query.parse(parsedUrl.query);
+  // console.log(options);
   next({ type, id, options });
 }
