@@ -20,10 +20,10 @@ module.exports = (function() {
       points      : find('points'),
     },
     set : {
-      user        : upsert('users'),
-      team        : upsert('teams'),
+      users       : upsert('users'),
+      teams       : upsert('teams'),
       predictions : upsert('predictions'),
-      result      : upsert('results'),
+      results     : upsert('results'),
     }
   };
 

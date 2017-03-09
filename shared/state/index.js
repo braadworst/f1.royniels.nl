@@ -35,11 +35,12 @@ module.exports = function(preloadedState) {
     },
     save(name, record) {
       return new Promise((resolve, reject) => {
-        if (!record) {
-          reject(new Error('Saving a record requires both a name and record argument'));
-          return;
-        }
         (async function() {
+          if (typeof record !== 'object') {
+            reject(new Error('Saving a record requires both a name and record argument, the record needs to be an object'));
+            return;
+          }
+
           const state         = store.getState().data.save[name];
           const stateFullName = 'data.save.' + name;
           if (state) {
@@ -47,7 +48,7 @@ module.exports = function(preloadedState) {
           } else {
             store.dispatch(actions.dataSaving(name));
             try {
-              const record = await api.set[name](record);
+              record = await api.set[name](record);
               store.dispatch(actions.dataSaved(name, record));
               resolve(record);
             } catch (error) {
@@ -55,7 +56,7 @@ module.exports = function(preloadedState) {
               reject(error);
             }
           }
-        });
+        }());
       });
     },
     data(name) {

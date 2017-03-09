@@ -14,6 +14,7 @@ module.exports = component => {
       component.render(loaded(drivers, engines, chassis, startBudget));
     })
     .ready((user) => {
+          console.log('readt')
       const drivers = [].slice.call(document.querySelectorAll('.item-create-driver'));
       const engines = [].slice.call(document.querySelectorAll('.item-create-engine'));
       const chassis = [].slice.call(document.querySelectorAll('.item-create-chassis'));
@@ -59,19 +60,19 @@ module.exports = component => {
         }
 
         if (engine) {
-          output.engineId = engine.getAttribute('data-id');
+          output.engineId = parseInt(engine.getAttribute('data-id'));
         }
 
         if (chassis) {
-          output.chassisId = chassis.getAttribute('data-id');
+          output.chassisId = parseInt(chassis.getAttribute('data-id'));
         }
 
         if (firstDriver) {
-          output.firstDriverId = firstDriver.getAttribute('data-id');
+          output.firstDriverId = parseInt(firstDriver.getAttribute('data-id'));
         }
 
         if (secondDriver) {
-          output.secondDriverId = secondDriver.getAttribute('data-id');
+          output.secondDriverId = parseInt(secondDriver.getAttribute('data-id'));
         }
 
         return output;

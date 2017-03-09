@@ -110,9 +110,7 @@ module.exports = function(renderer, state) {
             return exposed;
           },
           save(name, record) {
-            console.log(name, record);
-            state.save(name, record);
-            return exposed;
+            return state.save(name, record);
           },
           watch(name, callback) {
             state.watch(name, callback);
