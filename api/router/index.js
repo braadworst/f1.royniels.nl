@@ -23,7 +23,7 @@ module.exports = function(server, database) {
 
   router
     .before((request, response, next) => next({ database }))
-    .before(validators.request)
+    // .before(validators.request)
     .before(parsers.url)
     .before(bodyParser.json())
     .before(parsers.jsonapi)

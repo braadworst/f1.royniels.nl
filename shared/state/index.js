@@ -33,45 +33,50 @@ module.exports = function(preloadedState) {
         callback(data);
       }));
     },
-    set(name) {
-
+    save(name, record) {
+      return new Promise((resolve, reject) => {
+        if (!record) {
+          reject(new Error('Saving a record requires both a name and record argument'));
+          return;
+        }
+        (async function() {
+          const state         = store.getState().data.save[name];
+          const stateFullName = 'data.save.' + name;
+          if (state) {
+            status(state, stateFullName, resolve, reject);
+          } else {
+            store.dispatch(actions.dataSaving(name));
+            try {
+              const record = await api.set[name](record);
+              store.dispatch(actions.dataSaved(name, record));
+              resolve(record);
+            } catch (error) {
+              store.dispatch(actions.dataNotSaved(name, error));
+              reject(error);
+            }
+          }
+        });
+      });
     },
     data(name) {
       return new Promise((resolve, reject) => {
-
-        // first check if it is data or a regular state element
-        if (store.getState()[name]) {
-          resolve(store.getState()[name]);
-          return;
-        }
-
-        (async function(){
+        (async function() {
           if (!name || typeof name !== 'string') {
             reject(new Error('Please provide a name for the data you want to get'));
             return;
           }
 
-          const data = store.getState().data[name];
+          // first check if it is data or a regular state element
+          if (store.getState()[name]) {
+            resolve(store.getState()[name]);
+            return;
+          }
 
-          if (data) {
-            switch (data.status) {
-              case 'failed' :
-                reject(data.error);
-                break;
-              case 'loaded' :
-                resolve(data.records);
-                break;
-              case 'loading' :
-                exposed.watch('data.' + name, data => {
-                  if (data.status === 'loaded') {
-                    resolve(data.records);
-                  } else if (data.status) {
-                    reject(data.error);
-                  }
-                  exposed.unwatch('data.' + name);
-                });
-                break;
-            }
+          const state         = store.getState().data.load[name];
+          console.log(store.getState().data, name);
+          const stateFullName = 'data.load.' + name;
+          if (state) {
+            status(state, stateFullName, resolve, reject);
           } else {
             store.dispatch(actions.dataLoading(name));
             try {
@@ -79,7 +84,7 @@ module.exports = function(preloadedState) {
               store.dispatch(actions.dataLoaded(name, records));
               resolve(records);
             } catch (error) {
-              store.dispatch(actions.dataFailed(name, error));
+              store.dispatch(actions.dataNotLoaded(name, error));
               reject(error);
             }
           }
@@ -94,6 +99,27 @@ module.exports = function(preloadedState) {
       }
 
       store.dispatch(actions[actionName](...parameters));
+    }
+  }
+
+  function status(state, stateFullName, resolve, reject) {
+    switch (state.status) {
+      case 'completed' :
+        resolve(state.records);
+        break;
+      case 'failed' :
+        reject(state.error);
+        break;
+      case 'progress' :
+        exposed.watch(stateFullName, data => {
+          if (data.status === 'completed') {
+            resolve(data.records);
+          } else if (data.status === 'failed') {
+            reject(data.error);
+          }
+          exposed.unwatch(stateFullName);
+        });
+        break;
     }
   }
 
