@@ -1,31 +1,23 @@
+const fill = require('lodash/fill');
+
 module.exports = function(database) {
+  return function(schema, record) {
+    return new Promise((resolve, reject) => {
 
-  function prefix(record) {
-    let output = {} ;
-    Object.keys(record).forEach(key => {
-      output['$' + key] = record[key];
-    });
-    return output;
-  }
+      const placeholders = fill(Array(Object.keys(record).length), '?').join(', ');
 
-  return function(table, records) {
-    return new Promise((resolve) => {
-
-      // Add all the fields from the schema
-      const fields = Object
-        .keys(table.properties)
-        .map(key => key)
-        .join(', ');
-
-      const placeholders = Object
-        .keys(table.properties)
-        .map(key => '$' + key)
-        .join(', ');
-
-      let statement = database.prepare(`INSERT INTO ${ table.title } (${ fields }) VALUES (${ placeholders })`);
-      records.forEach(record => statement.run(prefix(record)));
-      statement.finalize();
-      resolve();
+      database.run(
+        `INSERT INTO ${ schema.title } (${ Object.keys(record) }) VALUES (${ placeholders })`,
+        Object.values(record),
+        function(error) {
+          if (error) {
+            reject(error);
+          } else {
+            record.id = this.lastID; // this, sigh...
+            resolve(record);
+          }
+        }
+      );
     });
   }
 }

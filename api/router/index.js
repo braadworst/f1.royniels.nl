@@ -18,11 +18,6 @@ const serializers = {
   jsonapi : require('./serializers/jsonapi')
 };
 
-
-const api = require('../../shared/api');
-
-
-
 module.exports = function(server, database) {
   const router = require('cs-router')(server);
 
@@ -33,21 +28,6 @@ module.exports = function(server, database) {
     .before(bodyParser.json())
     .before(parsers.jsonapi)
     .before(validators.body)
-    .get('/temp', async function(request, response, next, relay) {
-      try {
-        // Do a call to the user
-        let result = await api.set.user({
-          name : 'braadworst',
-          email : 'royniels83@gmail.com',
-          token : '12345'
-        });
-
-        next();
-      } catch (error) {
-        console.log('errors: ', error);
-        next();
-      }
-    })
     .get('/init', handlers.create)
     .get('/teams', handlers.get)
     .get('/teams/:id', handlers.get)

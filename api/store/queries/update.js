@@ -1,14 +1,20 @@
+const fill = require('lodash/fill');
+
 module.exports = function(database) {
-  return function(table, columnName, value, id) {
+  return function(schema, record) {
     return new Promise((resolve, reject) => {
-      database.all(
-        `UPDATE ${ table.title } SET ${ columnName } = $value WHERE id = $id`,
-        { $value : value, $id : id },
-        (error, records) => {
+      const id = [record.id];
+      delete record.id;
+      const fields = Object.keys(record).map(key => key + ' = ?').join(', ');
+      database.run(
+        `UPDATE ${ schema.title } SET ${ fields } WHERE id = ?`,
+        [...Object.values(record), ...id],
+        (error) => {
           if (error) {
             reject(error);
           } else {
-            resolve(records);
+            record.id = id;
+            resolve(record);
           }
         }
       );
