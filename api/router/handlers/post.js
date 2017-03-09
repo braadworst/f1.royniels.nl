@@ -1,3 +1,3 @@
-module.exports = (request, response, next) => {
+module.exports = (request, response, next, relay) => {
   next();
 }

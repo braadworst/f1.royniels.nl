@@ -1,9 +1,10 @@
 const superagent = require('superagent');
 const validator  = require('./validator');
+const jsonapi    = require('./jsonapi');
 
 module.exports = (function() {
 
-  const base = 'https://localhost:4444/api/';
+  const base = 'https://localhost:4444/';
 
   return {
     get : {
@@ -27,23 +28,16 @@ module.exports = (function() {
   };
 
   function upsert(name) {
-    return function(options) {
+    return function(record) {
       return new Promise((resolve, reject) => {
-
-        if (!options || options.record) {
-          reject(new Error('When setting new data you need to supply at least the record option'));
-          return;
-        }
-
-        const errors = validator(name, options.record);
+        const errors = validator(name, record);
         if (errors) {
           reject(errors);
           return;
         }
-
         superagent
-          .put(base + name)
-          .send(JSON.stringify(options))
+          .post(base + name)
+          .send(jsonapi.serialize(name, record))
           .end((error, response) => {
             if (error) {
               reject(error);
