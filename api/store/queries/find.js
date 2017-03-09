@@ -11,6 +11,14 @@ module.exports = function(database) {
           sort         = '',
           pagination   = '';
 
+      if (options.fields) {
+        // We don't have joins so we ignore all non current resource related fields
+        let resource = options.fields
+          .filter(field => field.resource === table)
+          .pop();
+        fields = resource.fields.join(', ');
+      }
+
       if (options.filters) {
         let fields   = options.filters.map(row => row.field + ' = ?');
         placeholders = options.filters.map(row => row.value );
