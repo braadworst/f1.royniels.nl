@@ -50,8 +50,9 @@ module.exports = (function() {
   }
 
   function find(name, options) {
+    console.log(base + name);
     return new Promise((resolve, reject) => {
-      querystring = '';
+      let querystring = '';
       if (options) {
         querystring = options.serialize();
       }
