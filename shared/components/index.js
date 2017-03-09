@@ -154,6 +154,10 @@ module.exports = function(renderer, state) {
     });
   }
 
+  if (renderer.initialize) {
+    renderer.initialize();
+  }
+
   try {
     (async function() {
       // Set all loaded data on initial load
@@ -161,7 +165,6 @@ module.exports = function(renderer, state) {
       for (let key of keys) {
         registered[key].exposed().data();
         await registered[key].component().data();
-        registered[key].component().ready();
       }
     }());
   } catch (error) {}

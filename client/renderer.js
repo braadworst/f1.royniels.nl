@@ -5,32 +5,43 @@ module.exports = (function(renderer) {
 
   let removed, ready;
 
-  const observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.removedNodes) {
-        mutation.removedNodes.forEach(node => {
-          if (node.getAttribute('id')) {
-            removed(node.getAttribute('id'));
-          }
-        })
-      }
-      if (mutation.addedNodes) {
-        mutation.addedNodes.forEach(node => {
-          if (node.getAttribute('id')) {
-            // TODO: Dirty fix to wait for the children being loaded
-            setTimeout(function() {
-              ready(node.getAttribute('id'));
-            }, 500);
-          }
-        })
-      }
-    });
-  });
-
-  // pass in the target node, as well as the observer options
-  observer.observe(document.querySelector('body'), { childList : true, subtree : true});
-
   return {
+    initialize() {
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.removedNodes) {
+            mutation.removedNodes.forEach(node => {
+              if (node.getAttribute('id')) {
+                removed(node.getAttribute('id'));
+              }
+            })
+          }
+          if (mutation.addedNodes) {
+            mutation.addedNodes.forEach(node => {
+              if (node.getAttribute('id')) {
+                // TODO: Dirty fix to wait for the children being loaded
+                setTimeout(function() {
+                  ready(node.getAttribute('id'));
+                }, 500);
+              }
+            })
+          }
+        });
+      });
+
+      // pass in the target node, as well as the observer options
+      observer.observe(document.querySelector('body'), { childList : true, subtree : true});
+
+      // Run the ready call for on page elements
+      const components = [].slice.call(document.querySelectorAll(`[id]`));
+      components.forEach(component => {
+        const name = component.getAttribute('id');
+        if (name) {
+          registered[name] = true;
+          ready(name);
+        }
+      });      
+    }
     ready(callback) {
       ready = callback;
     },
@@ -53,5 +64,5 @@ module.exports = (function(renderer) {
     wrapper.innerHTML = html.trim().replace( /(^|>)\s+|\s+(?=<|$)/g, '$1');
     return wrapper.firstChild;
   }
-  
+
 }());

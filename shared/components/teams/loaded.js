@@ -14,7 +14,7 @@ function row(team) {
         <div class="pure-g">
           <div class="pure-u-1-2 pure-u-md-1-3">
             <h1>${ team.name }</h1>
-            <p>Matthijs Holtman</p>
+            <p>${ team.user }</p>
           </div>
           <div class="pure-u-1-2 pure-u-md-2-3">
             <div class="pure-g">
