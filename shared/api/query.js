@@ -1,13 +1,13 @@
 module.exports = function() {
 
-  let exposed, filters = [], fieldsets = [], sorts = [], pages = [];
+  let exposed, filters = [], fieldsets = [], sorts = [], pagination = [];
 
   exposed = {
-    page(number = 1, size = 50) {
-      pages[0] = {
-        key   : 'page[number]',
-        value : number + ',' + size
-      };
+    pagination(name, value) {
+      pagination.push({
+        key   : `page[${ name }]`,
+        value : value
+      });
       return exposed;
     },
     filter(name, value) {
@@ -43,7 +43,7 @@ module.exports = function() {
       return exposed;
     },
     serialize() {
-      return [sorts, pages, filters, fieldsets]
+      return [sorts, pagination, filters, fieldsets]
         .reduce((setOutput, set) => {
           return setOutput + set.reduce((rowOutput, row) => {
             return rowOutput + `${ row.key }=${ row.value }&`;
@@ -82,7 +82,7 @@ module.exports = function() {
             exposed.fields(name, ...row.values);
             break;
           case 'page' :
-            exposed.page(...row.values);
+            exposed.pagination(name, ...row.values);
             break;
           case 'sort' :
             exposed.sort(...row.values);
@@ -97,18 +97,20 @@ module.exports = function() {
         output.sort = sorts.reduce((output, row) => [...output, ...row.value.split(',')], []);
       }
 
-      if (pages.length) {
-        output.page = {
-          current : parseInt(pages[0].value.split(',').shift()),
-          limit   : parseInt(pages[0].value.split(',').pop()),
-        }
+      if (pagination.length) {
+        output.pagination = pagination.map(page => {
+          return {
+            field : page.key.split('[').pop().split(']').shift(),
+            value : page.value
+          };
+        })
       }
 
       if (filters.length) {
         output.filters = filters.map(filter => {
           return {
             field : filter.key.split('[').pop().split(']').shift(),
-            value : parseInt(filter.value)
+            value : filter.value
           };
         })
       }
