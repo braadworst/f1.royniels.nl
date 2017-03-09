@@ -1,16 +1,12 @@
-module.exports = (function() {
+module.exports = function() {
 
-  let exposed, filters = [], fieldsets = [], sorts = [], includes = [], pages = [];
+  let exposed, filters = [], fieldsets = [], sorts = [], pages = [];
 
   exposed = {
     page(number = 1, size = 50) {
       pages[0] = {
         key   : 'page[number]',
-        value : number
-      };
-      pages[1] = {
-        key   : 'page[size]',
-        value : size
+        value : number + ',' + size
       };
       return exposed;
     },
@@ -46,17 +42,8 @@ module.exports = (function() {
       });
       return exposed;
     },
-    include(...resouces) {
-      if (!resources.length) {
-        throw new Error('Please provide resource names if you want to include resources');
-      }
-      includes.push({
-        key   : 'include',
-        value : resources.join(',')
-      });
-    },
     serialize() {
-      return [sorts, includes, pages, filters, fieldsets]
+      return [sorts, pages, filters, fieldsets]
         .reduce((setOutput, set) => {
           return setOutput + set.reduce((rowOutput, row) => {
             return rowOutput + `${ row.key }=${ row.value }&`;
@@ -67,7 +54,7 @@ module.exports = (function() {
       if (!serialized) {
         return false;
       }
-      return serialized
+      const parsed = serialized
         .split('&')
         .filter(row => row)
         .map(row => {
@@ -81,9 +68,63 @@ module.exports = (function() {
           row.values = row.values.split(',')
           return row;
         });
+
+      // Add the options to the current function, so you can manipulate it again
+      parsed.forEach(row => {
+        const key  = row.key.split('[').shift();
+        const name = row.key.split('[').pop().split(']').shift();
+
+        switch (key) {
+          case 'filter' :
+            exposed.filter(name, ...row.values);
+            break;
+          case 'fields' :
+            exposed.fields(name, ...row.values);
+            break;
+          case 'page' :
+            exposed.page(...row.values);
+            break;
+          case 'sort' :
+            exposed.sort(...row.values);
+            break;
+        }
+      });
+    },
+    toObject() {
+      let output = {};
+
+      if (sorts.length) {
+        output.sort = sorts.reduce((output, row) => [...output, ...row.value.split(',')], []);
+      }
+
+      if (pages.length) {
+        output.page = {
+          current : parseInt(pages[0].value.split(',').shift()),
+          limit   : parseInt(pages[0].value.split(',').pop()),
+        }
+      }
+
+      if (filters.length) {
+        output.filters = filters.map(filter => {
+          return {
+            field : filter.key.split('[').pop().split(']').shift(),
+            value : parseInt(filter.value)
+          };
+        })
+      }
+
+      if (fieldsets.length) {
+        output.fields = fieldsets.map(field => {
+          return {
+            resource : field.key.split('[').pop().split(']').shift(),
+            fields   : field.value.split(',')
+          };
+        })
+      }
+
+      return output;
     }
   }
 
-
   return exposed;
-}());
+};
