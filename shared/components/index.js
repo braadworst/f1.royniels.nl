@@ -23,6 +23,7 @@ module.exports = function(renderer, state) {
       }
       await component.loaded();
     } catch (error) {
+      console.log(error);
       component.failed(error);
     }
   }
