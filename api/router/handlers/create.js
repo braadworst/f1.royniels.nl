@@ -1,35 +1,71 @@
-const datasets = require('../../datasets');
+const schemas  = {
+  drivers : require('../../../shared/api/schemas/drivers'),
+  chassis : require('../../../shared/api/schemas/chassis'),
+  circuits : require('../../../shared/api/schemas/circuits'),
+  engines : require('../../../shared/api/schemas/engines'),
+  points : require('../../../shared/api/schemas/points'),
+  predictions : require('../../../shared/api/schemas/predictions'),
+  results : require('../../../shared/api/schemas/results'),
+  teams : require('../../../shared/api/schemas/teams'),
+  users : require('../../../shared/api/schemas/users'),
+}
 
-module.exports = async function(database) {
+const datasets = {
+  drivers  : require('../../datasets/drivers'),
+  circuits : require('../../datasets/circuits'),
+  engines  : require('../../datasets/engines'),
+  chassis  : require('../../datasets/chassis'),
+}
+
+module.exports = async function(request, response, next, relay) {
   try {
-    // const teams = require('../../shared/schemas/teams');
-    // await database.drop(teams);
-    // await database.create(teams);
+    await relay.database.drop(schemas.drivers);
+    await relay.database.create(schemas.drivers);
+    for (let driver of datasets.drivers) {
+      await relay.database.insert(schemas.drivers, driver);
+    }
 
-    const users = require('../../shared/schemas/users');
-    await database.drop(users);
-    await database.create(users);
+    await relay.database.drop(schemas.chassis);
+    await relay.database.create(schemas.chassis);
+    for (let chassi of datasets.chassis) {
+      await relay.database.insert(schemas.chassis, chassi);
+    }
 
-    const drivers = require('../../shared/schemas/drivers');
-    await database.drop(drivers);
-    await database.create(drivers);
-    await database.insert(drivers, datasets.drivers);
+    await relay.database.drop(schemas.circuits);
+    await relay.database.create(schemas.circuits);
+    for (let circuit of datasets.circuits) {
+      await relay.database.insert(schemas.circuits, circuit);
+    }
 
-    const engines = require('../../shared/schemas/engines');
-    await database.drop(engines);
-    await database.create(engines);
-    await database.insert(engines, datasets.engines);
+    await relay.database.drop(schemas.engines);
+    await relay.database.create(schemas.engines);
+    for (let engine of datasets.engines) {
+      await relay.database.insert(schemas.engines, engine);
+    }
 
-    const chassis = require('../../shared/schemas/chassis');
-    await database.drop(chassis);
-    await database.create(chassis);
-    await database.insert(chassis, datasets.chassis);
+    await relay.database.drop(schemas.points);
+    await relay.database.create(schemas.points);
 
-    const circuits = require('../../shared/schemas/circuits');
-    await database.drop(circuits);
-    await database.create(circuits);
-    await database.insert(circuits, datasets.circuits);
+    await relay.database.drop(schemas.predictions);
+    await relay.database.create(schemas.predictions);
+
+    await relay.database.drop(schemas.results);
+    await relay.database.create(schemas.results);
+
+    await relay.database.drop(schemas.teams);
+    await relay.database.create(schemas.teams);
+
+    await relay.database.drop(schemas.users);
+    await relay.database.create(schemas.users);
+
+    // await relay.database.drop(schemas.drivers);
+    // await relay.database.create(schemas.drivers);
+    // for (let driver of drivers) {
+    //   await relay.database.insert(schemas.drivers, driver);
+    // }
+    next();
   } catch (error) {
-    throw new Error(error);
+    console.log(error);
+    next();
   }
 }
