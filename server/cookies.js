@@ -1,5 +1,3 @@
-const fetcha = require('fetcha');
-
 module.exports = (function() {
 
   return {
@@ -15,21 +13,27 @@ module.exports = (function() {
       return cookies;
     },
     set(response, key, value) {
+      let tomorrow = new Date();
+      tomorrow = new Date(tomorrow.setDate(tomorrow.getDate() + 1)).toUTCString();
+
       response.setHeader('Set-Cookie', [
         key + '=' + value,
         'Secure',
         'SameSite=Strict',
-        // 'Expires=' + fetcha.parse().utc().add(1, 'day').toString(),
+        'Expires=' + tomorrow,
         'Domain=localhost',
         'Path=/'
       ].join('; '));
     },
     unset(response, key) {
+      let yesterday = new Date();
+      yesterday = new Date(yesterday.setDate(yesterday.getDate() + 1)).toUTCString();
+
       response.setHeader('Set-Cookie', [
         key + '=',
         'Secure',
         'SameSite=Strict',
-        'Expires=' + fetcha.parse().utc().subtract(1, 'day').toString(),
+        'Expires=' + yesterday,
         'Domain=localhost',
         'Path=/'
       ].join('; '));

@@ -13,8 +13,7 @@ module.exports = function(settings) {
     create    : require('./queries/create')(database),
     insert    : require('./queries/insert')(database),
     drop      : require('./queries/drop')(database),
-    selectAll : require('./queries/selectAll')(database),
-    findOne   : require('./queries/findOne')(database),
+    find      : require('./queries/find')(database),
     update    : require('./queries/update')(database),
   };
 }

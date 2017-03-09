@@ -1,4 +1,4 @@
-const fetch       = require('request');
+const superagent  = require('superagent');
 const settings    = require('package-settings');
 const uuid        = require('uuid/').v4;
 const querystring = require('querystring');
@@ -56,12 +56,12 @@ module.exports = function(router) {
         cookies.set(response, 'token', user.token);
 
         // Check update the token if the user exists, otherwise create new user
-        await api.set.user(user);
+        await api.set.user({ record : user, column : 'token' });
 
         // Finally redirect the user to the standings page
         router.redirect('/standings');
       } catch(error) {
-        console.log(error);
+        console.log(error.message);
         router.redirect('/');
       }
     });
@@ -125,35 +125,37 @@ module.exports = function(router) {
   function fetchUser(uri, qs) {
     return new Promise((resolve, reject) => {
       // Get the access token
-      fetch.get({ uri, qs, headers : { 'User-Agent' : 'F1 Manager' } }, (error, result, body) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(cleanResult(JSON.parse(body)));
-        }
-      });
+      superagent
+        .get(uri)
+        .query(qs)
+        .set('User-Agent', 'F1 Manager')
+        .end((error, response) => {
+          if (error) {
+            console.log('fetchUSer');
+            reject(error);
+          } else {
+            resolve(cleanResult(response.body));
+          }
+        });
     });
   }
 
   function fetchAccessToken(uri, qs) {
+    console.log(uri);
     return new Promise((resolve, reject) => {
       // Get the access token
-      fetch.post({ uri, qs }, (error, result, body) => {
-        if (error) {
-          reject(error);
-        } else {
-          try {
-            body = JSON.parse(body);
-          } catch (error) {
-            body = querystring.parse(body);
-          }
-          if (error || body.error) {
+      superagent
+        .post(uri)
+        .send(querystring.stringify(qs))
+        .end((error, response) => {
+          if (error) {
+            reject(error);
+          } else if (response.body.error) {
             reject(body);
           } else {
-            resolve(body.access_token);
+            resolve(response.body.access_token);
           }
-        }
-      });
+        });
     });
   }
 }
