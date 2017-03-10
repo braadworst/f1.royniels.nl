@@ -20,13 +20,25 @@ module.exports = {
   menu(path) {
     return { type : 'active', active : path };
   },
-  componentAdded(name) {
-    return { type : 'componentAdded', name };
+  componentCreate(name, settings) {
+    return { type : 'componentCreate', name, settings };
+  },
+  componentLoading(name) {
+    return { type : 'componentLoading', name };
+  },
+  componentLoaded(name) {
+    return { type : 'componentLoaded', name };
   },
   componentReady(name) {
     return { type : 'componentReady', name };
   },
-  componentRemoved() {
+  componentFailed(name) {
+    return { type : 'componentFailed', name };
+  },
+  componentSettings(name, settings) {
+    return { type : 'componentSettings', name, settings };
+  },
+  componentRemoved(name) {
     return { type : 'componentRemoved', name };
   }
 }

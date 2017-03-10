@@ -1,179 +1,116 @@
-module.exports = function(renderer, state, router) {
-
+module.exports = function(state, renderer) {
+  console.log(state);
   let registered = {};
 
   require('./register').forEach(component => {
     register(component.name, component.code);
   });
 
-  function exists(name) {
+  function register(name, code) {
+    registered[name] = component(name);
+    code(registered[name].exposed);
+  }
+
+  function getComponent(name) {
     if (!registered[name]) {
       throw new Error(`Component ${ name } hasn't been registered`);
     }
+    return registered[name].triggers;
   }
 
-  async function initialize(name, settings) {
-    exists(name);
-    const component = registered[name].component(settings);
+  // Watch for change events to the state
+  state.watch('componentCreate', async function(data) {
     try {
-      component.loading();
-      const datasets = await component.data();
-      if (datasets && datasets.filter(dataset => Array.isArray(dataset) && dataset.length > 0).length === 0) {
-        component.empty();
-      }
+      const component = getComponent(data.name);
+      state.dispatch('componentLoading', data.name);
+      await component.loading();
+      await component.data();
       await component.loaded();
+      state.dispatch('componentLoaded', data.name);
     } catch (error) {
-      console.log(error);
-      component.failed(error);
+      await component.failed();
+      state.dispatch('componentFailed', data.name, error);
     }
-  }
+  });
 
-  function register(name, code) {
-    registered[name] = component();
-    return code(registered[name].exposed());
-  }
+  state.watch('componentReady', async function(data) {
+    const component = getComponent(data.name);
+    component.ready();
+  });
 
-  function component() {
-    let callbacks = {}, datasetNames = [], datasets = [], watch = [], unwatch = [], settings = [];
-    const component = {
-      data : async function() {
-        datasets = [];
-        for (let name of datasetNames) {
-          let current = await state.data(name);
-          datasets.push(current);
+  state.watch('componentRemoved', async function(data) {
+    const component = getComponent(data.name);
+    component.removed();
+  });
+
+  function component(componentName) {
+    let exposed = {}, triggers = {}, callbacks = {}, datasets = {}, datasetNames = [];
+
+    // callbacks that need to be set by the user in the component
+    ['loading', 'loaded', 'removed', 'ready', 'failed'].forEach(callbackName => {
+      triggers[callbackName] = async function() {
+        if (callbacks[callbackName]) {
+          // Convert datasets to array
+          await callbacks[callbackName](...Object.keys(datasets).map(key => datasets[key]));
         }
+      }
+      exposed[callbackName] = (callback) => {
+        callbacks[callbackName] = callback;
+        return exposed;
+      }
+    });
+
+    // Data callback, different footprint but also called by user
+    triggers.data = async function() {
+      for (let name of datasetNames) {
+        datasets[name] = await state.data(name);
+      }
+    }
+
+    exposed.data = (...names) => {
+      datasetNames = [...datasetNames, ...names];
+      return exposed;
+    }
+
+    // Util functions for within the component
+    const utils = {
+      render(html) {
+        renderer.render(html);
+        return exposed;
       },
-      loading() {
-        if (callbacks.loading) {
-          callbacks.loading();
-        }
+      save(name, record) {
+        return state.save(name, record);
       },
-      loaded : async function() {
-        if (callbacks.loaded) {
-          await callbacks.loaded(...datasets);
-        }
+      watch(name, callback) {
+        state.watch(name, callback);
+        return exposed;
       },
-      empty() {
-        if (callbacks.empty) {
-          callbacks.empty();
-        }
+      unwatch(name) {
+        state.unwatch(name);
+        return exposed;
       },
-      failed(error) {
-        if (callbacks.failed) {
-          callback.failed(error);
-        }
+      create(name, ...settings) {
+        state.dispatch('componentSettings', name, settings);
+        state.dispatch('componentCreate', name);
       },
-      ready() {
-        if (callbacks.ready) {
-          callbacks.ready(...datasets);
-        }
+      settings() {
+        return state.get('componentSettings')[componentName];
       },
-      removed() {
-        if (callbacks.removed) {
-          callbacks.removed();
-        }
+      redirect(path) {
+        state.dispatch('routerRedirect', path);
       }
     }
 
     return {
-      exposed() {
-        const exposed = {
-          data(...names) {
-            datasetNames = [...datasetNames, ...names];
-            return exposed;
-          },
-          loading(callback) {
-            callbacks.loading = callback;
-            return exposed;
-          },
-          loaded(callback) {
-            callbacks.loaded = callback;
-            return exposed;
-          },
-          empty(callback) {
-            callbacks.empty = callback;
-            return exposed;
-          },
-          failed(callback) {
-            callbacks.failed = callback;
-            return exposed;
-          },
-          ready(callback) {
-            callbacks.ready = callback;
-            return exposed;
-          },
-          removed(callback) {
-            callbacks.removed = callback;
-            return exposed;
-          },
-          render(html) {
-            renderer.render(html);
-            return exposed;
-          },
-          save(name, record) {
-            return state.save(name, record);
-          },
-          watch(name, callback) {
-            state.watch(name, callback);
-            return exposed;
-          },
-          unwatch(name) {
-            state.unwatch(name);
-            return exposed;
-          },
-          create(name, ...settings) {
-            return initialize(name, settings);
-          },
-          options() {
-            return settings;
-          },
-          redirect(path) {
-            router.redirect(path);
-          }
-        }
-        return exposed;
-      },
-      component(newSettings) {
-        settings = newSettings;
-        return component;
-      }
+      exposed : Object.assign({}, exposed, utils),
+      triggers
     }
   }
 
-  try {
-    (async function() {
-      // Set all loaded data on initial load
-      let keys = Object.keys(registered);
-      for (let key of keys) {
-        registered[key].exposed().data();
-        await registered[key].component().data();
-      }
-
-      // Listen for dom event changes
-      if (renderer.ready) {
-        renderer.ready(name => {
-          exists(name);
-          registered[name].component().ready();
-        });
-      }
-
-      if (renderer.removed) {
-        renderer.removed(name => {
-          exists(name);
-          registered[name].component().removed();
-        });
-      }
-
-      if (renderer.initialize) {
-        renderer.initialize();
-      }
-
-    }());
-  } catch (error) {}
-
   return {
     create(name, ...settings) {
-      return initialize(name, settings);
+      state.dispatch('componentSettings', name, settings);
+      state.dispatch('componentCreate', name);
     }
   }
 }

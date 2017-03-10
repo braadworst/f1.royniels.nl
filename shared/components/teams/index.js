@@ -1,6 +1,5 @@
 const loading = require('./loading')();
 const loaded  = require('./loaded');
-const empty   = require('./empty')();
 const failed  = require('./failed')();
 
 module.exports = component => {
@@ -8,7 +7,6 @@ module.exports = component => {
     .data('user', 'teams', 'drivers', 'engines', 'chassis')
     .loading(() => component.render(loading))
     .failed(() => component.render(failed))
-    .empty(() => component.render(empty))
     .loaded((user, teams, drivers, engines, chassis) => {
 
       teams = teams.map(team => {

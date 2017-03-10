@@ -24,7 +24,7 @@ router.before((request, response, next) => {
     renderer = require('./renderer')(require('./templates/default'));
   }
   const state      = require('../shared/state')();
-  const components = require('../shared/components')(renderer, state);
+  const components = require('../shared/components')(state);
   next({ state, components, renderer });
 });
 
