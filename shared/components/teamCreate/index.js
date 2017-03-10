@@ -14,7 +14,7 @@ module.exports = component => {
       component.render(loaded(drivers, engines, chassis, startBudget));
     })
     .ready((user) => {
-          console.log('readt')
+
       const drivers = [].slice.call(document.querySelectorAll('.item-create-driver'));
       const engines = [].slice.call(document.querySelectorAll('.item-create-engine'));
       const chassis = [].slice.call(document.querySelectorAll('.item-create-chassis'));
@@ -25,10 +25,10 @@ module.exports = component => {
 
       // Add button listeners
       save.addEventListener('click', async function(event) {
-        console.log('click biatch')
         event.preventDefault();
           try {
             await component.save('teams', getFormData());
+            component.redirect('/teams');
           } catch (error) {
             console.log(error);
           }

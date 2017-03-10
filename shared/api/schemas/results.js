@@ -35,6 +35,12 @@ module.exports = {
     },
     ten : {
       type : 'integer'
+    },
+    fastest : {
+      type : 'integer'
+    },
+    best : {
+      type : 'integer'
     }
   }
 };

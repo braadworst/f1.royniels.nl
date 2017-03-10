@@ -2,7 +2,7 @@ const loaded = require('./loaded');
 
 module.exports = component => {
   component
-    .data('menu', 'myTeams', 'user')
+    .data('drivers', 'circuits')
     .loaded((menu, myTeams, user) => {
       component.render(loaded(user, myTeams));
     })

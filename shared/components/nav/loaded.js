@@ -1,6 +1,6 @@
 let url = require('../../routing/url');
 
-module.exports = function(step) {
+module.exports = function(user) {
   return `
   <section id="nav">
     <nav>
@@ -17,9 +17,16 @@ module.exports = function(step) {
         <li><a href="${ url.races() }">Races</a></li>
         <li><a href="${ url.standings() }">Standings</a></li>
         <li><a href="${ url.rules() }">Rules</a></li>
+        ${ showAdmin(user.isAdmin) }
         <li><a href="${ url.logout() }" data-router-server>Logout</a></li>
       </ul>
     </nav>
   </section>
   `;
+}
+
+function showAdmin(bool) {
+  if (bool) {
+    return `<li><a href="${ url.results() }">results</a></li>`;
+  }
 }

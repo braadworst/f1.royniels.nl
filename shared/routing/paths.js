@@ -7,6 +7,7 @@ const TEAM_CREATE     = '/create-team';
 const RACES           = '/races';
 const STANDINGS       = '/standings';
 const RULES           = '/rules';
+const RESULTS         = '/results';
 
 module.exports = {
   LOGIN,
@@ -17,5 +18,6 @@ module.exports = {
   TEAM_CREATE,
   RACES,
   STANDINGS,
-  RULES
+  RULES,
+  RESULTS,
 }

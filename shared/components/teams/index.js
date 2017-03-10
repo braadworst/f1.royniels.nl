@@ -11,12 +11,6 @@ module.exports = component => {
     .empty(() => component.render(empty))
     .loaded((user, teams, drivers, engines, chassis) => {
 
-      // Happends when there is only one team
-      // TODO, fix json api that this always gives back an array
-      if (typeof teams === 'object') {
-        teams = [teams];
-      }
-
       teams = teams.map(team => {
         return {
           name         : team.name,

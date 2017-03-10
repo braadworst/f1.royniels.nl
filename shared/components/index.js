@@ -1,4 +1,4 @@
-module.exports = function(renderer, state) {
+module.exports = function(renderer, state, router) {
 
   let registered = {};
 
@@ -39,7 +39,8 @@ module.exports = function(renderer, state) {
       data : async function() {
         datasets = [];
         for (let name of datasetNames) {
-          datasets.push(await state.data(name));
+          let current = await state.data(name);
+          datasets.push(current);
         }
       },
       loading() {
@@ -126,8 +127,8 @@ module.exports = function(renderer, state) {
           options() {
             return settings;
           },
-          state(name) {
-            return state.state(name);
+          redirect(path) {
+            router.redirect(path);
           }
         }
         return exposed;
@@ -139,25 +140,6 @@ module.exports = function(renderer, state) {
     }
   }
 
-  // Listen for dom event changes
-  if (renderer.ready) {
-    renderer.ready(name => {
-      exists(name);
-      registered[name].component().ready();
-    });
-  }
-
-  if (renderer.removed) {
-    renderer.removed(name => {
-      exists(name);
-      registered[name].component().removed();
-    });
-  }
-
-  if (renderer.initialize) {
-    renderer.initialize();
-  }
-
   try {
     (async function() {
       // Set all loaded data on initial load
@@ -166,6 +148,26 @@ module.exports = function(renderer, state) {
         registered[key].exposed().data();
         await registered[key].component().data();
       }
+
+      // Listen for dom event changes
+      if (renderer.ready) {
+        renderer.ready(name => {
+          exists(name);
+          registered[name].component().ready();
+        });
+      }
+
+      if (renderer.removed) {
+        renderer.removed(name => {
+          exists(name);
+          registered[name].component().removed();
+        });
+      }
+
+      if (renderer.initialize) {
+        renderer.initialize();
+      }
+
     }());
   } catch (error) {}
 

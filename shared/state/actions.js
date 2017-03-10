@@ -19,5 +19,14 @@ module.exports = {
   },
   menu(path) {
     return { type : 'active', active : path };
+  },
+  componentAdded(name) {
+    return { type : 'componentAdded', name };
+  },
+  componentReady(name) {
+    return { type : 'componentReady', name };
+  },
+  componentRemoved() {
+    return { type : 'componentRemoved', name };
   }
 }

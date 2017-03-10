@@ -26,6 +26,9 @@ module.exports = (function() {
     rules(...params) {
       return merge(paths.RULES, params);
     },
+    results(...params) {
+      return merge(paths.RESULTS, params);
+    },
   }
 
   function merge(url, params) {

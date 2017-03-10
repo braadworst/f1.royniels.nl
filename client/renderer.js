@@ -37,11 +37,10 @@ module.exports = (function(renderer) {
       components.forEach(component => {
         const name = component.getAttribute('id');
         if (name) {
-          registered[name] = true;
           ready(name);
         }
-      });      
-    }
+      });
+    },
     ready(callback) {
       ready = callback;
     },

@@ -29,6 +29,11 @@ module.exports = function(server) {
     relay.state.dispatch('menu', request.url);
     next();
   });
+  router.get(paths.RESULTS, async function(request, response, next, relay) {
+    await relay.components.create('switcher', 'results');
+    relay.state.dispatch('menu', request.url);
+    next();
+  });
 
   return router;
 };

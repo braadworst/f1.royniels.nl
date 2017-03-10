@@ -54,7 +54,10 @@ module.exports = function(database) {
           if (error) {
             reject(error);
           } else {
-            if (records.length === 1) {
+            // If there was a single record request, and there is only a single
+            // result
+            console.log(table, records.length, where);
+            if (records.length === 1 && where !== '') {
               resolve(records.pop());
             } else {
               resolve(records);

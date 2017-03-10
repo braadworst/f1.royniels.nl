@@ -81,7 +81,7 @@ module.exports = function(preloadedState) {
           } else {
             store.dispatch(actions.dataLoading(name));
             try {
-              const records = await api.get[name](await querystring(name));
+              const records = await api.get[name](querystring(name));
               store.dispatch(actions.dataLoaded(name, records));
               resolve(records);
             } catch (error) {
@@ -125,14 +125,17 @@ module.exports = function(preloadedState) {
   }
 
   // TODO have a look if we can smoothen this process
-  async function querystring(name) {
-    switch(name) {
-      case 'myTeams' :
-        const user = await exposed.data('user');
-        return query().filter('userId', user.id).fields('teams', 'id', 'name');
-      default :
-        return '';
-    }
+  function querystring(name) {
+    (async function() {
+      switch(name) {
+        case 'myTeams' :
+          const user = await exposed.data('user');
+          console.log(user);
+          return query().filter('userId', user.id).fields('teams', 'id', 'name');
+        default :
+          return '';
+      }
+    }());
   }
 
   return exposed;
