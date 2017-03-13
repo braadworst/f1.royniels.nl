@@ -23,7 +23,7 @@ module.exports = (function() {
     token(settings) {
       return async function(request, response, next, relay) {
 
-        const api        = require('../api')(relay.settings);
+        const api        = relay.api;
         const retour     = relay.router;
         const parameters = querystring.parse(request.url.split('?').pop());
 

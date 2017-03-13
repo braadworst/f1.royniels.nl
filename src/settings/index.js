@@ -5,5 +5,8 @@ module.exports = function(type) {
     throw new Error('Please provide a type for the settings you want to load');
   }
 
-  return require(`./${ environment }/${ type }`);
+  return Object.assign(
+    require(`./${ environment }/${ type }`),
+    { paths : require('./paths') }
+  );
 }

@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 
 module.exports = async function(request, response, next, relay) {
-  const api        = require('../api')(relay.settings);
+  const api        = relay.api;
   const router     = relay.router;
   const passphrase = relay.settings.encryption.passphrase;
   const mode       = relay.settings.encryption.mode;
