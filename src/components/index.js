@@ -92,7 +92,8 @@ module.exports = function() {
       try {
         const component = exists(name);
         template(name, component.loading, placeholder);
-        const data = await data(component.datasets, name);
+        let data = await data(component.datasets, name);
+        data = component.prepare(...data);
         template(name, component.loaded, placeholder, data);
       } catch (error) {
         console.log(error);

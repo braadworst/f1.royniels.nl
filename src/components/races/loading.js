@@ -1,11 +1,9 @@
-const range = require('lodash/range');
-
 module.exports = function(options) {
   return `
   <section id="races" class="animation-page-in loading">
     <h1>Race results</h1>
     <div class="pure-g">
-      ${ range(20).map(row).join('') }
+      ${ new Array(20).map(row).join('') }
     </div>
   </section>
   `;

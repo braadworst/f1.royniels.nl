@@ -1,4 +1,4 @@
-module.exports = function(options = {}) {
+module.exports = () => {
   return `
   <section id="login">
     <div class="brand">
