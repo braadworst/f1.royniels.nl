@@ -24,7 +24,7 @@ router.before((request, response, next) => {
     renderer = require('./renderer')(require('./templates/default'));
   }
   const state      = require('../shared/state')();
-  const components = require('../shared/components')(state);
+  const components = require('../shared/components')(state, renderer);
   next({ state, components, renderer });
 });
 
@@ -51,9 +51,14 @@ router.before(async function(request, response, next, relay) {
 }, paths.LOGIN);
 
 // Render nav except on login page
-router.before(async function(request, response, next, relay) {
-  await relay.components.create('nav');
-  next();
+router.before((request, response, next, relay) => {
+  relay.components.create('nav');
+  relay.state.watch('component', data => {
+    if (data.name === 'nav' && data.type === 'loaded') {
+      next();
+      relay.state.unwatch('component');
+    }
+  });
 }, paths.LOGIN);
 
 // Logout route
@@ -63,10 +68,15 @@ router.get(paths.LOGOUT, (request, response) => {
 });
 
 // Route the login page
-router.get(paths.LOGIN, async function(request, response, next, relay) {
-  await relay.components.create('login');
-  next();
-});
+router.get(paths.LOGIN, (request, response, next, relay) => {
+  relay.components.create('login');
+  relay.state.watch('component', data => {
+    console.log(data);
+    if (data.name === 'login' && data.type === 'loaded') {
+      next();
+      relay.state.unwatch('component');
+    }
+  });});
 
 // Setup login routes and strategies
 require('./login')(router);

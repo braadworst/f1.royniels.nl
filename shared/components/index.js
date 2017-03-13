@@ -1,5 +1,5 @@
 module.exports = function(state, renderer) {
-  console.log(state);
+
   let registered = {};
 
   require('./register').forEach(component => {
@@ -19,28 +19,29 @@ module.exports = function(state, renderer) {
   }
 
   // Watch for change events to the state
-  state.watch('componentCreate', async function(data) {
-    try {
-      const component = getComponent(data.name);
-      state.dispatch('componentLoading', data.name);
-      await component.loading();
-      await component.data();
-      await component.loaded();
-      state.dispatch('componentLoaded', data.name);
-    } catch (error) {
-      await component.failed();
-      state.dispatch('componentFailed', data.name, error);
+  state.watch('component', async function(data) {
+    const component = getComponent(data.name);
+    switch(data.type) {
+      case 'create' :
+        try {
+          state.dispatch('componentLoading', data.name);
+          await component.loading();
+          await component.data();
+          await component.loaded();
+          state.dispatch('componentLoaded', data.name);
+        } catch (error) {
+          console.log(error);
+          await component.failed();
+          state.dispatch('componentFailed', data.name, error);
+        }
+        break;
+      case 'ready' :
+        component.ready();
+        break;
+      case 'removed' :
+        component.removed();
+        break;
     }
-  });
-
-  state.watch('componentReady', async function(data) {
-    const component = getComponent(data.name);
-    component.ready();
-  });
-
-  state.watch('componentRemoved', async function(data) {
-    const component = getComponent(data.name);
-    component.removed();
   });
 
   function component(componentName) {
@@ -94,7 +95,10 @@ module.exports = function(state, renderer) {
         state.dispatch('componentCreate', name);
       },
       settings() {
-        return state.get('componentSettings')[componentName];
+        const component = state.get('component');
+        if (component.name = componentName) {
+          return component.settings;
+        }
       },
       redirect(path) {
         state.dispatch('routerRedirect', path);

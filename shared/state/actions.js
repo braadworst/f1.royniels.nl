@@ -21,24 +21,24 @@ module.exports = {
     return { type : 'active', active : path };
   },
   componentCreate(name, settings) {
-    return { type : 'componentCreate', name, settings };
+    return { type : 'create', name };
   },
   componentLoading(name) {
-    return { type : 'componentLoading', name };
+    return { type : 'loading', name };
   },
   componentLoaded(name) {
-    return { type : 'componentLoaded', name };
+    return { type : 'loaded', name };
   },
   componentReady(name) {
-    return { type : 'componentReady', name };
+    return { type : 'ready', name };
   },
   componentFailed(name) {
-    return { type : 'componentFailed', name };
+    return { type : 'failed', name };
   },
   componentSettings(name, settings) {
-    return { type : 'componentSettings', name, settings };
+    return { type : 'settings', name, settings };
   },
   componentRemoved(name) {
-    return { type : 'componentRemoved', name };
+    return { type : 'removed', name };
   }
 }

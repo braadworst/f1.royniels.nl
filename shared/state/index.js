@@ -10,9 +10,9 @@ module.exports = function(preloadedState) {
 
   const store = redux.createStore(
     redux.combineReducers({
-      data       : require('./reducers/data'),
-      menu       : require('./reducers/menu'),
-      components : require('./reducers/components'),
+      data      : require('./reducers/data'),
+      menu      : require('./reducers/menu'),
+      component : require('./reducers/component'),
     }),
     preloadedState
   );
@@ -59,6 +59,16 @@ module.exports = function(preloadedState) {
           }
         }());
       });
+    },
+    get(name) {
+      let state = store.getState();
+      name.split('.').forEach(key => {
+        if (!state[key]) {
+          throw new Error('Not a valid key on the state object');
+        }
+        state = state[key];
+      });
+      return state;
     },
     data(name) {
       return new Promise((resolve, reject) => {
@@ -131,7 +141,6 @@ module.exports = function(preloadedState) {
       switch(name) {
         case 'myTeams' :
           const user = await exposed.data('user');
-          console.log(user);
           return query().filter('userId', user.id).fields('teams', 'id', 'name');
         default :
           return '';
