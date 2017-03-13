@@ -1,6 +1,4 @@
-let url = require('../../routing/url');
-
-module.exports = function(user) {
+module.exports = function(user, teams, paths) {
   return `
   <section id="nav">
     <nav>
@@ -12,21 +10,20 @@ module.exports = function(user) {
             <span class="name">F1 Manager</span>
           </div>
         </li>
-        <li><a href="${ url.teamCreate() }">Create team</a></li>
-        <li><a href="${ url.teams() }">All teams</a></li>
-        <li><a href="${ url.races() }">Races</a></li>
-        <li><a href="${ url.standings() }">Standings</a></li>
-        <li><a href="${ url.rules() }">Rules</a></li>
-        ${ showAdmin(user.isAdmin) }
-        <li><a href="${ url.logout() }" data-router-server>Logout</a></li>
+        <li><a href="${ paths.teamCreate }">Create team</a></li>
+        <li><a href="${ paths.teams }">All teams</a></li>
+        <li><a href="${ paths.races }">Races</a></li>
+        <li><a href="${ paths.standings }">Standings</a></li>
+        <li><a href="${ paths.rules }">Rules</a></li>
+        <li><a href="${ paths.logout }" data-router-server>Logout</a></li>
       </ul>
     </nav>
   </section>
   `;
-}
 
-function showAdmin(bool) {
-  if (bool) {
-    return `<li><a href="${ url.results() }">results</a></li>`;
-  }
+  // function showAdmin(bool) {
+  //   if (bool) {
+  //     return `<li><a href="${ paths.results }">results</a></li>`;
+  //   }
+  // }
 }

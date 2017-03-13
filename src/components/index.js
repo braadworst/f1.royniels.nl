@@ -1,120 +1,71 @@
-module.exports = function(state, renderer) {
+module.exports = function() {
 
-  let registered = {};
-
-  require('./register').forEach(component => {
-    register(component.name, component.code);
-  });
-
-  function register(name, code) {
-    registered[name] = component(name);
-    code(registered[name].exposed);
+  let registered;
+  let callbacks = {
+    dataSubscribe  : false,
+    dataUnsubsribe : false,
+    domRender      : false,
+    domReady       : false,
+    domRemoved     : false,
   }
+  let subscriptions = {};
 
-  function getComponent(name) {
-    if (!registered[name]) {
-      throw new Error(`Component ${ name } hasn't been registered`);
+  function subscribe(dataset, component) {
+    if (!subscriptions[name]) {
+      subscriptions[dataset] = [];
     }
-    return registered[name].triggers;
+    subscriptions[dataset] = component;
   }
 
-  // Watch for change events to the state
-  state.watch('component', async function(data) {
-    const component = getComponent(data.name);
-    switch(data.type) {
-      case 'create' :
-        try {
-          state.dispatch('componentLoading', data.name);
-          await component.loading();
-          await component.data();
-          await component.loaded();
-          state.dispatch('componentLoaded', data.name);
-        } catch (error) {
-          console.log(error);
-          await component.failed();
-          state.dispatch('componentFailed', data.name, error);
+  function unsubscribe(dataset, component) {
+    const index = subscriptions[dataset].indexOf(component);
+    if (index > -1) {
+      subscriptions[dataset].splice(index, 1);
+    }
+  }
+
+  function template(template, data = []) {
+    if (callbacks.domRender && template) {
+      callbacks.domRender(template(...data));
+    }
+  }
+
+  async function data(subscribers, name) {
+    let output = [];
+    if (callbacks.dataSubscribe && Array.isArray(subscribers)) {
+      for(const dataset of subscribers) {
+        output.push(await callbacks.dataSubscribe(dataset));
+        subscribe(dataset, name);
+      }
+    }
+    return output;
+  }
+
+  const exposed = {
+    create : async function(name, placeholder) {
+      try {
+        if (!registered[name]) {
+          throw new Error(`Component with name ${ name } is not registered`);
         }
-        break;
-      case 'ready' :
-        component.ready();
-        break;
-      case 'removed' :
-        component.removed();
-        break;
-    }
-  });
-
-  function component(componentName) {
-    let exposed = {}, triggers = {}, callbacks = {}, datasets = {}, datasetNames = [];
-
-    // callbacks that need to be set by the user in the component
-    ['loading', 'loaded', 'removed', 'ready', 'failed'].forEach(callbackName => {
-      triggers[callbackName] = async function() {
-        if (callbacks[callbackName]) {
-          // Convert datasets to array
-          await callbacks[callbackName](...Object.keys(datasets).map(key => datasets[key]));
-        }
+        const component = registered[name];
+        template(component.loading);
+        const data = await data(component.subscribe, name);
+        template(component.loaded, data);
+      } catch (error) {
+        console.log(error);
+        template(component.failed);
       }
-      exposed[callbackName] = (callback) => {
-        callbacks[callbackName] = callback;
-        return exposed;
-      }
-    });
-
-    // Data callback, different footprint but also called by user
-    triggers.data = async function() {
-      for (let name of datasetNames) {
-        datasets[name] = await state.data(name);
-      }
-    }
-
-    exposed.data = (...names) => {
-      datasetNames = [...datasetNames, ...names];
-      return exposed;
-    }
-
-    // Util functions for within the component
-    const utils = {
-      render(html) {
-        renderer.render(html);
-        return exposed;
-      },
-      save(name, record) {
-        return state.save(name, record);
-      },
-      watch(name, callback) {
-        state.watch(name, callback);
-        return exposed;
-      },
-      unwatch(name) {
-        state.unwatch(name);
-        return exposed;
-      },
-      create(name, ...settings) {
-        state.dispatch('componentSettings', name, settings);
-        state.dispatch('componentCreate', name);
-      },
-      settings() {
-        const component = state.get('component');
-        if (component.name = componentName) {
-          return component.settings;
-        }
-      },
-      redirect(path) {
-        state.dispatch('routerRedirect', path);
-      }
-    }
-
-    return {
-      exposed : Object.assign({}, exposed, utils),
-      triggers
+    },
+    register(components) {
+      registered = components;
+    },
+    dataSubscribe(callback) {
+      callbacks.dataSubscribe = callback;
+    },
+    domRender(callback) {
+      callbacks.domRender = callback;
     }
   }
 
-  return {
-    create(name, ...settings) {
-      state.dispatch('componentSettings', name, settings);
-      state.dispatch('componentCreate', name);
-    }
-  }
+  return exposed;
 }
