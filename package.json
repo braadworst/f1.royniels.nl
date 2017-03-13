@@ -85,28 +85,25 @@
   "watch": {
     "js": {
       "patterns": [
-        "client",
-        "shared"
+        "src"
       ],
       "extensions": "js"
     },
     "css": {
       "patterns": [
-        "server",
-        "shared",
-        "client"
+        "src"
       ],
       "extensions": "css"
     }
   },
   "scripts": {
-    "css": "node_modules/.bin/minify --output public/css/styles.css shared/css/styles.css",
-    "js": "node_modules/.bin/browserify client/main.js --outfile public/js/main.min.js -t [ babelify --presets [ latest ] ] --ignore-missing --debug",
-    "js-min": "node_modules/.bin/browserify client/main.js -t [ babelify --presets [ latest ] ] --ignore-missing | uglifyjs > public/js/main.min.js && rm -f public/js/main.js",
-    "js-file-size": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la --sort=size",
+    "css": "node_modules/.bin/minify --output public/css/styles.css src/css/styles.css",
+    "js": "node_modules/.bin/browserify src/bootstrap/client.js --outfile public/js/main.min.js -t [ babelify --presets [ latest ] ] --ignore-missing --debug",
+    "js-min": "node_modules/.bin/browserify src/bootstrap/client.js -t [ babelify --presets [ latest ] ] --ignore-missing | uglifyjs > public/js/main.min.js && rm -f public/js/main.js",
+    "js-file-size": "node_modules/.bin/browserify src/bootstrap/client.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la --sort=size",
     "certs": "rm -rf certs && mkdir certs && openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout certs/key.pem -out certs/cert.pem",
-    "api": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony api/main.js",
-    "serve": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony server/main.js",
+    "api": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony src/bootstrap/api.js",
+    "serve": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony src/bootstrap/server.js",
     "watch": "npm-watch"
   },
   "repository": {
