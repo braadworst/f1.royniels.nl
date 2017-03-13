@@ -2,8 +2,7 @@ const settings     = require('../settings')('server');
 const tokenDecrypt = require('../middleware/tokenDecrypt');
 const statics      = require('../middleware/statics');
 const loginCheck   = require('../middleware/loginCheck');
-const loginConsent = require('../middleware/loginConsent');
-const loginToken   = require('../middleware/loginToken');
+const loginProcess = require('../middleware/loginProcess');
 
 module.exports = function(server) {
 
@@ -16,11 +15,11 @@ module.exports = function(server) {
     .before(loginCheck, '/')
     .before(statics)
     .before(initialize)
-    .get('/auth/github', loginConsent(settings.webserver.github))
-    .get('/auth/github/callback', loginToken(settings.webserver.github))
-    .get('/auth/facebook', loginConsent(settings.webserver.facebook))
-    .get('/auth/facebook/callback', loginToken(settings.webserver.facebook))
-    .get('/auth/google', loginConsent(settings.webserver.google))
-    .get('/auth/google/callback', loginToken(settings.webserver.google))
+    .get('/auth/github', loginProcess.consent(settings.webserver.github))
+    .get('/auth/github/callback', loginProcess.token(settings.webserver.github))
+    .get('/auth/facebook', loginProcess.consent(settings.webserver.facebook))
+    .get('/auth/facebook/callback', loginProcess.token(settings.webserver.facebook))
+    .get('/auth/google', loginProcess.consent(settings.webserver.google))
+    .get('/auth/google/callback', loginProcess.token(settings.webserver.google))
 
 }

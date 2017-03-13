@@ -1,5 +1,3 @@
-const crypto     = require('crypto');
-const passphrase = "This is the passphrase biatch!!!";
 
 module.exports = (request, response, next, relay) => {
   if (request.headers.cookie && request.headers.cookie.token) {

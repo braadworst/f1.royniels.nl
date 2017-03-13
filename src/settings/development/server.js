@@ -2,6 +2,10 @@ const fs   = require('fs');
 
 module.exports = {
   domain : 'https://localhost',
+  encryption : {
+    passphrase : 'This is the passphrase biatch!!!',
+    mode       : 'aes-256-ctr'
+  },
   certs : {
     key  : fs.readFileSync('./certs/key.pem'),
     cert : fs.readFileSync('./certs/cert.pem')
