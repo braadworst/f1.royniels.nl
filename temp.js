@@ -60,13 +60,25 @@ api
 
 component = function() {
   let components = {}
+  let dataSubscriptions = {},
+  let callbacks = {
+    dataSubscribe,
+    dataChanged,
+    domAdded,
+    domRemoved,
+    domAdd,
+    domRemove,
+  }
 
   return {
+    register(components)
     create(name, placeholder),
     remove(name = false),
     dataSubscribe(callback),
     dataChanged(callback),
     domReady(callback)
-    domRemoved(callback)
+    domRemoved(callback),
+    domAdd(callback),
+    domRemove(callback)
   }
 }
