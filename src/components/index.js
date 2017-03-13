@@ -1,69 +1,140 @@
 module.exports = function() {
 
   let registered;
-  let callbacks = {
-    dataSubscribe  : false,
-    dataUnsubsribe : false,
-    domRender      : false,
-    domReady       : false,
-    domRemoved     : false,
-  }
   let subscriptions = {};
+  let callbacks = {
+    subscribe : false,
+    render    : false,
+    remove    : false,
+  }
 
-  function subscribe(dataset, component) {
-    if (!subscriptions[name]) {
+  function subscribe(dataset, name) {
+    if (!subscriptions[dataset]) {
       subscriptions[dataset] = [];
     }
-    subscriptions[dataset] = component;
+    subscriptions[dataset].push(name);
   }
 
-  function unsubscribe(dataset, component) {
-    const index = subscriptions[dataset].indexOf(component);
-    if (index > -1) {
-      subscriptions[dataset].splice(index, 1);
+  function unsubscribe(name) {
+    Object
+      .keys(subscriptions)
+      .forEach(key => {
+        const dataset = subscriptions[key];
+
+        const index = subscriptions[dataset].indexOf(name);
+        if (index > -1) {
+          subscriptions[dataset].splice(index, 1);
+        }
+      });
+  }
+
+  function template(name, template, placeholder, data = []) {
+    if (!callbacks.domRender) {
+      throw new Error('Please make sure you attach a callback for domRender');
     }
-  }
-
-  function template(template, data = []) {
-    if (callbacks.domRender && template) {
-      callbacks.domRender(template(...data));
+    if (typeof callbacks.domRender !== 'function') {
+      throw new Error('The callback dom render is not a function');
     }
+    if (!placeholder) {
+      throw new Error('Please supply a placeholder for the component you want to create');
+    }
+    if (typeof placeholder !== 'string') {
+      throw new Error(`The supplied placeholder for component ${ name } is not a string ${ placeholder }`);
+    }
+    if(!template) {
+      console.warn(`Could not render a template for component ${ name }`);
+    }
+    callbacks.domRender(template(...data), placeholder);
   }
 
-  async function data(subscribers, name) {
+  async function fetch(datasets, name) {
+    if (!callbacks.fetch) {
+      throw new Error('Please provide a callback for fetching data');
+    }
+    if (typeof callbacks.fetch !== 'function') {
+      throw new Error('The callback for fetch has to be of type function');
+    }
     let output = [];
-    if (callbacks.dataSubscribe && Array.isArray(subscribers)) {
-      for(const dataset of subscribers) {
-        output.push(await callbacks.dataSubscribe(dataset));
+    if (datasets) {
+      for(const dataset of datasets) {
+        output.push(await callbacks.fetch(dataset));
         subscribe(dataset, name);
       }
     }
     return output;
   }
 
+  function exists(name) {
+    if (!registered[name]) {
+      throw new Error(`Component with name ${ name } is not registered`);
+    }
+    return registered[name];
+  }
+
+  function ready(component) {
+    if (component.events) {
+      component.events();
+    }
+  }
+
+  function remove(name) {
+    if (!callbacks.remove) {
+      throw new Error(`Could not remove ${ name }, no remove callback defined`);
+    }
+    if (typeof callbacks.remove !== 'function') {
+      throw new Error('Callback remove needs to be of type function');
+    }
+    callbacks.remove(name);
+  }
+
   const exposed = {
     create : async function(name, placeholder) {
       try {
-        if (!registered[name]) {
-          throw new Error(`Component with name ${ name } is not registered`);
-        }
-        const component = registered[name];
-        template(component.loading);
-        const data = await data(component.subscribe, name);
-        template(component.loaded, data);
+        const component = exists(name);
+        template(name, component.loading, placeholder);
+        const data = await data(component.datasets, name);
+        template(name, component.loaded, placeholder, data);
       } catch (error) {
         console.log(error);
-        template(component.failed);
+        template(name, component.failed, placeholder);
+      }
+    },
+    remove(name) {
+      if (name) {
+        exists(name)
+        remove(name);
+        unsubscribe(name);
+      } else {
+        Object
+          .keys(registered)
+          .forEach(name => {
+            exists(name)
+            remove(name);
+            unsubscribe(name);
+          });
       }
     },
     register(components) {
       registered = components;
     },
-    dataSubscribe(callback) {
-      callbacks.dataSubscribe = callback;
+    data : {
+      fetch(callback) {
+        callbacks.fetch = callback;
+      },
+      update(dataset) {
+        // TODO implement
+      },
     },
-    domRender(callback) {
-      callbacks.domRender = callback;
+    template : {
+      render(callback) {
+        callbacks.render = callback;
+      },
+      ready(name) {
+        ready(exists(name));
+      },
+      remove(callback) {
+        callbacks.remove = callback;
+      }
     }
   }
 
