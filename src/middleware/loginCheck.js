@@ -13,7 +13,7 @@ module.exports = async function(request, response, next, relay) {
     token         += decipher.final('utf-8');
 
     try {
-      const user = await api.get('/users?filters[token]=' + token);
+      const user = await api.userByToken(token);
       if (user) {
         next({ user });
       } else {

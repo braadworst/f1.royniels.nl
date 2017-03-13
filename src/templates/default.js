@@ -15,9 +15,9 @@ module.exports = (function() {
 
     </head>
     <body>
-      <section id="nav"></section>
-      <section id="switcher"></section>
-      <script class="state"></script>
+      <section id="navigation"></section>
+      <section id="main"></section>
+      <script id="state"></script>
     </body>
   </html>
   `

@@ -2,22 +2,21 @@ const superagent = require('superagent');
 const validator  = require('./validator');
 const jsonapi    = require('./jsonapi');
 
-module.exports = (function() {
-
-  const base = 'https://localhost:4444/';
+module.exports = function(domain) {
 
   return {
     get : {
-      user        : find('users'),
-      drivers     : find('drivers'),
-      chassis     : find('chassis'),
-      engines     : find('engines'),
-      circuits    : find('circuits'),
-      teams       : find('teams'),
-      team        : find('teams'),
-      myTeams     : find('teams'),
-      predictions : find('predictions'),
-      points      : find('points'),
+      drivers       : find('drivers'),
+      chassis       : find('chassis'),
+      engines       : find('engines'),
+      circuits      : find('circuits'),
+      teams         : find('teams'),
+      predictions   : find('predictions'),
+      points        : find('points'),
+      userByToken   : find('users?filters[token]=$'),
+      userByEmail   : find('users?filters[email]=$'),
+      teamById      : find('teams/$'),
+      teamsByUSerId : find('teams?filters[userId]=$')
     },
     set : {
       users       : upsert('users'),
@@ -26,6 +25,38 @@ module.exports = (function() {
       results     : upsert('results'),
     }
   };
+
+  function find(path) {
+    return function(...values) {
+      return new Promise((resolve, reject) => {
+
+        values.forEach(value => {
+          if (Array.isArray(value) || typeof value === 'object') {
+            reject(new Error('Values supplied to the api need to be a number or string'));
+          }
+        });
+
+        let query = path.split('?').pop();
+        path      = path.split('?').shift();
+
+        // replace all params in path
+        path      = path.replace(/\$/g, match => return values.shift());
+        query     = query.replace(/\$/g, match => return values.shift());
+
+        superagent
+          .get(domain + path)
+          .query(query)
+          .set('Content-Type', 'application/vnd.api+json')
+          .end((error, response) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(jsonapi.parse(response.body));
+            }
+          });
+      });
+    }
+  }
 
   function upsert(name) {
     return function(record) {
@@ -48,26 +79,4 @@ module.exports = (function() {
       });
     }
   }
-
-  function find(name) {
-    return function(options) {
-      return new Promise((resolve, reject) => {
-        if (options && options.serialize) {
-          options = options.serialize();
-        }
-
-        superagent
-          .get(base + name)
-          .query(options)
-          .set('Content-Type', 'application/vnd.api+json')
-          .end((error, response) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(jsonapi.parse(response.body));
-            }
-          });
-      });
-    }
-  }
-}());
+}

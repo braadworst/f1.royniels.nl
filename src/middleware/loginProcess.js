@@ -60,7 +60,7 @@ module.exports = (function() {
           setCookieToken(response, encrypt(user.token, relay.settings));
 
           // Check update the token if the user exists, otherwise create new user
-          const currentUser = await api.get('/users?filters[email]=' + user.email);
+          const currentUser = await api.userByEmail(user.email);
 
           if (currentUser) {
             user.id = currentUser.id;
