@@ -1,3 +1,6 @@
+const logger = require('minilog')('store:find');
+require('minilog').enable();
+
 module.exports = function(database) {
   return function(schema, options) {
     return new Promise((resolve, reject) => {
@@ -9,7 +12,7 @@ module.exports = function(database) {
           sort         = '',
           pagination   = '';
 
-      if (options.fields) {
+      if (options.fields && Array.isArray(options.fields) && options.fields.lenght > 0) {
         fields = options.fields.join(', ');
       }
 
@@ -36,6 +39,7 @@ module.exports = function(database) {
       }
 
       const query = `SELECT ${ fields } FROM ${ table } ${ where } ${ sort } ${ pagination }`;
+      logger.info(query);
 
       database.all(
         query,

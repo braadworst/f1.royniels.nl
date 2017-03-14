@@ -1,3 +1,6 @@
+const logger = require('minilog')('store:create');
+require('minilog').enable();
+
 module.exports = function(database) {
   return function(table) {
     return new Promise((resolve, reject) => {
@@ -33,8 +36,11 @@ module.exports = function(database) {
         return `${ type.name } ${ type.type === 'string' ? 'text' : type.type }${ type.maxLength ? '('+ type.maxLength +')' : '' } ${ type.primary ? 'primary key' : ''}`;
       }).join(', ');
 
+      const query = `CREATE TABLE ${ table.title } (${fields})`;
+      logger.info(query);
+
       database.run(
-        `CREATE TABLE ${ table.title } (${fields})`,
+        query,
         [],
         error => {
           if (error) {

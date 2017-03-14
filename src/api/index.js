@@ -1,6 +1,8 @@
 const superagent = require('superagent');
 const validator  = require('./validator');
 const jsonapi    = require('./jsonapi');
+const logger     = require('minilog')('apiClient');
+require('minilog').enable();
 
 module.exports = (function() {
 
@@ -24,10 +26,10 @@ module.exports = (function() {
       user          : find('users?')
     },
     set : {
-      users       : upsert('users'),
-      teams       : upsert('teams'),
-      predictions : upsert('predictions'),
-      results     : upsert('results'),
+      user       : upsert('users'),
+      team       : upsert('teams'),
+      prediction : upsert('predictions'),
+      result     : upsert('results'),
     },
     cache() {
       return cache;
@@ -51,11 +53,14 @@ module.exports = (function() {
         path      = path.replace(/\$/g, match => values.shift());
         query     = query.replace(/\$/g, match => values.shift());
         const key = domain + path + '?' + query;
-        console.log(key);
+
         if (cache[key]) {
+          logger.info(`Get from cache: ${ domain }${ path }${ query }`);
           resolve(cache[key]);
           return;
         }
+
+        logger.info(`Do find request to: ${ domain }${ path }${ query }`);
 
         superagent
           .get(domain + path)
@@ -73,17 +78,21 @@ module.exports = (function() {
     }
   }
 
-  function upsert(name) {
+  function upsert(path) {
     return function(record) {
       return new Promise((resolve, reject) => {
-        const errors = validator(name, record);
+        const errors = validator(path, record);
         if (errors) {
           reject(errors);
           return;
         }
+
+        logger.info(`Do upsert request to: ${ domain }${ path }`);
+
         superagent
-          .post(domain + name)
-          .send(jsonapi.serialize(name, record))
+          .post(domain + path)
+          .send(jsonapi.serialize(path, record))
+          .set('Content-Type', 'application/vnd.api+json')
           .end((error, response) => {
             if (error) {
               reject(error);

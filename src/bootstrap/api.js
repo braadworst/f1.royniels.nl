@@ -1,5 +1,6 @@
 const bodyParser        = require('body-parser');
 const spdy              = require('spdy');
+const logger            = require('minilog')('apiserver');
 const settings          = require('../settings')('server');
 const database          = require('../store')(settings);
 
@@ -14,12 +15,16 @@ const jsonApiSerializer = require('../middleware/jsonApiSerializer');
 const bodyValidator     = require('../middleware/bodyValidator');
 const requestValidator  = require('../middleware/requestValidator');
 
+// Enable logger
+require('minilog').enable();
+
 // Create HTTP2 server
 let server = spdy.createServer(settings.certs);
 
 const router = require('cs-router')(server);
 
 router
+  .before((request, response, next) => { logger.info(request.url); next() })
   .before((request, response, next) => next({ database }))
   .before(requestValidator)
   .before(urlParser)
