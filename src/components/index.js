@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = (function() {
 
   let registered;
   let subscriptions = {};
@@ -29,10 +29,10 @@ module.exports = function() {
   }
 
   function template(name, template, placeholder, data = []) {
-    if (!callbacks.domRender) {
-      throw new Error('Please make sure you attach a callback for domRender');
+    if (!callbacks.render) {
+      throw new Error('Please make sure you attach a callback for render');
     }
-    if (typeof callbacks.domRender !== 'function') {
+    if (typeof callbacks.render !== 'function') {
       throw new Error('The callback dom render is not a function');
     }
     if (!placeholder) {
@@ -43,8 +43,9 @@ module.exports = function() {
     }
     if(!template) {
       console.warn(`Could not render a template for component ${ name }`);
+    } else {
+      callbacks.render(template(...data), placeholder);
     }
-    callbacks.domRender(template(...data), placeholder);
   }
 
   async function fetch(datasets, name) {
@@ -92,7 +93,7 @@ module.exports = function() {
       try {
         const component = exists(name);
         template(name, component.loading, placeholder);
-        let data = await data(component.datasets, name);
+        let data = await fetch(component.datasets, name);
         data = component.prepare(...data);
         template(name, component.loaded, placeholder, data);
       } catch (error) {
@@ -140,4 +141,4 @@ module.exports = function() {
   }
 
   return exposed;
-}
+}());

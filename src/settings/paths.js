@@ -1,6 +1,6 @@
 module.exports = {
   login          : '/',
-  lougout        : '/logout',
+  logout         : '/logout',
   teams          : '/teams',
   teamCreate     : '/teams/create',
   teamEdit       : '/teams/edit/:id',
@@ -9,16 +9,16 @@ module.exports = {
   races          : '/races',
   authentication : {
     github : {
-      constent : '/authentication/github',
-      token    : '/authentication/github/callback'
+      consent : '/authentication/github',
+      token   : '/authentication/github/callback'
     },
     google : {
-      constent : '/authentication/google',
-      token    : '/authentication/google/callback'
+      consent : '/authentication/google',
+      token   : '/authentication/google/callback'
     },
     facebook : {
-      constent : '/authentication/facebook',
-      token    : '/authentication/facebook/callback'
+      consent : '/authentication/facebook',
+      token   : '/authentication/facebook/callback'
     }
   }
 }

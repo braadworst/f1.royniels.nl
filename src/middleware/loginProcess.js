@@ -96,8 +96,8 @@ module.exports = (function() {
 
       function encrypt(token, settings) {
         const cipher = crypto.createCipher(settings.mode, settings.passphrase);
-        let   token    = decipher.update(tokenn,'hex','utf-8')
-        token         += decipher.final('utf-8');
+        token        = decipher.update(token,'hex','utf-8')
+        token       += decipher.final('utf-8');
         return token;
       }
 

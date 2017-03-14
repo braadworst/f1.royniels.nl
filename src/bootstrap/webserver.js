@@ -10,8 +10,23 @@ const loginCheck   = require('../middleware/loginCheck');
 const loginProcess = require('../middleware/loginProcess');
 const template     = require('../middleware/template');
 const component    = require('../middleware/component');
+const logout       = require('../middleware/logout');
+const respond      = require('../middleware/respond');
+const errors       = require('../middleware/errors');
 
 const paths        = settings.paths;
+
+// Register components
+components.register(require('../components/register'));
+
+// Add callbacks
+components.template.render((html, placeholder) => {
+  renderer.render(html, placeholder);
+});
+
+components.data.fetch(dataset => {
+  return api.get[dataset]();
+});
 
 // Create HTTP2 server
 const server = protocol.createServer(settings.certs);

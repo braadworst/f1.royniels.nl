@@ -2,7 +2,11 @@ const superagent = require('superagent');
 const validator  = require('./validator');
 const jsonapi    = require('./jsonapi');
 
-module.exports = function(domain) {
+module.exports = (function() {
+
+  const domain = 'https://localhost:4444/';
+
+  let cache = {};
 
   return {
     get : {
@@ -16,13 +20,17 @@ module.exports = function(domain) {
       userByToken   : find('users?filters[token]=$'),
       userByEmail   : find('users?filters[email]=$'),
       teamById      : find('teams/$'),
-      teamsByUSerId : find('teams?filters[userId]=$')
+      teamsByUser   : find('teams?filters[userId]=$'),
+      user          : find('users?')
     },
     set : {
       users       : upsert('users'),
       teams       : upsert('teams'),
       predictions : upsert('predictions'),
       results     : upsert('results'),
+    },
+    cache() {
+      return cache;
     }
   };
 
@@ -40,8 +48,14 @@ module.exports = function(domain) {
         path      = path.split('?').shift();
 
         // replace all params in path
-        path      = path.replace(/\$/g, match => return values.shift());
-        query     = query.replace(/\$/g, match => return values.shift());
+        path      = path.replace(/\$/g, match => values.shift());
+        query     = query.replace(/\$/g, match => values.shift());
+        const key = domain + path + '?' + query;
+        console.log(key);
+        if (cache[key]) {
+          resolve(cache[key]);
+          return;
+        }
 
         superagent
           .get(domain + path)
@@ -51,7 +65,8 @@ module.exports = function(domain) {
             if (error) {
               reject(error);
             } else {
-              resolve(jsonapi.parse(response.body));
+              cache[key] = jsonapi.parse(response.body);
+              resolve(cache[key]);
             }
           });
       });
@@ -67,7 +82,7 @@ module.exports = function(domain) {
           return;
         }
         superagent
-          .post(base + name)
+          .post(domain + name)
           .send(jsonapi.serialize(name, record))
           .end((error, response) => {
             if (error) {
@@ -79,4 +94,4 @@ module.exports = function(domain) {
       });
     }
   }
-}
+}());

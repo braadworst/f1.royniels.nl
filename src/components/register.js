@@ -1,6 +1,6 @@
 module.exports = {
-  nav : {
-    datasets : ['loggedInUser', 'teamsByUser'],
+  navigation : {
+    datasets : ['user', 'teamsByUser'],
     events   : require('./nav/events'),
     loaded   : require('./nav/loaded')
   },
@@ -21,7 +21,7 @@ module.exports = {
     loaded   : require('./standings/loaded')
   },
   teamCreate : {
-    datasets : ['user', 'drivers', 'engines', 'chassis']
+    datasets : ['user', 'drivers', 'engines', 'chassis'],
     loaded   : require('./teamCreate/loaded'),
     loading  : require('./teamCreate/loading'),
     failed   : require('./teamCreate/failed'),

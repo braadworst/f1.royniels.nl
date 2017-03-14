@@ -47,7 +47,7 @@ module.exports = function() {
         throw new Error(`Trying to render, but could not find placeholder ${ placeholder }`);
       }
       document.querySelector(placeholder).innerHTML = html;
-    }
+    },
     clear(placeholder) {
       if (!document.querySelector(placeholder)) {
         throw new Error(`Trying yo remove, but could not find placeholder ${ placeholder }`);

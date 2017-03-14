@@ -1,4 +1,4 @@
-module.exports = (request, response, next) => {
+module.exports = (request, response, next, relay) => {
   if (request.url === '/') {
     relay.renderer.template(require('../templates/default'));
   } else {
