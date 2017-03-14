@@ -91,7 +91,7 @@ module.exports = (function() {
 
         superagent
           .post(domain + path)
-          .send(jsonapi.serialize(path, record))
+          .send(JSON.stringify(jsonapi.serialize(path, record)))
           .set('Content-Type', 'application/vnd.api+json')
           .end((error, response) => {
             if (error) {

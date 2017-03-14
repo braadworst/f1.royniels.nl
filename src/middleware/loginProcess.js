@@ -92,6 +92,8 @@ module.exports = (function() {
         let tomorrow = new Date();
         tomorrow = new Date(tomorrow.setDate(tomorrow.getDate() + 1)).toUTCString();
 
+        logger.info(`write cookie token ${ token } expires ${ tomorrow }`);
+
         response.setHeader('Set-Cookie', [
           'token=' + value,
           'Secure',

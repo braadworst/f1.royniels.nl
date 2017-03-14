@@ -1,11 +1,11 @@
 const errors = require('./errors');
 
 module.exports = async function(request, response, next, relay) {
-  if (relay.post) {
+  if (relay.body) {
     try {
-      const post     = relay.post;
+      const post     = relay.body;
       const database = relay.database;
-      const schema   = require('../../../shared/api/schemas/' + relay.type);
+      const schema   = require('../schemas/' + relay.type);
       let result;
       if (!post.id) {
         data = await database.insert(schema, post);

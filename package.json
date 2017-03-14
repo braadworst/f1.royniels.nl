@@ -53,12 +53,11 @@
   },
   "homepage": "https://github.com/braadworst/f1.royniels.nl#readme",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "minilog": "^3.1.0",
     "cheerio": "^0.22.0",
     "cs-router": "^1.0.2",
     "is-my-json-valid": "^2.16.0",
     "lodash": "^4.17.4",
+    "minilog": "^3.1.0",
     "spdy": "^3.4.4",
     "sqlite3": "^3.1.8",
     "superagent": "^3.5.0",

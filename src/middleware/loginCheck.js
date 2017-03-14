@@ -8,13 +8,18 @@ module.exports = async function(request, response, next, relay) {
   const mode       = relay.settings.encryption.mode;
 
   // Get token from cookie
-  if (request.headers.cookie && request.headers.cookie.token) {
+  if (request.headers.cookie) {
+    let encryptedToken = request.headers.cookie.split('=').pop();
+    if (!encryptedToken) {
+      logger.info('No encrypted token found, redirecting to the homepage');
+      router.redirect('/');
+    }
     const decipher = crypto.createDecipher(mode, passphrase);
-    let   token    = decipher.update(request.headers.cookie.token,'hex','utf-8')
+    let   token    = decipher.update(encryptedToken,'hex','utf-8')
     token         += decipher.final('utf-8');
 
     try {
-      const user = await api.userByToken(token);
+      const user = await api.get.userByToken(token);
       if (user) {
         logger.info('Found user, go to page');
         next({ user });

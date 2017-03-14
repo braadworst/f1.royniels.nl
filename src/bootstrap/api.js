@@ -1,4 +1,3 @@
-const bodyParser        = require('body-parser');
 const spdy              = require('spdy');
 const logger            = require('minilog')('apiserver');
 const settings          = require('../settings')('server');
@@ -14,6 +13,7 @@ const jsonApiParser     = require('../middleware/jsonApiParser');
 const jsonApiSerializer = require('../middleware/jsonApiSerializer');
 const bodyValidator     = require('../middleware/bodyValidator');
 const requestValidator  = require('../middleware/requestValidator');
+const bodyParser        = require('../middleware/bodyParser');
 
 // Enable logger
 require('minilog').enable();
@@ -28,7 +28,7 @@ router
   .before((request, response, next) => next({ database }))
   .before(requestValidator)
   .before(urlParser)
-  .before(bodyParser.json())
+  .before(bodyParser)
   .before(jsonApiParser)
   .before(bodyValidator)
   .get('/init', setupDatabase)
