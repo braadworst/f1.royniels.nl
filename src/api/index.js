@@ -54,13 +54,18 @@ module.exports = (function() {
         query     = query.replace(/\$/g, match => values.shift());
         const key = domain + path + '?' + query;
 
-        if (cache[key]) {
-          logger.info(`Get from cache: ${ domain }${ path }${ query }`);
-          resolve(cache[key]);
-          return;
-        }
+        // console.log(cache);
 
-        logger.info(`Do find request to: ${ domain }${ path }${ query }`);
+        // if (cache[key]) {
+        //   logger.info(`Get from cache: ${ key }`);
+        //   resolve(cache[key]);
+        //   return;
+        // }
+        //
+        // logger.info(`Do find request to: ${ key }`);
+
+        resolve([]);
+        return;
 
         superagent
           .get(domain + path)
@@ -70,8 +75,8 @@ module.exports = (function() {
             if (error) {
               reject(error);
             } else {
-              cache[key] = jsonapi.parse(response.body);
-              resolve(cache[key]);
+              // cache[key] = jsonapi.parse(response.body);
+              resolve(jsonapi.parse(response.body));
             }
           });
       });

@@ -1,6 +1,6 @@
 module.exports = function(user, teams, paths) {
   return `
-  <section id="nav">
+  <section id="navigation">
     <nav>
       <a href="" class="close"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></a>
       <ul>

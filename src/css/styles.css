@@ -8,10 +8,10 @@
 @import url('animations.css');
 @import url('button.css');
 @import url('typography.css');
+@import url('placeholders.css');
 
 /* declare your component specific styles */
-@import url('../components/switcher/style.css');
-@import url('../components/nav/style.css');
+@import url('../components/navigation/style.css');
 @import url('../components/teamCreate/style.css');
 @import url('../components/teams/style.css');
 @import url('../components/standings/style.css');

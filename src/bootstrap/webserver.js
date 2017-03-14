@@ -54,7 +54,7 @@ router
   .before(tokenDecrypt, excludes)
   .before(loginCheck, excludes)
   .before(template)
-  .before(component('navigation', '#navigation'), excludes)
+  // .before(component('navigation', '#navigation'), excludes)
   .get(paths.login, component('login', '#main'))
   .get(paths.logout, logout)
   .get(paths.authentication.github.consent, loginProcess.consent(settings.webserver.github))
