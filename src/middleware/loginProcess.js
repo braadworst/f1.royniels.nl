@@ -3,6 +3,7 @@ const uuid        = require('uuid/').v4;
 const querystring = require('querystring');
 const crypto      = require('crypto');
 const logger      = require('minilog')('middleware:loginProcess');
+require('minilog').enable();
 
 module.exports = (function() {
 
@@ -92,7 +93,7 @@ module.exports = (function() {
         let tomorrow = new Date();
         tomorrow = new Date(tomorrow.setDate(tomorrow.getDate() + 1)).toUTCString();
 
-        logger.info(`write cookie token ${ token } expires ${ tomorrow }`);
+        logger.info(`write cookie token ${ value } expires ${ tomorrow }`);
 
         response.setHeader('Set-Cookie', [
           'token=' + value,

@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const logger = require('minilog')('middleware:loginCheck');
+require('minilog').enable();
 
 module.exports = async function(request, response, next, relay) {
   const api        = relay.api;

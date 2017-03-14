@@ -10,7 +10,7 @@ module.exports = (function() {
 
   let cache = {};
 
-  return {
+  let exposed = {
     get : {
       drivers       : find('drivers'),
       chassis       : find('chassis'),
@@ -19,10 +19,10 @@ module.exports = (function() {
       teams         : find('teams'),
       predictions   : find('predictions'),
       points        : find('points'),
-      userByToken   : find('users?filters[token]=$'),
+      userByToken   : find('users?filters[token]=$', 'user'),
       userByEmail   : find('users?filters[email]=$'),
       teamById      : find('teams/$'),
-      teamsByUser   : find('teams?filters[userId]=$'),
+      userTeams     : depending('teams?filters[userId]=$'),
       user          : find('users?')
     },
     set : {
@@ -36,37 +36,45 @@ module.exports = (function() {
     }
   };
 
-  function find(path) {
+  function dependers(key) {
+    // Make all the calls that depend on the user id get the id
+    if (key === 'user') {
+      exposed.get.userTeams = exposed.get.userTeams(cache.user.id);
+    }
+  }
+
+  function depending(path, key) {
     return function(...values) {
-      return new Promise((resolve, reject) => {
+      find(path, key, ...values);
+    }
+  }
 
-        values.forEach(value => {
-          if (Array.isArray(value) || typeof value === 'object') {
-            reject(new Error('Values supplied to the api need to be a number or string'));
-          }
-        });
+  function find(path, key, ...values) {
+    return async function(...values) {
 
-        let query = path.split('?').pop();
-        path      = path.split('?').shift();
+      values.forEach(value => {
+        if (Array.isArray(value) || typeof value === 'object') {
+          throw new Error('Values supplied to the api need to be a number or string');
+        }
+      });
 
-        // replace all params in path
-        path      = path.replace(/\$/g, match => values.shift());
-        query     = query.replace(/\$/g, match => values.shift());
-        const key = domain + path + '?' + query;
+      let query = path.split('?').pop();
+      path      = path.split('?').shift();
 
-        // console.log(cache);
+      // replace all params in path
+      path      = path.replace(/\$/g, match => values.shift());
+      query     = query.replace(/\$/g, match => values.shift());
+      if (!key) {
+        key = domain + path + '?' + query;
+      }
 
-        // if (cache[key]) {
-        //   logger.info(`Get from cache: ${ key }`);
-        //   resolve(cache[key]);
-        //   return;
-        // }
-        //
-        // logger.info(`Do find request to: ${ key }`);
-
-        resolve([]);
+      if (cache[key]) {
+        logger.info(`Get from cache: ${ key }`);
+        return cache[key];
         return;
+      }
 
+      return new Promise((resolve, reject) => {
         superagent
           .get(domain + path)
           .query(query)
@@ -75,8 +83,9 @@ module.exports = (function() {
             if (error) {
               reject(error);
             } else {
-              // cache[key] = jsonapi.parse(response.body);
-              resolve(jsonapi.parse(response.body));
+              cache[key] = jsonapi.parse(response.body);
+              dependers(key);
+              resolve(cache[key]);
             }
           });
       });
@@ -108,4 +117,6 @@ module.exports = (function() {
       });
     }
   }
+
+  return exposed;
 }());

@@ -15,7 +15,7 @@ module.exports = (function() {
 
     </head>
     <body>
-      <section id="main"></section>
+      <section id="loginMain"></section>
     </body>
   </html>
   `

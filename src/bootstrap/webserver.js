@@ -1,34 +1,18 @@
 const protocol     = require('spdy');
-const logger       = require('minilog')('webserver');
-const settings     = require('../settings')('server');
-const components   = require('../components');
-const renderer     = require('../renderer/webserver');
-const api          = require('../api');
-
-const tokenDecrypt = require('../middleware/tokenDecrypt');
-const statics      = require('../middleware/statics');
-const loginCheck   = require('../middleware/loginCheck');
-const loginProcess = require('../middleware/loginProcess');
-const template     = require('../middleware/template');
-const component    = require('../middleware/component');
-const logout       = require('../middleware/logout');
-const htmlResponse = require('../middleware/htmlResponse');
-const errors       = require('../middleware/errors');
-
-const paths        = settings.paths;
+const tokenDecrypt   = require('../middleware/tokenDecrypt');
+const statics        = require('../middleware/statics');
+const loginCheck     = require('../middleware/loginCheck');
+const loginProcess   = require('../middleware/loginProcess');
+const template       = require('../middleware/template');
+const component      = require('../middleware/component');
+const logout         = require('../middleware/logout');
+const htmlResponse   = require('../middleware/htmlResponse');
+const errors         = require('../middleware/errors');
+const webserverSetup = require('../middleware/webserverSetup');
+const settings       = require('../settings')('server');
+const paths          = settings.paths;
+const logger         = require('minilog')('webserver');
 require('minilog').enable();
-
-// Register components
-components.register(require('../components/register'));
-
-// Add callbacks
-components.template.render((html, placeholder) => {
-  renderer.render(html, placeholder);
-});
-
-components.data.fetch(dataset => {
-  return api.get[dataset]();
-});
 
 // Create HTTP2 server
 const server = protocol.createServer(settings.certs);
@@ -48,14 +32,15 @@ const excludes = [
 ];
 
 router
-  .before((request, response, next) => { logger.info(`Request: ${ request.url }`); next() })
-  .before((request, response, next) => next( { router, settings, components, renderer, api }))
+  .before((request, response, next) => { logger.info(request.url); next(); })
+  .before((request, response, next) => next({ settings, router }))
+  .before(webserverSetup)
   .before(statics, excludes)
   .before(tokenDecrypt, excludes)
   .before(loginCheck, excludes)
   .before(template)
-  // .before(component('navigation', '#navigation'), excludes)
-  .get(paths.login, component('login', '#main'))
+  .before(component('navigation', '#navigation'), excludes)
+  .get(paths.login, component('login', '#loginMain'))
   .get(paths.logout, logout)
   .get(paths.authentication.github.consent, loginProcess.consent(settings.webserver.github))
   .get(paths.authentication.github.token, loginProcess.token(settings.webserver.github))
