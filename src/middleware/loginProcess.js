@@ -2,6 +2,7 @@ const superagent  = require('superagent');
 const uuid        = require('uuid/').v4;
 const querystring = require('querystring');
 const crypto      = require('crypto');
+const logger      = require('minilog')('middleware:loginProcess');
 
 module.exports = (function() {
 
@@ -17,14 +18,15 @@ module.exports = (function() {
           redirect_uri : settings.redirectUri,
         }, settings.consent.parameters ? settings.consent.parameters : {});
 
-        router.redirect(`${ networkSettings.consent.url }?${ querystring.stringify(parameters) }`);
+        logger.info('Redirecting user to network consent page');
+        relay.router.redirect(`${ settings.consent.url }?${ querystring.stringify(parameters) }`);
       }
     },
     token(settings) {
       return async function(request, response, next, relay) {
 
         const api        = relay.api;
-        const retour     = relay.router;
+        const router     = relay.router;
         const parameters = querystring.parse(request.url.split('?').pop());
 
         if (state !== parameters.state) {
@@ -45,6 +47,8 @@ module.exports = (function() {
             }, settings.token.parameters ? settings.token.parameters : {})
           );
 
+          logger.info('Got access token back from network');
+
           // Get the user information from the particular network
           let user = await fetchUser(
             settings.email.url,
@@ -52,6 +56,8 @@ module.exports = (function() {
               access_token: accessToken
             }, settings.email.parameters ? settings.email.parameters : {})
           );
+
+          logger.info('Got user information from network');
 
           // Create a new token for the user, that is not bound to any network, so
           // we don't by accident give other people access, when our db gets compromised
@@ -63,6 +69,7 @@ module.exports = (function() {
           const currentUser = await api.userByEmail(user.email);
 
           if (currentUser) {
+            logger.info('Found existing user, merging information');
             user.id = currentUser.id;
             // If there is already a username, then don't set a new one
             if (currentUser.name && user.name) {
@@ -72,10 +79,11 @@ module.exports = (function() {
 
           // Set new user object
           await api.set('/users', user);
+          logger.info('Saved the user information to the database');
 
           router.redirect('/standings');
         } catch(error) {
-          console.log(error);
+          logger.error(error);
           router.redirect('/');
         }
       }
@@ -95,10 +103,10 @@ module.exports = (function() {
       }
 
       function encrypt(token, settings) {
-        const cipher = crypto.createCipher(settings.mode, settings.passphrase);
-        token        = decipher.update(token,'hex','utf-8')
-        token       += decipher.final('utf-8');
-        return token;
+        const cipher       = crypto.createCipher(settings.encryption.mode, settings.encryption.passphrase);
+        let encryptedToken = cipher.update(token,'utf-8','hex')
+        encryptedToken    += cipher.final('hex');
+        return encryptedToken;
       }
 
       function cleanResult(data) {

@@ -1,7 +1,7 @@
 module.exports = function(database) {
   return function(schema, options) {
     return new Promise((resolve, reject) => {
-      console.log(options);
+
       let placeholders = [],
           table        = schema.title,
           where        = '',
@@ -36,7 +36,6 @@ module.exports = function(database) {
       }
 
       const query = `SELECT ${ fields } FROM ${ table } ${ where } ${ sort } ${ pagination }`;
-      console.log(query);
 
       database.all(
         query,

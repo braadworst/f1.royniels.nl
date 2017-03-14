@@ -1,4 +1,5 @@
 const protocol     = require('spdy');
+const logger       = require('minilog')('webserver');
 const settings     = require('../settings')('server');
 const components   = require('../components');
 const renderer     = require('../renderer/webserver');
@@ -15,6 +16,7 @@ const htmlResponse = require('../middleware/htmlResponse');
 const errors       = require('../middleware/errors');
 
 const paths        = settings.paths;
+require('minilog').enable();
 
 // Register components
 components.register(require('../components/register'));
@@ -34,13 +36,26 @@ const server = protocol.createServer(settings.certs);
 // Set the shared routes
 const router = require('cs-router')(server);
 
+const excludes = [
+  paths.login,
+  paths.logout,
+  paths.authentication.github.consent,
+  paths.authentication.github.token,
+  paths.authentication.google.consent,
+  paths.authentication.google.token,
+  paths.authentication.facebook.consent,
+  paths.authentication.facebook.token,
+];
+
 router
+  .before((request, response, next) => { logger.info(`Request: ${ request.url }`); next() })
   .before((request, response, next) => next( { router, settings, components, renderer, api }))
-  .before(tokenDecrypt)
-  .before(loginCheck, paths.login)
-  .before(statics)
+  .before(statics, excludes)
+  .before(tokenDecrypt, excludes)
+  .before(loginCheck, excludes)
   .before(template)
-  .before(component('navigation', '#navigation'))
+  .before(component('navigation', '#navigation'), excludes)
+  .get(paths.login, component('login', '#main'))
   .get(paths.logout, logout)
   .get(paths.authentication.github.consent, loginProcess.consent(settings.webserver.github))
   .get(paths.authentication.github.token, loginProcess.token(settings.webserver.github))
@@ -55,8 +70,8 @@ router
   .get(paths.standings, component('standings', '#main'))
   .get(paths.rules, component('rules', '#main'))
   .after(htmlResponse)
-  .noMatch(errors.noFound);
+  .noMatch(errors.notFound);
 
 server.listen(settings.webserver.port, function() {
-  console.log('Server listening on port: ' + settings.webserver.port);
+  logger.info('Server listening on port: ' + settings.webserver.port);
 });

@@ -9,16 +9,16 @@ module.exports = {
   races          : '/races',
   authentication : {
     github : {
-      consent : '/authentication/github',
-      token   : '/authentication/github/callback'
+      consent : '/auth/github',
+      token   : '/auth/github/callback'
     },
     google : {
-      consent : '/authentication/google',
-      token   : '/authentication/google/callback'
+      consent : '/auth/google',
+      token   : '/auth/google/callback'
     },
     facebook : {
-      consent : '/authentication/facebook',
-      token   : '/authentication/facebook/callback'
+      consent : '/auth/facebook',
+      token   : '/auth/facebook/callback'
     }
   }
 }

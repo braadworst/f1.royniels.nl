@@ -3,6 +3,7 @@ const fs   = require('fs');
 const path = require('path');
 
 module.exports = (request, response, next) => {
+
   const parsedUrl = url.parse(request.url);
   let pathname    = `.${parsedUrl.pathname}`;
   const extension = path.parse(pathname).ext;

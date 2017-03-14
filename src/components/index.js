@@ -41,9 +41,7 @@ module.exports = (function() {
     if (typeof placeholder !== 'string') {
       throw new Error(`The supplied placeholder for component ${ name } is not a string ${ placeholder }`);
     }
-    if(!template) {
-      console.warn(`Could not render a template for component ${ name }`);
-    } else {
+    if(template) {
       callbacks.render(template(...data), placeholder);
     }
   }
@@ -88,13 +86,19 @@ module.exports = (function() {
     callbacks.remove(name);
   }
 
+  function prepare(component, data = []) {
+    if (component.prepare) {
+      return component.prepare(...data);
+    }
+  }
+
   const exposed = {
     create : async function(name, placeholder) {
       try {
         const component = exists(name);
         template(name, component.loading, placeholder);
         let data = await fetch(component.datasets, name);
-        data = component.prepare(...data);
+        data = prepare(component, data);
         template(name, component.loaded, placeholder, data);
       } catch (error) {
         console.log(error);

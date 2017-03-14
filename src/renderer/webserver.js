@@ -13,7 +13,7 @@ module.exports = (function() {
         throw new Error(`Renderer could not render, placeholder ${ placeholder } not found`);
       }
       output(placeholder).empty();
-      output(plceholder).append(html);
+      output(placeholder).append(html);
     },
     state(state) {
       output('.state').replaceWith(`<script>window.__PRELOADED_STATE__ = ${JSON.stringify(state)}</script>`);
