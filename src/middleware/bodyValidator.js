@@ -1,4 +1,4 @@
-const validator = require('../../../shared/api/validator');
+const validator = require('../api/validator');
 
 module.exports = (request, response, next, relay) => {
   if (relay.post) {

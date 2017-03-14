@@ -1,4 +1,4 @@
-const jsonapi = require('../../../shared/api/jsonapi');
+const jsonapi = require('../api/jsonapi');
 
 module.exports = (request, response, next, relay) => {
   const data = jsonapi.serialize(relay.type, relay.data, relay.errors);

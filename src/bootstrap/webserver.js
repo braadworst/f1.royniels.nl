@@ -11,7 +11,7 @@ const loginProcess = require('../middleware/loginProcess');
 const template     = require('../middleware/template');
 const component    = require('../middleware/component');
 const logout       = require('../middleware/logout');
-const respond      = require('../middleware/respond');
+const htmlResponse = require('../middleware/htmlResponse');
 const errors       = require('../middleware/errors');
 
 const paths        = settings.paths;
@@ -54,7 +54,7 @@ router
   .get(paths.races, component('races', '#main'))
   .get(paths.standings, component('standings', '#main'))
   .get(paths.rules, component('rules', '#main'))
-  .after(respond)
+  .after(htmlResponse)
   .noMatch(errors.noFound);
 
 server.listen(settings.webserver.port, function() {

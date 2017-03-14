@@ -1,20 +1,20 @@
 const schemas  = {
-  drivers : require('../../../shared/api/schemas/drivers'),
-  chassis : require('../../../shared/api/schemas/chassis'),
-  circuits : require('../../../shared/api/schemas/circuits'),
-  engines : require('../../../shared/api/schemas/engines'),
-  points : require('../../../shared/api/schemas/points'),
-  predictions : require('../../../shared/api/schemas/predictions'),
-  results : require('../../../shared/api/schemas/results'),
-  teams : require('../../../shared/api/schemas/teams'),
-  users : require('../../../shared/api/schemas/users'),
+    drivers : require('../schemas/drivers'),
+  chassis : require('../schemas/chassis'),
+  circuits : require('../schemas/circuits'),
+  engines : require('../schemas/engines'),
+  points : require('../schemas/points'),
+  predictions : require('../schemas/predictions'),
+  results : require('../schemas/results'),
+  teams : require('../schemas/teams'),
+  users : require('../schemas/users'),
 }
 
 const datasets = {
-  drivers  : require('../../datasets/drivers'),
-  circuits : require('../../datasets/circuits'),
-  engines  : require('../../datasets/engines'),
-  chassis  : require('../../datasets/chassis'),
+  drivers  : require('../fixtures/drivers'),
+  circuits : require('../fixtures/circuits'),
+  engines  : require('../fixtures/engines'),
+  chassis  : require('../fixtures/chassis'),
 }
 
 module.exports = async function(request, response, next, relay) {
@@ -58,11 +58,11 @@ module.exports = async function(request, response, next, relay) {
     await relay.database.drop(schemas.users);
     await relay.database.create(schemas.users);
 
-    // await relay.database.drop(schemas.drivers);
-    // await relay.database.create(schemas.drivers);
-    // for (let driver of drivers) {
-    //   await relay.database.insert(schemas.drivers, driver);
-    // }
+    await relay.database.drop(schemas.drivers);
+    await relay.database.create(schemas.drivers);
+    for (let driver of drivers) {
+      await relay.database.insert(schemas.drivers, driver);
+    }
     next();
   } catch (error) {
     console.log(error);

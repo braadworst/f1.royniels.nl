@@ -1,4 +1,4 @@
-const errors    = require('../handlers/errors');
+const errors    = require('./errors');
 const mediaType = 'application/vnd.api+json';
 
 module.exports = function(request, response, next) {
