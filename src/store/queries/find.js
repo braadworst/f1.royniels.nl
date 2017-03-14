@@ -1,7 +1,7 @@
 module.exports = function(database) {
   return function(schema, options) {
     return new Promise((resolve, reject) => {
-
+      console.log(options);
       let placeholders = [],
           table        = schema.title,
           where        = '',
@@ -10,34 +10,22 @@ module.exports = function(database) {
           pagination   = '';
 
       if (options.fields) {
-        // We don't have joins so we ignore all non current resource related fields
-        let resource = options.fields
-          .filter(field => field.resource === table)
-          .pop();
-        fields = resource.fields.join(', ');
+        fields = options.fields.join(', ');
       }
 
-      if (options.filters) {
+      if (options.filters && Array.isArray(options.filters) && options.filters.length > 0) {
         let fields   = options.filters.map(row => row.field + ' = ?');
         placeholders = options.filters.map(row => row.value );
-        where = `WHERE ${ fields.join('AND') }`;
+        where = `WHERE ${ fields.join(' AND ') }`;
       }
 
-      if (options.pagination) {
-        let offset;
-        let limit;
-        options.pagination.forEach(row => {
-          if (row.field === 'number') {
-            offset = row.value;
-          }
-          if (row.field === 'size') {
-            limit = row.value;
-          }
-        });
+      if (options.pagination && options.pagination.size && options.pagination.number) {
+        const limit  = options.pagination.size;
+        const offset = options.pagination.number;
         pagination = `LIMIT ${ limit } OFFSET ${ (offset - 1) * limit }`;
       }
 
-      if (options.sort) {
+      if (options.sort && Array.isArray(options.sort) && options.sort.length > 0) {
         const sorting = options.sort.map(field => {
           if (field[0] === '-') {
             return field.slice(1) + ' DESC';
@@ -47,16 +35,16 @@ module.exports = function(database) {
         sort = `ORDER BY ${ sorting.join(', ') }`;
       }
 
+      const query = `SELECT ${ fields } FROM ${ table } ${ where } ${ sort } ${ pagination }`;
+      console.log(query);
+
       database.all(
-        `SELECT ${ fields } FROM ${ table } ${ where } ${ sort } ${ pagination }`,
+        query,
         placeholders,
         (error, records) => {
           if (error) {
             reject(error);
           } else {
-            // If there was a single record request, and there is only a single
-            // result
-            console.log(table, records.length, where);
             if (records.length === 1 && where !== '') {
               resolve(records.pop());
             } else {
