@@ -48,11 +48,7 @@ module.exports = function(database) {
           if (error) {
             reject(error);
           } else {
-            if (records.length === 1 && where !== '') {
-              resolve(records.pop());
-            } else {
-              resolve(records);
-            }
+            resolve(records);
           }
         }
       );

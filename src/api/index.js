@@ -50,12 +50,14 @@ module.exports = domain => {
     },
     setCache(serverCache = {}) {
       cache = serverCache;
+      dependers('user');
     }
   };
 
   function dependers(key) {
     // Make all the calls that depend on the user id get the id
     if (key === 'user') {
+      cache.user = Array.isArray(cache.user) ? cache.user.pop() : cache.user;
       getters.userTeams = getters.userTeams(cache.user.id);
     }
   }
@@ -74,6 +76,11 @@ module.exports = domain => {
 
   function find(path, key, ...parameters) {
     return async function(...values) {
+
+      // Cleanup, when no values are supplied, the default value is a array with undefined as a single value
+      values     = values.filter(value => value);
+      parameters = parameters.filter(parameter => parameter);
+
       // Merge carry over variables
       values = [...values, ...parameters];
 
