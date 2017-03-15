@@ -1,8 +1,6 @@
 const superagent = require('superagent');
 const validator  = require('./validator');
 const jsonapi    = require('./jsonapi');
-const logger     = require('minilog')('apiClient');
-require('minilog').enable();
 
 module.exports = domain => {
 
@@ -96,7 +94,6 @@ module.exports = domain => {
       }
 
       if (cache[key]) {
-        logger.info(`Get from cache: ${ key }`);
         return cache[key];
         return;
       }
@@ -127,8 +124,6 @@ module.exports = domain => {
           reject(errors);
           return;
         }
-
-        logger.info(`Do upsert request to: ${ domain }${ path }`);
 
         superagent
           .post(domain + path)

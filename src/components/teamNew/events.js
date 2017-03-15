@@ -1,4 +1,4 @@
-module.exports = () => {
+module.exports = (api, router) => {
 
   let startBudget = 150000000, budget;
 
@@ -12,8 +12,8 @@ module.exports = () => {
   save.addEventListener('click', async function(event) {
     event.preventDefault();
       try {
-        await component.save('teams', getFormData());
-        component.redirect('/teams');
+        await api.set('teams', getFormData());
+        router.redirect('/teams');
       } catch (error) {
         console.log(error);
       }

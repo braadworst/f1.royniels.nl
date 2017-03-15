@@ -1,4 +1,4 @@
-module.exports = (components, api, renderer) => {
+module.exports = (components, api, renderer, router) => {
 
   if (!components) {
     throw new Error('Please add the configuration for the components that you want to use');
@@ -23,7 +23,7 @@ module.exports = (components, api, renderer) => {
   if (renderer.ready) {
     renderer.ready(name => {
       if (components[name] && components[name].events) {
-        components[name].events(api);
+        components[name].events(api, router);
       }
     });
   }

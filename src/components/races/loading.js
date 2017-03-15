@@ -1,6 +1,6 @@
 module.exports = function(options) {
   return `
-  <section id="races">
+  <section>
     <h1>Race results</h1>
     <div class="pure-g">
       ${ new Array(20).map(row).join('') }

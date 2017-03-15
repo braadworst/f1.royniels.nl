@@ -11,6 +11,7 @@ module.exports = function() {
         if (mutation.addedNodes) {
           mutation.addedNodes.forEach(node => {
             if (node.getAttribute && node.getAttribute('id')) {
+              console.log(node.getAttribute('id'));
               if (!callbacks.ready) {
                 throw new Error('No callback added for the renderer ready callback');
               }

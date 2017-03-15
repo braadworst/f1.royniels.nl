@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // Setup the components
   const registered = require('../components/register');
-  const components = require('../components')(registered, api, renderer);
+  const components = require('../components')(registered, api, renderer, router);
 
   // Initial ready call for all components on the page
   renderer.init();

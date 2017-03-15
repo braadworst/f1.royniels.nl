@@ -1,10 +1,8 @@
-const range = require('lodash/range');
-
 module.exports = function() {
   return `
-  <section id="teams">
+  <section>
     <h1>All teams</h1>
-    ${ range(20).map(row).join('') }
+    ${ new Array(20).map(row).join('') }
   </section>
   `;
 }
