@@ -9,13 +9,13 @@ module.exports = domain => {
   }
 
   let getters = {
-    drivers       : find('drivers'),
-    chassis       : find('chassis'),
-    engines       : find('engines'),
+    drivers       : find('drivers?sort=-price'),
+    chassis       : find('chassis?sort=-price'),
+    engines       : find('engines?sort=-price'),
     circuits      : find('circuits'),
-    teams         : find('teams'),
+    teams         : find('teams?sort=name'),
     predictions   : find('predictions'),
-    points        : find('points'),
+    points        : find('points?sort=-points'),
     userByToken   : find('users?filters[token]=$', 'user'),
     userByEmail   : find('users?filters[email]=$'),
     teamById      : find('teams/$'),
