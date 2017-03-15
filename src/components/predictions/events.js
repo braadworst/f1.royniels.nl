@@ -4,6 +4,7 @@ module.exports = (api, router) => {
   forms.forEach(form => {
     form.addEventListener('submit', async function(event) {
       event.preventDefault();
+      const id                  = parseInt(form.querySelector('[name="predictionId"]').value);
       const userId              = parseInt(form.querySelector('[name="userId"]').value);
       const circuitId           = parseInt(form.querySelector('[name="circuitId"]').value);
       const best                = form.querySelector('[name="best"]');
@@ -14,7 +15,7 @@ module.exports = (api, router) => {
       const notificationSuccess = form.querySelector('.notification-success')
 
       try {
-        await api.set('prediction', { userId, circuitId, bestDriverId, fastestDriverId });
+        await api.set('prediction', { id, userId, circuitId, bestDriverId, fastestDriverId });
         notificationSuccess.classList.remove('hidden');
         notificationError.classList.add('hidden');
       } catch (error) {

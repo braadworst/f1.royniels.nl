@@ -1,9 +1,9 @@
 module.exports = function(options) {
   return `
-  <section>
+  <section class="predictions loading">
     <h1>Race results</h1>
     <div class="pure-g">
-      ${ new Array(20).map(row).join('') }
+      ${ Array.from('x'.repeat(20)).map(row).join('') }
     </div>
   </section>
   `;
@@ -22,12 +22,12 @@ function row() {
       <div class="item-footer">
         <form method="post" class="pure-form pure-form-stacked">
           <div class="form-field">
-            <label>Driver of the day</label>
+            <label>&nbsp;</label>
           </div>
           <div class="form-field">
-            <label>Fastest lap</label>
+            <label>&nbsp;</label>
           </div>
-          <span class="button"></span>
+          <span class="button">&nbsp;</span>
         </form>
       </div>
     </div>

@@ -1,8 +1,6 @@
-const range = require('lodash/range');
-
 module.exports = function() {
   return `
-  <section>
+  <section class="teamNew loading">
     <form class="pure-form">
       <div class="pure-g">
       <div class="pure-u-1-1 pure-u-md-1-3">
@@ -25,15 +23,15 @@ module.exports = function() {
 
     <h1 class="section-header">Select drivers</h1>
     <section class="pure-g">
-      ${ range(20).map(rowDriver).join('') }
+      ${ Array.from('x'.repeat(20)).map(rowDriver).join('') }
     </section>
     <h1 class="section-header">Select engines</h1>
     <section class="pure-g">
-      ${ range(4).map(rowEngine).join('') }
+      ${ Array.from('x'.repeat(4)).map(rowEngine).join('') }
     </section>
     <h1 class="section-header">Select chassis</h1>
     <section class="pure-g">
-      ${ range(10).map(rowChassis).join('') }
+      ${ Array.from('x'.repeat(10)).map(rowChassis).join('') }
     </section>
 
   </section>

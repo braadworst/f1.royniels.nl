@@ -1,6 +1,6 @@
 module.exports = function(user, drivers, engines, chassis) {
   return `
-  <section id="teamNew">
+  <section id="teamNew" class="teamNew">
     <div class="notification notification-errors hidden">
       Some errors
     </div>

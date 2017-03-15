@@ -9,18 +9,19 @@ module.exports = domain => {
   }
 
   let getters = {
-    drivers       : find('drivers?sort=-price'),
-    chassis       : find('chassis?sort=-price'),
-    engines       : find('engines?sort=-price'),
-    circuits      : find('circuits'),
-    teams         : find('teams?sort=name'),
-    predictions   : find('predictions'),
-    points        : find('points?sort=-points'),
-    userByToken   : find('users?filters[token]=$', 'user'),
-    userByEmail   : find('users?filters[email]=$'),
-    teamById      : find('teams/$'),
-    userTeams     : depending('teams?filters[userId]=$'),
-    user          : user()
+    drivers         : find('drivers?sort=-price'),
+    chassis         : find('chassis?sort=-price'),
+    engines         : find('engines?sort=-price'),
+    circuits        : find('circuits'),
+    teams           : find('teams?sort=name'),
+    predictions     : find('predictions'),
+    points          : find('points?sort=-points'),
+    userByToken     : find('users?filter[token]=$', 'user'),
+    userByEmail     : find('users?filter[email]=$'),
+    teamById        : find('teams/$'),
+    userPredictions : depending('predictions?filter[userId]=$'),
+    userTeams       : depending('teams?filter[userId]=$'),
+    user            : user()
   };
   let setters = {
     user       : upsert('users'),
@@ -58,7 +59,8 @@ module.exports = domain => {
     // Make all the calls that depend on the user id get the id
     if (key === 'user') {
       cache.user = Array.isArray(cache.user) ? cache.user.pop() : cache.user;
-      getters.userTeams = getters.userTeams(cache.user.id);
+      getters.userTeams       = getters.userTeams(cache.user.id);
+      getters.userPredictions = getters.userPredictions(cache.user.id);
     }
   }
 

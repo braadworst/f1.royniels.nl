@@ -8,7 +8,7 @@ module.exports = {
     loaded   : require('./login/loaded')
   },
   predictions : {
-    datasets : ['user', 'circuits', 'drivers'],
+    datasets : ['user', 'circuits', 'drivers', 'userPredictions'],
     loading  : require('./predictions/loading'),
     loaded   : require('./predictions/loaded'),
     failed   : require('./predictions/failed'),
