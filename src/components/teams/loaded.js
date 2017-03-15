@@ -1,6 +1,6 @@
 module.exports = function(teams) {
   return `
-  <section id="teams" class="animation-page-in">
+  <section id="teams">
     <h1>All teams</h1>
     ${ teams.map(row).join('') }
   </section>

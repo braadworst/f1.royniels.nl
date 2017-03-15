@@ -2,7 +2,7 @@ const range = require('lodash/range');
 
 module.exports = function() {
   return `
-  <section id="teams" class="animation-page-in loading">
+  <section id="teams">
     <h1>All teams</h1>
     ${ range(20).map(row).join('') }
   </section>

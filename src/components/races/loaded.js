@@ -1,6 +1,6 @@
 module.exports = function(circuits, drivers) {
   return `
-  <section id="races" class="animation-page-in">
+  <section id="races">
     <h1>Race results</h1>
     <div class="pure-g">
       ${ circuits.map(circuit => row(circuit, drivers)).join('') }

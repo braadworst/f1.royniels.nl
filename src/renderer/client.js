@@ -10,7 +10,6 @@ module.exports = function() {
       mutations.forEach(function(mutation) {
         if (mutation.addedNodes) {
           mutation.addedNodes.forEach(node => {
-            console.log(node);
             if (node.getAttribute && node.getAttribute('id')) {
               if (!callbacks.ready) {
                 throw new Error('No callback added for the renderer ready callback');
@@ -34,7 +33,7 @@ module.exports = function() {
   function removeObserver(placeholder) {
     if (placeholders[placeholder]) {
       placeholders[placeholder].disconnect();
-      delete placeholder[placeholder];
+      delete placeholders[placeholder];
     }
   }
 
@@ -60,7 +59,7 @@ module.exports = function() {
     },
     remove(placeholder) {
       if (!document.querySelector(placeholder)) {
-        throw new Error(`Trying yo remove, but could not find placeholder ${ placeholder }`);
+        throw new Error(`Trying to remove, but could not find placeholder ${ placeholder }`);
       }
       removeObserver(placeholder);
       document.querySelector(placeholder).innerHTML = '';
