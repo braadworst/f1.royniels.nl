@@ -10,6 +10,7 @@ module.exports = domain => {
 
   let getters = {
     drivers         : find('drivers?sort=-price'),
+    results         : find('results'),
     chassis         : find('chassis?sort=-price'),
     engines         : find('engines?sort=-price'),
     circuits        : find('circuits'),

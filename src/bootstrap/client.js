@@ -31,4 +31,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     .get(paths.predictions, component('predictions', '#main'))
     .get(paths.standings, component('standings', '#main'))
     .get(paths.rules, component('rules', '#main'))
+    .get(paths.results, component('results', '#main'))
+
 });

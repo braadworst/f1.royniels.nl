@@ -42,6 +42,7 @@ router
   .get('/circuits', findData)
   .get('/predictions', findData)
   .get('/points', findData)
+  .get('/results', findData)
   .post('/users', saveData)
   .post('/teams', saveData)
   .post('/predictions', saveData)

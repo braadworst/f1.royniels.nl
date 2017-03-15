@@ -54,6 +54,7 @@ router
   .get(paths.predictions, component('predictions', '#main'))
   .get(paths.standings, component('standings', '#main'))
   .get(paths.rules, component('rules', '#main'))
+  .get(paths.results, component('results', '#main'))
   .after(htmlResponse)
   .noMatch(errors.notFound);
 

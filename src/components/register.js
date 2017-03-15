@@ -34,5 +34,9 @@ module.exports = {
     loading  : require('./teams/loading'),
     loaded   : require('./teams/loaded'),
     failed   : require('./teams/failed'),
+  },
+  results : {
+    datasets : ['user', 'drivers', 'circuits', 'results'],
+    loaded   : require('./results/loaded') 
   }
 }
