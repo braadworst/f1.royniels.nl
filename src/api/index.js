@@ -4,31 +4,45 @@ const jsonapi    = require('./jsonapi');
 const logger     = require('minilog')('apiClient');
 require('minilog').enable();
 
-module.exports = () => {
+module.exports = domain => {
 
-  const domain  = 'https://localhost:4444/';
-  let callbacks = { update : false };
+  if (!domain) {
+    throw new Error('Please provide the domain for the api client');
+  }
+
+  let getters = {
+    drivers       : find('drivers'),
+    chassis       : find('chassis'),
+    engines       : find('engines'),
+    circuits      : find('circuits'),
+    teams         : find('teams'),
+    predictions   : find('predictions'),
+    points        : find('points'),
+    userByToken   : find('users?filters[token]=$', 'user'),
+    userByEmail   : find('users?filters[email]=$'),
+    teamById      : find('teams/$'),
+    userTeams     : depending('teams?filters[userId]=$'),
+    user          : user()
+  };
+  let setters = {
+    user       : upsert('users'),
+    team       : upsert('teams'),
+    prediction : upsert('predictions'),
+    result     : upsert('results'),
+  }
   let cache     = {};
   let exposed   = {
-    get : {
-      drivers       : find('drivers'),
-      chassis       : find('chassis'),
-      engines       : find('engines'),
-      circuits      : find('circuits'),
-      teams         : find('teams'),
-      predictions   : find('predictions'),
-      points        : find('points'),
-      userByToken   : find('users?filters[token]=$', 'user'),
-      userByEmail   : find('users?filters[email]=$'),
-      teamById      : find('teams/$'),
-      userTeams     : depending('teams?filters[userId]=$'),
-      user          : user()
+    get(name, parameters) {
+      if (!getters[name]) {
+        throw new Error(`API: Cannot get ${ name }, method is not defined`);
+      }
+      return getters[name](parameters);
     },
-    set : {
-      user       : upsert('users'),
-      team       : upsert('teams'),
-      prediction : upsert('predictions'),
-      result     : upsert('results'),
+    set(name, record) {
+      if (!setters[name]) {
+        throw new Error(`API: Cannot set ${ name }, method is not defined`);
+      }
+      return setters[name](record);
     },
     update(callback) {
       callbacks.update = callback;
@@ -44,7 +58,7 @@ module.exports = () => {
   function dependers(key) {
     // Make all the calls that depend on the user id get the id
     if (key === 'user') {
-      exposed.get.userTeams = exposed.get.userTeams(cache.user.id);
+      getters.userTeams = getters.userTeams(cache.user.id);
     }
   }
 

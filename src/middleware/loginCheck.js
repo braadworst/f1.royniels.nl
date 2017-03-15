@@ -20,7 +20,7 @@ module.exports = async function(request, response, next, relay) {
     token         += decipher.final('utf-8');
 
     try {
-      const user = await api.get.userByToken(token);
+      const user = await api.get('userByToken', token);
       if (user) {
         logger.info('Found user, go to page');
         next({ user });

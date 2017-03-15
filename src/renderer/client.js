@@ -41,7 +41,9 @@ module.exports = function() {
     init () {
       const components = [].slice.call(document.querySelectorAll('[id]'));
       components.forEach(component => {
-        callbacks.ready(component.getAttribute('id'));
+        if (callbacks.ready) {
+          callbacks.ready(component.getAttribute('id'));
+        }
       });
     },
     ready(callback) {

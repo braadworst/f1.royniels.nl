@@ -67,7 +67,7 @@ module.exports = (function() {
           setCookieToken(response, encrypt(user.token, relay.settings));
 
           // Check update the token if the user exists, otherwise create new user
-          const currentUser = await api.get.userByEmail(user.email);
+          const currentUser = await api.get('userByEmail', user.email);
 
           if (currentUser) {
             logger.info('Found existing user, merging information');

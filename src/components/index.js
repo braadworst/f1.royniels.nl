@@ -1,42 +1,38 @@
-module.exports = (components) => {
+module.exports = (components, api, renderer) => {
 
   if (!components) {
     throw new Error('Please add the configuration for the components that you want to use');
   }
 
-  let registered = components;
-  let subscriptions = {};
-  let callbacks = {
-    subscribe : false,
-    render    : false,
-    remove    : false,
+  if (!api) {
+    throw new Error('Please supply an api that the components can use to gather data');
   }
 
-  function subscribe(dataset, name) {
-    if (!subscriptions[dataset]) {
-      subscriptions[dataset] = [];
-    }
-    subscriptions[dataset].push(name);
+  if (!api.get) {
+    throw new Error('The components can only work with an api that has a public method "get"');
   }
 
-  function unsubscribe(name) {
-    Object
-      .keys(subscriptions)
-      .forEach(key => {
-        const dataset = subscriptions[key];
-
-        const index = subscriptions[dataset].indexOf(name);
-        if (index > -1) {
-          subscriptions[dataset].splice(index, 1);
-        }
-      });
+  if (!renderer) {
+    throw new Error('Please supply a renderer that the components can use to render the contents');
   }
 
-  function template(name, template, placeholder, data = []) {
-    if (!callbacks.render) {
+  if (!renderer.render) {
+    throw new Error('The components can only work with an renderer that has a public method "render"');
+  }
+
+  if (renderer.ready) {
+    renderer.ready(name => {
+      if (components[name] && components[name].events) {
+        components[name].events();
+      }
+    });
+  }
+
+  function render(name, template, placeholder, data = []) {
+    if (!renderer.render) {
       throw new Error('Please make sure you attach a callback for render');
     }
-    if (typeof callbacks.render !== 'function') {
+    if (typeof renderer.render !== 'function') {
       throw new Error('The callback dom render is not a function');
     }
     if (!placeholder) {
@@ -46,48 +42,32 @@ module.exports = (components) => {
       throw new Error(`The supplied placeholder for component ${ name } is not a string ${ placeholder }`);
     }
     if(template) {
-      callbacks.render(template(...data), placeholder);
+      renderer.render(template(...data), placeholder);
     }
   }
 
-  async function fetch(datasets, name) {
-    if (!callbacks.fetch) {
+  async function get(datasets, name) {
+    if (!api.get) {
       throw new Error('Please provide a callback for fetching data');
     }
-    if (typeof callbacks.fetch !== 'function') {
+    if (typeof api.get !== 'function') {
       throw new Error('The callback for fetch has to be of type function');
     }
     let output = [];
     if (datasets) {
       for(const dataset of datasets) {
-        output.push(await callbacks.fetch(dataset));
-        subscribe(dataset, name);
+        output.push(await api.get(dataset));
+        // subscribe(dataset, name);
       }
     }
     return output;
   }
 
   function exists(name) {
-    if (!registered[name]) {
+    if (!components[name]) {
       throw new Error(`Component with name ${ name } is not registered`);
     }
-    return registered[name];
-  }
-
-  function ready(name) {
-    if (components[name] && components[name].events) {
-      components[name].events();
-    }
-  }
-
-  function remove(name) {
-    if (!callbacks.remove) {
-      throw new Error(`Could not remove ${ name }, no remove callback defined`);
-    }
-    if (typeof callbacks.remove !== 'function') {
-      throw new Error('Callback remove needs to be of type function');
-    }
-    callbacks.remove(name);
+    return components[name];
   }
 
   function prepare(component, data = []) {
@@ -97,51 +77,40 @@ module.exports = (components) => {
     return data;
   }
 
-  const exposed = {
+  return {
     create : async function(name, placeholder) {
       const component = exists(name);
       try {
-        template(name, component.loading, placeholder);
-        let data = await fetch(component.datasets, name);
+        render(name, component.loading, placeholder);
+        let data = await get(component.datasets, name);
         data = prepare(component, data);
-        template(name, component.loaded, placeholder, data);
+        render(name, component.loaded, placeholder, data);
       } catch (error) {
         console.log('COMPONENTS', error);
-        template(name, component.failed, placeholder);
+        render(name, component.failed, placeholder);
       }
-    },
-    remove(name) {
-      if (name) {
-        exists(name)
-        remove(name);
-        unsubscribe(name);
-      } else {
-        Object
-          .keys(registered)
-          .forEach(name => {
-            exists(name)
-            remove(name);
-            unsubscribe(name);
-          });
-      }
-    },
-    fetch(callback) {
-      callbacks.fetch = callback;
-    },
-    update(dataset) {
-      console.log('updated data!');
-      // TODO implement
-    },
-    render(callback) {
-      callbacks.render = callback;
-    },
-    ready(name) {
-      ready(name);
-    },
-    remove(callback) {
-      callbacks.remove = callback;
     }
   }
 
-  return exposed;
+  // let subscriptions = {};
+  //
+  // function subscribe(dataset, name) {
+  //   if (!subscriptions[dataset]) {
+  //     subscriptions[dataset] = [];
+  //   }
+  //   subscriptions[dataset].push(name);
+  // }
+  //
+  // function unsubscribe(name) {
+  //   Object
+  //     .keys(subscriptions)
+  //     .forEach(key => {
+  //       const dataset = subscriptions[key];
+  //
+  //       const index = subscriptions[dataset].indexOf(name);
+  //       if (index > -1) {
+  //         subscriptions[dataset].splice(index, 1);
+  //       }
+  //     });
+  // }
 }
