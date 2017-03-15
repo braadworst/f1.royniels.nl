@@ -1,9 +1,9 @@
 const sqlite  = require('sqlite3');
 
-module.exports = function(settings) {
+module.exports = function(databaseName) {
 
   // Run the biatch
-  const database = new sqlite.Database(settings.apiserver.databaseName);
+  const database = new sqlite.Database(databaseName);
 
   // Events
   database.on('error', error => { throw new Error(error); });

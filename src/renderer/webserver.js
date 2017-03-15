@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 
-module.exports = (function() {
+module.exports = () => {
 
   let output;
 
@@ -22,4 +22,4 @@ module.exports = (function() {
       return output.html().trim().replace( /(^|>)\s+|\s+(?=<|$)/g, '$1');
     }
   }
-}());
+}

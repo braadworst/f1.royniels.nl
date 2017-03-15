@@ -1,6 +1,6 @@
 module.exports = {
   navigation : {
-    datasets : ['user', 'teamsByUser'],
+    datasets : ['user', 'userTeams'],
     events   : require('./navigation/events'),
     loaded   : require('./navigation/loaded')
   },

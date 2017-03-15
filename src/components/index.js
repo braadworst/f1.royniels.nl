@@ -1,4 +1,4 @@
-module.exports = (function() {
+module.exports = () => {
 
   let registered;
   let subscriptions = {};
@@ -145,4 +145,4 @@ module.exports = (function() {
   }
 
   return exposed;
-}());
+}

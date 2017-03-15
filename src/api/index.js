@@ -4,7 +4,7 @@ const jsonapi    = require('./jsonapi');
 const logger     = require('minilog')('apiClient');
 require('minilog').enable();
 
-module.exports = (function() {
+module.exports = () => {
 
   const domain = 'https://localhost:4444/';
 
@@ -40,12 +40,13 @@ module.exports = (function() {
     // Make all the calls that depend on the user id get the id
     if (key === 'user') {
       exposed.get.userTeams = exposed.get.userTeams(cache.user.id);
+      console.log(exposed.get);
     }
   }
 
   function depending(path, key) {
     return function(...values) {
-      find(path, key, ...values);
+      return find(path, key, ...values);
     }
   }
 
@@ -119,4 +120,4 @@ module.exports = (function() {
   }
 
   return exposed;
-}());
+}

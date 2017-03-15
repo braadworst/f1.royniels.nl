@@ -11,5 +11,5 @@ module.exports = (request, response, next, relay) => {
     'Path=/'
   ].join('; '));
 
-  relay.router.redirect(settings.paths.login);
+  relay.router.redirect(relay.paths.login);
 }

@@ -1,12 +1,17 @@
+const logger = require('minilog')('settings');
+require('minilog').enable();
+
 module.exports = function(type) {
   const environment = process.env.NODE_ENV;
+  let settings      = {};
 
-  if (!type) {
-    throw new Error('Please provide a type for the settings you want to load');
+  try {
+    if (type) {
+      settings = require(`./${ environment }/${ type }`);
+    }
+  } catch (error) {
+    logger.warn(`Could not load all settings, file ${ type } could not be found for environment ${ environment }`);
   }
 
-  return Object.assign(
-    require(`./${ environment }/${ type }`),
-    { paths : require('./paths') }
-  );
+  return settings;
 }

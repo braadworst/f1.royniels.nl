@@ -1,4 +1,4 @@
-const protocol     = require('spdy');
+const protocol       = require('spdy');
 const tokenDecrypt   = require('../middleware/tokenDecrypt');
 const statics        = require('../middleware/statics');
 const loginCheck     = require('../middleware/loginCheck');
@@ -9,9 +9,9 @@ const logout         = require('../middleware/logout');
 const htmlResponse   = require('../middleware/htmlResponse');
 const errors         = require('../middleware/errors');
 const webserverSetup = require('../middleware/webserverSetup');
-const settings       = require('../settings')('server');
-const paths          = settings.paths;
+const paths          = require('../paths');
 const logger         = require('minilog')('webserver');
+const settings       = require('../settings')('webserver');
 require('minilog').enable();
 
 // Create HTTP2 server
@@ -23,17 +23,17 @@ const router = require('cs-router')(server);
 const excludes = [
   paths.login,
   paths.logout,
-  paths.authentication.github.consent,
-  paths.authentication.github.token,
-  paths.authentication.google.consent,
-  paths.authentication.google.token,
-  paths.authentication.facebook.consent,
-  paths.authentication.facebook.token,
+  paths.githubConsent,
+  paths.githubToken,
+  paths.googleConsent,
+  paths.googleToken,
+  paths.facebookConsent,
+  paths.facebookToken,
 ];
 
 router
   .before((request, response, next) => { logger.info(request.url); next(); })
-  .before((request, response, next) => next({ settings, router }))
+  .before((request, response, next) => next({ paths, router }))
   .before(webserverSetup)
   .before(statics, excludes)
   .before(tokenDecrypt, excludes)
@@ -42,12 +42,12 @@ router
   .before(component('navigation', '#navigation'), excludes)
   .get(paths.login, component('login', '#loginMain'))
   .get(paths.logout, logout)
-  .get(paths.authentication.github.consent, loginProcess.consent(settings.webserver.github))
-  .get(paths.authentication.github.token, loginProcess.token(settings.webserver.github))
-  .get(paths.authentication.facebook.consent, loginProcess.consent(settings.webserver.facebook))
-  .get(paths.authentication.facebook.token, loginProcess.token(settings.webserver.facebook))
-  .get(paths.authentication.google.consent, loginProcess.consent(settings.webserver.google))
-  .get(paths.authentication.google.token, loginProcess.token(settings.webserver.google))
+  .get(paths.githubConsent, loginProcess.consent(settings.github))
+  .get(paths.githubToken, loginProcess.token(settings.github))
+  .get(paths.facebookConsent, loginProcess.consent(settings.facebook))
+  .get(paths.facebookToken, loginProcess.token(settings.facebook))
+  .get(paths.googleConsent, loginProcess.consent(settings.google))
+  .get(paths.googleToken, loginProcess.token(settings.google))
   .get(paths.teams, component('teams', '#main'))
   .get(paths.teamCreate, component('teamCreate', '#main'))
   .get(paths.teamEdit, component('teamCreate', '#main'))
@@ -57,6 +57,6 @@ router
   .after(htmlResponse)
   .noMatch(errors.notFound);
 
-server.listen(settings.webserver.port, function() {
-  logger.info('Server listening on port: ' + settings.webserver.port);
+server.listen(settings.port, function() {
+  logger.info('Server listening on port: ' + settings.port);
 });

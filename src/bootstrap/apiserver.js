@@ -1,7 +1,7 @@
 const spdy              = require('spdy');
 const logger            = require('minilog')('apiserver');
-const settings          = require('../settings')('server');
-const database          = require('../store')(settings);
+const settings          = require('../settings')('apiserver');
+const database          = require('../store')(settings.databaseName);
 
 const errors            = require('../middleware/errors');
 const setupDatabase     = require('../middleware/setupDatabase');
@@ -50,6 +50,6 @@ router
   .after(jsonResponse)
   .noMatch(errors.notFound);
 
-server.listen(settings.apiserver.port, function() {
-  console.log('Server listening on port: ' + settings.apiserver.port);
+server.listen(settings.port, function() {
+  console.log('Server listening on port: ' + settings.port);
 });
