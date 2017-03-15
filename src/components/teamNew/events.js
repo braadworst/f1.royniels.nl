@@ -1,14 +1,12 @@
 module.exports = () => {
 
-  let startBudget = 150000000;
+  let startBudget = 150000000, budget;
 
   const drivers = [].slice.call(document.querySelectorAll('.item-create-driver'));
   const engines = [].slice.call(document.querySelectorAll('.item-create-engine'));
   const chassis = [].slice.call(document.querySelectorAll('.item-create-chassis'));
   const save    = document.querySelector('.button');
   const all     = drivers.concat(engines, chassis);
-
-  let budget;
 
   // Add button listeners
   save.addEventListener('click', async function(event) {
@@ -108,4 +106,6 @@ module.exports = () => {
     });
     document.querySelector('.budget').innerHTML = budget.toLocaleString();
   }
+
+  calculateBudget();
 }

@@ -94,18 +94,19 @@ module.exports = (components) => {
     if (component.prepare) {
       return component.prepare(...data);
     }
+    return data;
   }
 
   const exposed = {
     create : async function(name, placeholder) {
+      const component = exists(name);
       try {
-        const component = exists(name);
         template(name, component.loading, placeholder);
         let data = await fetch(component.datasets, name);
         data = prepare(component, data);
         template(name, component.loaded, placeholder, data);
       } catch (error) {
-        console.log(error);
+        console.log('COMPONENTS', error);
         template(name, component.failed, placeholder);
       }
     },

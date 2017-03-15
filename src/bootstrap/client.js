@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
   router
     .before((request, response, next) => next({ renderer, components, api }))
     .get(paths.teams, component('teams', '#main'))
-    .get(paths.teamCreate, component('teamCreate', '#main'))
-    .get(paths.teamEdit, component('teamCreate', '#main'))
+    .get(paths.teamNew, component('teamNew', '#main'))
+    .get(paths.teamEdit, component('teamNew', '#main'))
     .get(paths.races, component('races', '#main'))
     .get(paths.standings, component('standings', '#main'))
     .get(paths.rules, component('rules', '#main'))

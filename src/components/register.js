@@ -20,12 +20,12 @@ module.exports = {
   standings : {
     loaded   : require('./standings/loaded')
   },
-  teamCreate : {
+  teamNew : {
     datasets : ['user', 'drivers', 'engines', 'chassis'],
-    loaded   : require('./teamCreate/loaded'),
-    loading  : require('./teamCreate/loading'),
-    failed   : require('./teamCreate/failed'),
-    events   : require('./teamCreate/events'),
+    loaded   : require('./teamNew/loaded'),
+    loading  : require('./teamNew/loading'),
+    failed   : require('./teamNew/failed'),
+    events   : require('./teamNew/events'),
   },
   teams : {
     datasets : ['user', 'teams', 'drivers', 'engines', 'chassis'],

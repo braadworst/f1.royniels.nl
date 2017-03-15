@@ -12,7 +12,7 @@ module.exports = function(user, teams) {
             <span class="name">F1 Manager</span>
           </div>
         </li>
-        <li><a href="${ paths.get('teamCreate') }">Create team</a></li>
+        <li><a href="${ paths.get('teamNew') }">Create team</a></li>
         <li><a href="${ paths.get('teams') }">All teams</a></li>
         <li><a href="${ paths.get('races') }">Races</a></li>
         <li><a href="${ paths.get('standings') }">Standings</a></li>

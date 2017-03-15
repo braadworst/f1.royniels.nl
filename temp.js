@@ -11,7 +11,7 @@ src
     - results
     - rules
     - standings
-    - teamCreate
+    - teamNew
     - teams
     - index.js
     - register
