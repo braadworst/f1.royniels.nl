@@ -7,12 +7,13 @@ module.exports = {
   login : {
     loaded   : require('./login/loaded')
   },
-  races : {
-    datasets : ['circuits', 'drivers'],
-    loading  : require('./races/loading'),
-    loaded   : require('./races/loaded'),
-    failed   : require('./races/failed'),
-    prepare  : require('./races/prepare'),
+  predictions : {
+    datasets : ['user', 'circuits', 'drivers'],
+    loading  : require('./predictions/loading'),
+    loaded   : require('./predictions/loaded'),
+    failed   : require('./predictions/failed'),
+    prepare  : require('./predictions/prepare'),
+    events   : require('./predictions/events'),
   },
   rules : {
     loaded   : require('./rules/loaded')

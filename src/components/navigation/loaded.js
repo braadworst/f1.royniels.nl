@@ -16,7 +16,7 @@ module.exports = function(user, teams) {
         ${ showCreate() }
         ${ myTeams() }
         <li><a href="${ paths.get('teams') }">All teams</a></li>
-        <li><a href="${ paths.get('races') }">Races</a></li>
+        <li><a href="${ paths.get('predictions') }">Race predictions</a></li>
         <li><a href="${ paths.get('standings') }">Standings</a></li>
         <li><a href="${ paths.get('rules') }">Rules</a></li>
         ${ showAdmin() }

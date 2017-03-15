@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     .get(paths.teams, component('teams', '#main'))
     .get(paths.teamNew, component('teamNew', '#main'))
     .get(paths.teamEdit, component('teamNew', '#main'))
-    .get(paths.races, component('races', '#main'))
+    .get(paths.predictions, component('predictions', '#main'))
     .get(paths.standings, component('standings', '#main'))
     .get(paths.rules, component('rules', '#main'))
 });

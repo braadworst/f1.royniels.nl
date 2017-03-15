@@ -1,8 +1,8 @@
-#races .item-race {
+#predictions .item-race {
   background-color: #fff;
   margin: 5px;
 }
-#races .item-race .passed {
+#predictions .item-race .passed {
   display: inline-block;
   text-align: center;
   color: #aaa;
@@ -12,34 +12,44 @@
   width: 100%;
   box-sizing: border-box;
 }
-#races .item-race select {
+#predictions .item-race select {
   width: 100%;
   margin-bottom: 10px;
 }
-#races .item-race .item-body {
+#predictions .item-race .item-body {
   padding: 15px;
   background-color: #333;
   color: #999;
 }
-#races .item-race .item-body p {
+#predictions .item-race .item-body p {
   margin: 0;
   text-transform: uppercase;
   font-size: .8em;
 }
-#races .item-race .item-body h1 {
+#predictions .item-race .item-body h1 {
   margin: 0 0 5px 0;
   font-size: 1.4rem;
   line-height: 1.5rem;
 }
-#races .item-race .item-footer {
+#predictions .item-race .item-footer {
   padding: 15px;
 }
-#races .item-race-upcoming .item-body {
+#predictions .item-race-upcoming .item-body {
   background-color: gold;
   color: #fff;
 }
-#races .item-race-upcoming .item-media {
+#predictions .item-race-upcoming .item-media {
   box-sizing: border-box;
   border: 5px solid gold;
   border-bottom: 0;
+}
+#predictions .notification {
+  margin-top: 10px;
+  color: #999;
+}
+#predictions .notification-error {
+  color: red;
+}
+#predictions .hidden {
+  display: none;
 }

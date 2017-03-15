@@ -2,7 +2,7 @@ const parse    = require('date-fns/parse');
 const isBefore = require('date-fns/is_before');
 const format   = require('date-fns/format');
 
-module.exports = (circuits, drivers) => {
+module.exports = (user, circuits, drivers) => {
   let upcoming = false;
   circuits = circuits.map(circuit => {
     const now  = parse(new Date());
@@ -16,5 +16,5 @@ module.exports = (circuits, drivers) => {
     return circuit;
   });
 
-  return [circuits, drivers];
+  return [user, circuits, drivers];
 }

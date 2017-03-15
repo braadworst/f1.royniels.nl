@@ -6,7 +6,7 @@ module.exports = {
   teamEdit        : '/teams/edit/:id',
   standings       : '/standings',
   rules           : '/rules',
-  races           : '/races',
+  predictions           : '/predictions',
   results         : '/results',
   githubConsent   : '/auth/github',
   githubToken     : '/auth/github/callback',

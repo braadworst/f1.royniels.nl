@@ -1,15 +1,18 @@
 module.exports = {
   title : 'predictions',
   type  : 'object',
-  required : ['userId', 'fastest', 'best'],
+  required : ['userId', 'circuitId', 'fastestDriverId', 'bestDriverId'],
   properties : {
     userId : {
       type : 'integer'
     },
-    fastest : {
+    circuitId : {
       type : 'integer'
     },
-    best : {
+    fastestDriverId : {
+      type : 'integer'
+    },
+    bestDriverId : {
       type : 'integer'
     }
   }
