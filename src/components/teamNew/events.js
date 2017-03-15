@@ -11,13 +11,15 @@ module.exports = (api, router) => {
   // Add button listeners
   save.addEventListener('click', async function(event) {
     event.preventDefault();
-      try {
-        await api.set('teams', getFormData());
-        router.redirect('/teams');
-      } catch (error) {
-        console.log(error);
-      }
-    // }
+    try {
+      await api.set('team', getFormData());
+      router.redirect('/teams');
+    } catch (errors) {
+      console.log(errors);
+      const notification = document.querySelector('#teamNew .notification');
+      notification.innerHTML = 'Please select two drivers, an engine, a chassis and give your team a name';
+      notification.classList.remove('hidden');
+    }
   });
 
   // Add event listeners
@@ -38,7 +40,8 @@ module.exports = (api, router) => {
     let engine       = document.querySelector('.item-create-engine.item-create-selected');
     let chassis      = document.querySelector('.item-create-chassis.item-create-selected');
     let name         = document.querySelector('[name="name"]').value;
-    let output       = { userId : user.id };
+    let userId       = parseInt(document.querySelector('[data-user-id]').getAttribute('data-user-id'));
+    let output       = { userId };
 
     if (name) {
       output.name = name;

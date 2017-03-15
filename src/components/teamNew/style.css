@@ -1,3 +1,16 @@
+#teamNew .hidden {
+  display: none;
+}
+#teamNew .notification {
+  background-color: lightyellow;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+#teamNew .notification-errors {
+  background-color: red;
+  color: white;
+}
 #teamNew .pure-form {
   background-color: #fff;
   margin: 0 0 30px 0;
