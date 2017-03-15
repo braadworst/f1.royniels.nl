@@ -17,7 +17,7 @@ module.exports = (function() {
     <body>
       <section id="menu"></section>
       <section id="main"></section>
-      <script id="state"></script>
+      <script id="cache"></script>
     </body>
   </html>
   `

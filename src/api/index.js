@@ -22,7 +22,7 @@ module.exports = () => {
       userByEmail   : find('users?filters[email]=$'),
       teamById      : find('teams/$'),
       userTeams     : depending('teams?filters[userId]=$'),
-      user          : find('users?')
+      user          : user()
     },
     set : {
       user       : upsert('users'),
@@ -32,9 +32,12 @@ module.exports = () => {
     },
     update(callback) {
       callbacks.update = callback;
-    }
-    cache() {
+    },
+    getCache() {
       return cache;
+    },
+    setCache(serverCache = {}) {
+      cache = serverCache;
     }
   };
 
@@ -51,8 +54,16 @@ module.exports = () => {
     }
   }
 
-  function find(path, key, ...values) {
+  function user() {
+    return async function() {
+      return cache.user;
+    }
+  }
+
+  function find(path, key, ...parameters) {
     return async function(...values) {
+      // Merge carry over variables
+      values = [...values, ...parameters];
 
       values.forEach(value => {
         if (Array.isArray(value) || typeof value === 'object') {
@@ -60,7 +71,7 @@ module.exports = () => {
         }
       });
 
-      let query = path.split('?').pop();
+      let query = path.split('?').length > 1 ? path.split('?').pop() : '';
       path      = path.split('?').shift();
 
       // replace all params in path

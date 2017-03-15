@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   const api        = require('../api')();
   const renderer   = require('../renderer/client')();
 
+  // Load server side cache
+  api.setCache(window.__apiCache__);
+
   // Connect the api, components and renderer together
   components.render((html, placeholder) => {
     renderer.render(html, placeholder);
@@ -31,11 +34,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   });
 
   renderer.ready(name => {
-    component.ready(name);
+    components.ready(name);
   });
-  
+
   router
-    .before(component('navigation', '#menu'), excludes)
+    .before((request, response, next) => next({ renderer, components, api }))
     .get(paths.teams, component('teams', '#main'))
     .get(paths.teamCreate, component('teamCreate', '#main'))
     .get(paths.teamEdit, component('teamCreate', '#main'))

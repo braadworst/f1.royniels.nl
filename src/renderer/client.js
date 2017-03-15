@@ -10,7 +10,8 @@ module.exports = function() {
       mutations.forEach(function(mutation) {
         if (mutation.addedNodes) {
           mutation.addedNodes.forEach(node => {
-            if (node.getAttribute('id')) {
+            console.log(node);
+            if (node.getAttribute && node.getAttribute('id')) {
               if (!callbacks.ready) {
                 throw new Error('No callback added for the renderer ready callback');
               }
@@ -27,28 +28,32 @@ module.exports = function() {
     // pass in the target node, as well as the observer options
     observer.observe(document.querySelector(placeholder), { childList : true, subtree : false });
 
-    placeholder[placeholder] = observer;
+    placeholders[placeholder] = observer;
   }
 
   function removeObserver(placeholder) {
-    placeholder[placeholder].disconnect();
-    delete placeholder[placeholder];
+    if (placeholders[placeholder]) {
+      placeholders[placeholder].disconnect();
+      delete placeholder[placeholder];
+    }
   }
 
-  return {
+  const exposed = {
     ready(callback) {
       callbacks.ready = callback;
     },
-    render(placeholder, html) {
-      if (!palceholders[placeholder]) {
-        addObserver(placeholder);
-      }
+    render(html, placeholder) {
+      console.log(placeholder);
       if (!document.querySelector(placeholder)) {
         throw new Error(`Trying to render, but could not find placeholder ${ placeholder }`);
       }
+      exposed.remove(placeholder);
+      if (!placeholders[placeholder]) {
+        addObserver(placeholder);
+      }
       document.querySelector(placeholder).innerHTML = html;
     },
-    clear(placeholder) {
+    remove(placeholder) {
       if (!document.querySelector(placeholder)) {
         throw new Error(`Trying yo remove, but could not find placeholder ${ placeholder }`);
       }
@@ -56,4 +61,6 @@ module.exports = function() {
       document.querySelector(placeholder).innerHTML = '';
     }
   }
+
+  return exposed;
 };

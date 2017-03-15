@@ -26,7 +26,7 @@ const router = require('cs-router')(server);
 router
   .before((request, response, next) => { logger.info(request.url); next() })
   .before((request, response, next) => next({ database }))
-  .before(requestValidator)
+  // .before(requestValidator)
   .before(urlParser)
   .before(bodyParser)
   .before(jsonApiParser)

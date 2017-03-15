@@ -15,8 +15,8 @@ module.exports = () => {
       output(placeholder).empty();
       output(placeholder).append(html);
     },
-    state(state) {
-      output('.state').replaceWith(`<script>window.__PRELOADED_STATE__ = ${JSON.stringify(state)}</script>`);
+    cache(cache) {
+      output('#cache').replaceWith(`<script>window.__apiCache__ = ${JSON.stringify(cache)}</script>`);
     },
     html() {
       return output.html().trim().replace( /(^|>)\s+|\s+(?=<|$)/g, '$1');
