@@ -74,9 +74,9 @@ module.exports = (components) => {
     return registered[name];
   }
 
-  function ready(component) {
-    if (component.events) {
-      component.events();
+  function ready(name) {
+    if (components[name] && components[name].events) {
+      components[name].events();
     }
   }
 
@@ -136,7 +136,7 @@ module.exports = (components) => {
       callbacks.render = callback;
     },
     ready(name) {
-      ready(exists(name));
+      ready(name);
     },
     remove(callback) {
       callbacks.remove = callback;

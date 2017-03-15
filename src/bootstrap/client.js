@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     components.ready(name);
   });
 
+  renderer.init();
+
   router
     .before((request, response, next) => next({ renderer, components, api }))
     .get(paths.teams, component('teams', '#main'))

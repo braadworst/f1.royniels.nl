@@ -1,10 +1,9 @@
 module.exports = function() {
-
-  const switcher = document.querySelector('#nav .close');
+  const switcher = document.querySelector('#navigation .close');
   switcher.addEventListener('click', e => {
     e.preventDefault();
-    document.querySelector('#nav').classList.toggle('closed');
-    document.querySelector('#switcher').classList.toggle('full');
+    document.querySelector('#menu').classList.toggle('closed');
+    document.querySelector('#main').classList.toggle('full');
   });
 
   // function setActive(active) {

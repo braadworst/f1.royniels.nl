@@ -39,11 +39,16 @@ module.exports = function() {
   }
 
   const exposed = {
+    init () {
+      const components = [].slice.call(document.querySelectorAll('[id]'));
+      components.forEach(component => {
+        callbacks.ready(component.getAttribute('id'));
+      });
+    },
     ready(callback) {
       callbacks.ready = callback;
     },
     render(html, placeholder) {
-      console.log(placeholder);
       if (!document.querySelector(placeholder)) {
         throw new Error(`Trying to render, but could not find placeholder ${ placeholder }`);
       }
