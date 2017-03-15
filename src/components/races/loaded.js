@@ -17,7 +17,7 @@ function row(circuit, drivers) {
         <img class="pure-img" src="${ circuit.image }">
       </div>
       <div class="item-body">
-        <h1>${ circuit.name } ${ circuit.upcoming ? '(upcoming)' : ''}</h1>
+        <h1>${ circuit.name }</h1>
         <p>${ circuit.date }</p>
       </div>
       <div class="item-footer">

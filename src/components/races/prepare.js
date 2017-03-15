@@ -1,9 +1,20 @@
+const parse    = require('date-fns/parse');
+const isBefore = require('date-fns/is_before');
+const format   = require('date-fns/format');
+
 module.exports = (circuits, drivers) => {
-  // circuits = circuits.map(circuit => {
-  //   // circuit.date = fetcha.parse(circuit.date, 'DD-MM-YYYY');
-  //   // circuit.passed = circuit.date.isSameOrBefore(fetcha.parse());
-  //   return circuit;
-  // });
-  // circuits[circuits.findIndex(circuit => !circuit.passed)].upcoming = true;
+  let upcoming = false;
+  circuits = circuits.map(circuit => {
+    const now  = parse(new Date());
+    const date = parse(circuit.date);
+    circuit.passed = isBefore(date, now);
+    if (!isBefore(date, now) && !upcoming) {
+      upcoming = true;
+      circuit.upcoming = upcoming;
+    }
+    circuit.date = format(date, 'DD-MM-YYYY');
+    return circuit;
+  });
+
   return [circuits, drivers];
 }

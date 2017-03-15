@@ -55,17 +55,12 @@ module.exports = async function(request, response, next, relay) {
     await relay.database.drop(schemas.results);
     await relay.database.create(schemas.results);
 
-    await relay.database.drop(schemas.teams);
-    await relay.database.create(schemas.teams);
+    // await relay.database.drop(schemas.teams);
+    // await relay.database.create(schemas.teams);
+    //
+    // await relay.database.drop(schemas.users);
+    // await relay.database.create(schemas.users);
 
-    await relay.database.drop(schemas.users);
-    await relay.database.create(schemas.users);
-
-    await relay.database.drop(schemas.drivers);
-    await relay.database.create(schemas.drivers);
-    for (let driver of drivers) {
-      await relay.database.insert(schemas.drivers, driver);
-    }
     next();
   } catch (error) {
     logger.error(error);
