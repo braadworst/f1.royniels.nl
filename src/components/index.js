@@ -1,6 +1,10 @@
-module.exports = () => {
+module.exports = (components) => {
 
-  let registered;
+  if (!components) {
+    throw new Error('Please add the configuration for the components that you want to use');
+  }
+
+  let registered = components;
   let subscriptions = {};
   let callbacks = {
     subscribe : false,
@@ -120,27 +124,21 @@ module.exports = () => {
           });
       }
     },
-    register(components) {
-      registered = components;
+    fetch(callback) {
+      callbacks.fetch = callback;
     },
-    data : {
-      fetch(callback) {
-        callbacks.fetch = callback;
-      },
-      update(dataset) {
-        // TODO implement
-      },
+    update(dataset) {
+      console.log('updated data!');
+      // TODO implement
     },
-    template : {
-      render(callback) {
-        callbacks.render = callback;
-      },
-      ready(name) {
-        ready(exists(name));
-      },
-      remove(callback) {
-        callbacks.remove = callback;
-      }
+    render(callback) {
+      callbacks.render = callback;
+    },
+    ready(name) {
+      ready(exists(name));
+    },
+    remove(callback) {
+      callbacks.remove = callback;
     }
   }
 

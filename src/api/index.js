@@ -6,11 +6,10 @@ require('minilog').enable();
 
 module.exports = () => {
 
-  const domain = 'https://localhost:4444/';
-
-  let cache = {};
-
-  let exposed = {
+  const domain  = 'https://localhost:4444/';
+  let callbacks = { update : false };
+  let cache     = {};
+  let exposed   = {
     get : {
       drivers       : find('drivers'),
       chassis       : find('chassis'),
@@ -31,6 +30,9 @@ module.exports = () => {
       prediction : upsert('predictions'),
       result     : upsert('results'),
     },
+    update(callback) {
+      callbacks.update = callback;
+    }
     cache() {
       return cache;
     }
