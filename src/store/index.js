@@ -1,4 +1,6 @@
-const sqlite  = require('sqlite3');
+const sqlite = require('sqlite3');
+const logger = require('minilog')('store');
+require('minilog').enable();
 
 module.exports = function(databaseName) {
 
@@ -7,7 +9,7 @@ module.exports = function(databaseName) {
 
   // Events
   database.on('error', error => { throw new Error(error); });
-  database.on('open', () => console.log('database opened and ready to use'));
+  database.on('open', () => logger.info('database opened and ready to use'));
 
   return {
     create    : require('./queries/create')(database),

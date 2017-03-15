@@ -40,7 +40,6 @@ module.exports = () => {
     // Make all the calls that depend on the user id get the id
     if (key === 'user') {
       exposed.get.userTeams = exposed.get.userTeams(cache.user.id);
-      console.log(exposed.get);
     }
   }
 

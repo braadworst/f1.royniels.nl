@@ -1,4 +1,6 @@
 const errors = require('./errors');
+const logger = require('minilog')('middleware:saveData');
+require('minilog').enable();
 
 module.exports = async function(request, response, next, relay) {
   if (relay.body) {
@@ -14,7 +16,7 @@ module.exports = async function(request, response, next, relay) {
       }
       next({ data });
     } catch (error) {
-      console.log(error);
+      logger.error(error);
       errors.internalServerError(request, response);
     }
   } else {

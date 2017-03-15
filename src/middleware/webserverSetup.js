@@ -13,7 +13,6 @@ module.exports = (request, response, next) => {
   });
 
   components.data.fetch(dataset => {
-    console.log(dataset);
     if (api.get[dataset]) {
       return api.get[dataset]();
     } else {

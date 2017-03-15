@@ -51,5 +51,5 @@ router
   .noMatch(errors.notFound);
 
 server.listen(settings.port, function() {
-  console.log('Server listening on port: ' + settings.port);
+  logger.info('Server listening on port: ' + settings.port);
 });

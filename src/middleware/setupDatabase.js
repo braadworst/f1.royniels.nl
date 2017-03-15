@@ -1,5 +1,8 @@
+const logger = require('minilog')('middleware:setupDatabase');
+require('minilog').enable();
+
 const schemas  = {
-    drivers : require('../schemas/drivers'),
+  drivers : require('../schemas/drivers'),
   chassis : require('../schemas/chassis'),
   circuits : require('../schemas/circuits'),
   engines : require('../schemas/engines'),
@@ -65,7 +68,7 @@ module.exports = async function(request, response, next, relay) {
     }
     next();
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     next();
   }
 }

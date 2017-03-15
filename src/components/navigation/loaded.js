@@ -1,6 +1,6 @@
 const paths = require('../../paths');
 
-module.exports = function(user, teams, paths) {
+module.exports = function(user, teams) {
   return `
   <section id="navigation">
     <nav>

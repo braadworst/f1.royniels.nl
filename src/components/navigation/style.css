@@ -1,4 +1,4 @@
-#nav {
+#navigation {
   position: fixed;
   z-index: 1;
   background-color: #000;
@@ -8,22 +8,22 @@
   transition: left .5s;
   left: 0;
 }
-#nav.closed {
+#navigation.closed {
   left: -250px;
 }
-#nav ul {
+#navigation ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-#nav li:first-child {
+#navigation li:first-child {
   margin-right: 20px;
 }
-#nav li,
-#nav a {
+#navigation li,
+#navigation a {
   margin: 0;
 }
-#nav a {
+#navigation a {
   padding: 10px 15px;
   display: block;
   text-decoration: none;
@@ -32,16 +32,16 @@
   text-transform: uppercase;
   transition: color .5s;
 }
-#nav .active {
+#navigation .active {
   color: #fff;
 }
-#nav .active:hover {
+#navigation .active:hover {
   color: #fff;
 }
-#nav a:hover {
+#navigation a:hover {
   color: rgba(255, 255, 255, .8);
 }
-#nav .close {
+#navigation .close {
   padding: 10px;
   position: absolute;
   top: 50%;
@@ -56,10 +56,10 @@
   margin-top: -25px;
   transition: border-radius .3s, right .3s, box-shadow .3s, color .3s, background .3s;
 }
-#nav .close i {
+#navigation .close i {
   transition: transform 1s;
 }
-#nav.closed .close {
+#navigation.closed .close {
   border-radius: 0 15px 15px 0;
   right: -50px;
   border-width: 2px 2px 2px 0;
@@ -67,36 +67,36 @@
   background-color: #6075E0;
   color: #fff;
 }
-#nav.closed .close i {
+#navigation.closed .close i {
   transform: rotate(180deg);
 }
-#nav .brand {
+#navigation .brand {
   padding: 30px 15px 20px 15px;
   color: #fff;
   display: inline-block;
 }
-#nav .brand .logo  {
+#navigation .brand .logo  {
   display: inline-block;
   width:10px;
   height: 10px;
   vertical-align: middle;
 }
-#nav .brand .first {
+#navigation .brand .first {
   border-radius: 100% 0 0 0;
   background-color: orangered;
 }
-#nav .brand .second {
+#navigation .brand .second {
   background-color: gold;
 }
-#nav .brand .third {
+#navigation .brand .third {
   background-color: limegreen;
 }
-#nav .brand .fourth {
+#navigation .brand .fourth {
   border-radius: 0 0 100% 0;
   background-color: mediumslateblue;
   position: relative;
 }
-#nav .brand .fourth:after {
+#navigation .brand .fourth:after {
   content: ' ';
   position: absolute;
   top: -5px;
@@ -105,7 +105,7 @@
   height: 3px;
   background-color: mediumslateblue;
 }
-#nav .brand .name {
+#navigation .brand .name {
   color: #fff;
   margin-left: 18px;
   margin-top: -4px;
