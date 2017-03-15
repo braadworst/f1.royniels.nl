@@ -79,7 +79,7 @@ module.exports = (function() {
           }
 
           // Set new user object
-          await api.set.user(user);
+          await api.set('user', user);
           logger.info('Saved the user information to the database');
 
           router.redirect('/standings');

@@ -23,7 +23,7 @@ module.exports = (components, api, renderer) => {
   if (renderer.ready) {
     renderer.ready(name => {
       if (components[name] && components[name].events) {
-        components[name].events();
+        components[name].events(api);
       }
     });
   }
