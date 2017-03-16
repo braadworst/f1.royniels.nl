@@ -42,13 +42,13 @@ module.exports = async function(request, response, next, relay) {
         const prediction     = predictions.filter(prediction => prediction.userId === userId).pop();
 
         // Add points if fastest driver is correct
-        if (prediction.fastestDriverId === result.fastest) {
+        if (prediction && prediction.fastestDriverId === result.fastest) {
           points = points + awardedPoints.fastest;
           console.log('fastest: ', points, teamId);
         }
 
         // Add points if best driver is corrent
-        if (prediction.bestDriverId === result.best) {
+        if (prediction && prediction.bestDriverId === result.best) {
           points = points + awardedPoints.best;
           console.log('best: ', points, teamId);
         }

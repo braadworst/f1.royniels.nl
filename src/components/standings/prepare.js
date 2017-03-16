@@ -1,5 +1,5 @@
 module.exports = teams => {
-  totals = {};
+  let totals = {};
   teams = teams.forEach(team => {
     const id = team['teams-id'];
     if (!totals[id]) {
