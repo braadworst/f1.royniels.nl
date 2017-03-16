@@ -44,41 +44,35 @@ module.exports = async function(request, response, next, relay) {
         // Add points if fastest driver is correct
         if (prediction && prediction.fastestDriverId === result.fastest) {
           points = points + awardedPoints.fastest;
-          console.log('fastest: ', points, teamId);
         }
 
         // Add points if best driver is corrent
         if (prediction && prediction.bestDriverId === result.best) {
           points = points + awardedPoints.best;
-          console.log('best: ', points, teamId);
         }
 
         // Give points to first driver based on his position
         position = Object.keys(positions).filter(key => positions[key].id === firstDriverId).pop();
         if (position) {
           points = points + awardedPoints[position];
-          console.log('first driver: ', points, teamId);
         }
 
         // Give points to second driver based on his position
         position = Object.keys(positions).filter(key => positions[key].id === secondDriverId).pop();
         if (position) {
           points = points + awardedPoints[position];
-          console.log('second driver: ', points, teamId);
         }
 
         // Add points based on chassis
         position = Object.keys(positions).filter(key => positions[key].chassisId === chassisId);
         position.forEach(row => {
           points = points + awardedPoints[row];
-          console.log('chassis: ', points, teamId);
         });
 
         // Add points based on chassis
         position = Object.keys(positions).filter(key => positions[key].engineId === engineId);
         position.forEach(row => {
           points = points + awardedPoints[row];
-          console.log('engine: ', points, teamId);
         });
 
         records.push({ teamId, circuitId : result.circuitId, points });
