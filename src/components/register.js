@@ -20,7 +20,8 @@ module.exports = {
   },
   standings : {
     datasets : ['standings'],
-    loaded   : require('./standings/loaded')
+    loaded   : require('./standings/loaded'),
+    failed   : require('./standings/failed'),
   },
   teamNew : {
     datasets : ['user', 'drivers', 'engines', 'chassis'],
@@ -38,6 +39,7 @@ module.exports = {
   results : {
     datasets : ['user', 'drivers', 'circuits', 'results'],
     loaded   : require('./results/loaded'),
-    events   : require('./results/events')
+    events   : require('./results/events'),
+    failed   : require('./results/failed'),
   }
 }
