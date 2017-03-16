@@ -109,7 +109,7 @@ module.exports = async function(request, response, next, relay) {
       next({ data : result });
     } catch (error) {
       logger.error(error);
-      errors.internalServerError(request, response);
+      errors.internalServerError(request, response, error.message);
     }
   } else {
     next();

@@ -35,7 +35,7 @@ module.exports = async function(request, response, next, relay) {
 
     } catch (error) {
       logger.error(error);
-      errors.internalServerError(request, response);
+      errors.internalServerError(request, response, error.message);
     }
   } else {
     next();

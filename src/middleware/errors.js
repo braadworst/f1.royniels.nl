@@ -31,11 +31,11 @@ module.exports = {
       error : `At least one of the media types in your 'Accept' header must be specified without parameters`
     }));
   },
-  internalServerError(request, response) {
+  internalServerError(request, response, message) {
     logger.error(request.url + ' internal server error');
     response.writeHead(500, { 'Content-Type' : mediaType });
     response.end(JSON.stringify({
-      error : `Ai ai ai, something went bananas on the api server`
+      error : message
     }));
   }
 }

@@ -1,6 +1,6 @@
 const protocol       = require('spdy');
-const tokenDecrypt   = require('../middleware/tokenDecrypt');
 const statics        = require('../middleware/statics');
+const loggedInUser   = require('../middleware/loggedInUser');
 const loginCheck     = require('../middleware/loginCheck');
 const loginProcess   = require('../middleware/loginProcess');
 const template       = require('../middleware/template');
@@ -37,7 +37,7 @@ router
   .before((request, response, next) => next({ paths, router }))
   .before(setupWebserver)
   .before(statics, excludes)
-  .before(tokenDecrypt, excludes)
+  .before(loggedInUser, excludes)
   .before(loginCheck, excludes)
   .before(template)
   .before(component('navigation', '#menu'), excludes)
