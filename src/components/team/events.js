@@ -1,3 +1,5 @@
+const settings = require('../../settings/client');
+
 module.exports = (api, router) => {
 
   let startBudget = 150000000, budget;
@@ -26,13 +28,60 @@ module.exports = (api, router) => {
   all.forEach(item => {
     item.addEventListener('click', event => {
       event.preventDefault();
-      update(item, drivers, 2, 'item-create-driver', all);
-      update(item, engines, 1, 'item-create-engine', all);
-      update(item, chassis, 1, 'item-create-chassis', all);
+      update(item, drivers, settings.driversLimit, 'item-create-driver', all);
+      update(item, engines, settings.enginesLimit, 'item-create-engine', all);
+      update(item, chassis, settings.chassisLimit, 'item-create-chassis', all);
       calculateBudget();
       disableOverBudget(all);
     });
   });
+
+  function update(current, items, limit, className, all) {
+    let selected, unselected
+
+    selected = items.filter(item => item.classList.contains('item-create-selected'));
+
+    if (current.classList.contains('item-create-selected') && current.classList.contains(className)) {
+      current.classList.remove('item-create-selected');
+    } else if (current.classList.contains(className) && selected.length < limit && !current.classList.contains('item-create-inactive')) {
+      current.classList.add('item-create-selected');
+    }
+    toggleInactive(items, limit);
+  }
+
+  function toggleInactive(items, limit) {
+    const selected   = items.filter(item => item.classList.contains('item-create-selected'));
+    const unselected = items.filter(item => !item.classList.contains('item-create-selected'));
+
+    // Inactive if limit is reached for section
+    if (selected.length === limit) {
+      unselected.forEach(item => item.classList.add('item-create-inactive'));
+    } else {
+      unselected.forEach(item => item.classList.remove('item-create-inactive'));
+    }
+  }
+
+  function disableOverBudget(items) {
+    items.forEach(item => {
+      if (
+        !item.classList.contains('item-create-inactive') &&
+        parseInt(item.getAttribute('data-price')) > budget &&
+        !item.classList.contains('item-create-selected')
+      ) {
+        item.classList.add('item-create-inactive');
+      }
+    });
+  }
+
+  function calculateBudget() {
+    let items = [].slice.call(document.querySelectorAll('.item-create-selected'));
+
+    budget = startBudget;
+    items.forEach(item => {
+      budget = budget - parseInt(item.getAttribute('data-price'));
+    });
+    document.querySelector('.budget').innerHTML = budget.toLocaleString();
+  }
 
   function getFormData() {
     let firstDriver  = document.querySelectorAll('.item-create-driver.item-create-selected')[0];
@@ -71,49 +120,8 @@ module.exports = (api, router) => {
     return output;
   }
 
-  function update(current, items, limit, className, all) {
-    let selected, unselected
-
-    selected = items.filter(item => item.classList.contains('item-create-selected'));
-
-    if (current.classList.contains('item-create-selected') && current.classList.contains(className)) {
-      current.classList.remove('item-create-selected');
-    } else if (current.classList.contains(className) && selected.length < limit) {
-      current.classList.add('item-create-selected');
-    }
-
-    selected   = items.filter(item => item.classList.contains('item-create-selected'));
-    unselected = items.filter(item => !item.classList.contains('item-create-selected'));
-
-    // Inactive if limit is reached for section
-    if (selected.length === limit) {
-      unselected.forEach(item => item.classList.add('item-create-inactive'));
-    } else {
-      unselected.forEach(item => item.classList.remove('item-create-inactive'));
-    }
-  }
-
-  function disableOverBudget(items) {
-    items.forEach(item => {
-      if (
-        !item.classList.contains('item-create-inactive') &&
-        parseInt(item.getAttribute('data-price')) > budget &&
-        !item.classList.contains('item-create-selected')
-      ) {
-        item.classList.add('item-create-inactive');
-      }
-    });
-  }
-
-  function calculateBudget() {
-    let items = [].slice.call(document.querySelectorAll('.item-create-selected'));
-
-    budget = startBudget;
-    items.forEach(item => {
-      budget = budget - parseInt(item.getAttribute('data-price'));
-    });
-    document.querySelector('.budget').innerHTML = budget.toLocaleString();
-  }
+  toggleInactive(drivers, settings.driversLimit);
+  toggleInactive(chassis, settings.chassisLimit);
+  toggleInactive(engines, settings.enginesLimit);
   calculateBudget();
-  disableOverBudget(all);
 }
