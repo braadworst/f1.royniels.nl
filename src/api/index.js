@@ -16,7 +16,7 @@ module.exports = domain => {
     circuits        : find('circuits'),
     teams           : find('teams?fields[chassis]=name,image&fields[engines]=name,image&fields[secondDriver]=name,image&fields[firstDriver]=name,image&fields[teams]=name&fields[users]=name&sort=teams.name'),
     predictions     : find('predictions'),
-    standings       : find('standings?fields[standings]=rank,points&fields[teams]=name&fields[users]=name&sort=standings.rank'),
+    standings       : find('standings?fields[standings]=rank,points&fields[teams]=name,id&fields[users]=name&sort=standings.rank'),
     userByToken     : find('users?filter[token]=$', 'user'),
     userByEmail     : find('users?filter[email]=$'),
     teamById        : find('teams/$'),

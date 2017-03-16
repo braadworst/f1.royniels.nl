@@ -13,14 +13,14 @@ module.exports = function(standings) {
     <li>
       <div class="item-standings">
         <div class="item-header">
-          ${ standing['standings-rank'] }
+          ${ standing.rank }
         </div>
         <div class="item-body">
-          <h1>${ standing['teams-name'] }</h1>
-          <p>${ standing['users-name'] }</p>
+          <h1>${ standing.name }</h1>
+          <p>${ standing.user }</p>
         </div>
         <div class="item-footer">
-          ${ standing['standings-points'] }
+          ${ standing.points }
         </div>
       </div>
     </li>

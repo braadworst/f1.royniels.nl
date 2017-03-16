@@ -22,6 +22,7 @@ module.exports = {
     datasets : ['standings'],
     loaded   : require('./standings/loaded'),
     failed   : require('./standings/failed'),
+    prepare  : require('./standings/prepare'),
   },
   teamNew : {
     datasets : ['user', 'drivers', 'engines', 'chassis'],
