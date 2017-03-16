@@ -10,7 +10,7 @@ module.exports = function(user, circuits, drivers, predictions) {
 
   function row(circuit, drivers, predictions) {
     const prediction = predictions.filter(prediction => prediction.circuitId === circuit.id).pop();
-    console.log(prediction);
+
     return `
     <div class="pure-u-1-1 pure-u-md-1-2 pure-u-lg-1-3">
       <div class="item-race ${ circuit.upcoming ? 'item-race-upcoming' : ''}">

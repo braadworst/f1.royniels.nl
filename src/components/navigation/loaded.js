@@ -43,5 +43,6 @@ module.exports = function(user, teams) {
     if (user.isAdmin) {
       return `<li><a href="${ paths.get('results') }">Race results</a></li>`;
     }
+    return '';
   }
 }

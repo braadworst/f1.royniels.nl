@@ -37,6 +37,7 @@ module.exports = {
   },
   results : {
     datasets : ['user', 'drivers', 'circuits', 'results'],
-    loaded   : require('./results/loaded') 
+    loaded   : require('./results/loaded'),
+    events   : require('./results/events')
   }
 }

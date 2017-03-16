@@ -1,7 +1,7 @@
 module.exports = {
   title : 'results',
   type  : 'object',
-  required : ['circuitId', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+  required : ['circuitId', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'best', 'fastest'],
   properties : {
     circuitId : {
       type : 'integer'
