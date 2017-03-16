@@ -4,18 +4,25 @@ module.exports = (api, router) => {
   forms.forEach(form => {
     form.addEventListener('submit', async function(event) {
       event.preventDefault();
-      const id                  = parseInt(form.querySelector('[name="predictionId"]').value);
-      const userId              = parseInt(form.querySelector('[name="userId"]').value);
-      const circuitId           = parseInt(form.querySelector('[name="circuitId"]').value);
+
       const best                = form.querySelector('[name="best"]');
-      const bestDriverId        = parseInt(best.options[best.selectedIndex].value);
       const fastest             = form.querySelector('[name="fastest"]');
-      const fastestDriverId     = parseInt(fastest.options[fastest.selectedIndex].value);
-      const notificationError   = form.querySelector('.notification-error')
-      const notificationSuccess = form.querySelector('.notification-success')
+      const notificationError   = form.querySelector('.notification-error');
+      const notificationSuccess = form.querySelector('.notification-success');
+
+      let record = {
+        userId          : parseInt(form.querySelector('[name="userId"]').value),
+        circuitId       : parseInt(form.querySelector('[name="circuitId"]').value),
+        bestDriverId    : parseInt(best.options[best.selectedIndex].value),
+        fastestDriverId : parseInt(fastest.options[fastest.selectedIndex].value)
+      };
+
+      if (form.querySelector('[name="predictionId"]')) {
+       record.id = parseInt(form.querySelector('[name="predictionId"]').value);
+      }
 
       try {
-        await api.set('prediction', { id, userId, circuitId, bestDriverId, fastestDriverId });
+        await api.set('prediction', record);
         notificationSuccess.classList.remove('hidden');
         notificationError.classList.add('hidden');
       } catch (error) {

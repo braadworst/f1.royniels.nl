@@ -3,7 +3,7 @@ module.exports = (user, drivers, circuits, results) => {
     <section id="results">
       <h1>Results</h1>
       <div class="pure-g">
-        ${ circuits.map(item) }
+        ${ circuits.map(item).join('') }
       </div>
     </section>
   `;
@@ -15,8 +15,9 @@ module.exports = (user, drivers, circuits, results) => {
         <div class="item-results">
           <form class="pure-form pure-form-aligned">
             ${ showResultId(result) }
+            <input type="hidden" name="circuitId" value="${ circuit.id }">
             <h3>${ circuit.name }</h3>
-            ${ selects('one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'best', 'fastest') }
+            ${ selects('one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'best', 'fastest', result) }
             <button class="button">Save</button>
             <div class="notification notification-success hidden">Changes saved!</div>
             <div class="notification notification-error hidden">Fill everything</div>
@@ -27,19 +28,24 @@ module.exports = (user, drivers, circuits, results) => {
   }
 
   function showResultId(result) {
-    if (prediction) {
-      return `<input type="hidden" name="predictionId" value="${ result.id }">`;
+    if (result) {
+      return `<input type="hidden" name="resultId" value="${ result.id }">`;
     }
     return '';
   }
 
-  function options(drivers) {
+  function options(drivers, result, key) {
     return drivers.map(driver => {
-      return `<option value="${ driver.id }">${ driver.name }</option>`;
+      let selected = '';
+      if (result && result[key] === driver.id) {
+        selected = 'selected';
+      }
+      return `<option ${ selected } value="${ driver.id }">${ driver.name }</option>`;
     }).join('');
   }
 
   function selects(...list) {
+    const result = list.pop();
     return list.map(item => {
       return `
         <div class="pure-control-group">
@@ -47,7 +53,7 @@ module.exports = (user, drivers, circuits, results) => {
             <label>${ item }</label>
             <select name="${ item }">
               <option>Select driver</option>
-              ${ options(drivers) }
+              ${ options(drivers, result, item) }
             </select>
           </div>
         </div>

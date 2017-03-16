@@ -143,7 +143,7 @@ module.exports = domain => {
             if (error) {
               reject(error);
             } else {
-              resolve(response.body);
+              resolve(jsonapi.parse(response.body));
             }
           });
       });

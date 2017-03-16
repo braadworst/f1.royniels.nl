@@ -19,7 +19,7 @@ module.exports = function(database) {
           if (error) {
             reject(error);
           } else {
-            record.id = id;
+            record.id = id.pop();
             resolve(record);
           }
         }

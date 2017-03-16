@@ -14,6 +14,7 @@ module.exports = async function(request, response, next, relay) {
     if (!encryptedToken) {
       logger.info('No encrypted token found, redirecting to the homepage');
       router.redirect('/');
+      return;
     }
     const decipher = crypto.createDecipher(mode, passphrase);
     let   token    = decipher.update(encryptedToken,'hex','utf-8')

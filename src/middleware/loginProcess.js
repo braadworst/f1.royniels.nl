@@ -67,15 +67,17 @@ module.exports = (function() {
           setCookieToken(response, encrypt(user.token, relay.settings));
 
           // Check update the token if the user exists, otherwise create new user
-          const currentUser = await api.get('userByEmail', user.email);
+          let currentUser = await api.get('userByEmail', user.email);
 
-          if (currentUser) {
+          if (currentUser && currentUser.length) {
+            currentUser = currentUser.pop();
             logger.info('Found existing user, merging information');
             user.id = currentUser.id;
             // If there is already a username, then don't set a new one
             if (currentUser.name && user.name) {
               delete user.name;
             }
+            user.isAdmin = currentUser.isAdmin ? true : false;
           }
 
           // Set new user object
@@ -148,7 +150,8 @@ module.exports = (function() {
               if (error) {
                 reject(error);
               } else {
-                resolve(cleanResult(response.body));
+                const body = Object.keys(response.body).length > 0 ? response.body : JSON.parse(response.text);
+                resolve(cleanResult(body));
               }
             });
         });
