@@ -2,15 +2,15 @@ const logger = require('minilog')('middleware:setupDatabase');
 require('minilog').enable();
 
 const schemas  = {
-  drivers : require('../schemas/drivers'),
-  chassis : require('../schemas/chassis'),
-  circuits : require('../schemas/circuits'),
-  engines : require('../schemas/engines'),
-  points : require('../schemas/points'),
+  drivers     : require('../schemas/drivers'),
+  chassis     : require('../schemas/chassis'),
+  circuits    : require('../schemas/circuits'),
+  engines     : require('../schemas/engines'),
+  standings   : require('../schemas/standings'),
   predictions : require('../schemas/predictions'),
-  results : require('../schemas/results'),
-  teams : require('../schemas/teams'),
-  users : require('../schemas/users'),
+  results     : require('../schemas/results'),
+  teams       : require('../schemas/teams'),
+  users       : require('../schemas/users'),
 }
 
 const datasets = {
@@ -46,8 +46,8 @@ module.exports = async function(request, response, next, relay) {
       await relay.database.insert(schemas.engines, engine);
     }
 
-    await relay.database.drop(schemas.points);
-    await relay.database.create(schemas.points);
+    await relay.database.drop(schemas.standings);
+    await relay.database.create(schemas.standings);
 
     await relay.database.drop(schemas.predictions);
     await relay.database.create(schemas.predictions);

@@ -1,9 +1,12 @@
 module.exports = {
-  title : 'points',
+  title : 'standings',
   type  : 'object',
-  required : ['teamId', 'points'],
+  required : ['teamId', 'points', 'rank'],
   properties : {
     teamId : {
+      type : 'integer'
+    },
+    rank : {
       type : 'integer'
     },
     points : {

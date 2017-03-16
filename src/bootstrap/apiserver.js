@@ -41,7 +41,7 @@ router
   .get('/engines', findData)
   .get('/circuits', findData)
   .get('/predictions', findData)
-  .get('/points', findData)
+  .get('/standings', findData)
   .get('/results', findData)
   .post('/users', saveData)
   .post('/teams', saveData)
