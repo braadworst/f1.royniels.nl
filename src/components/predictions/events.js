@@ -17,12 +17,14 @@ module.exports = (api, router) => {
         fastestDriverId : parseInt(fastest.options[fastest.selectedIndex].value)
       };
 
-      if (form.querySelector('[name="predictionId"]')) {
+      if (form.result) {
+        record.id = form.result.id;
+      } else if (form.querySelector('[name="predictionId"]')) {
        record.id = parseInt(form.querySelector('[name="predictionId"]').value);
       }
 
       try {
-        await api.set('prediction', record);
+        form.result = await api.set('prediction', record);
         notificationSuccess.classList.remove('hidden');
         notificationError.classList.add('hidden');
       } catch (error) {
