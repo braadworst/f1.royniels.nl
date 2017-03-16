@@ -2,12 +2,12 @@
   position: fixed;
   z-index: 1;
   box-sizing: border-box;
-  border-left: 1px solid #ccc;
-  background-color: white;
   height: 100%;
   width: 280px;
   transition: right .5s;
   right: 0;
+  background: #333;
+  color: #ccc;
 }
 #navigation.closed {
   right: -280px;
@@ -31,7 +31,7 @@
   padding: 8px 15px;
   display: block;
   text-decoration: none;
-  color: #333;
+  color: #ccc;
   vertical-align: middle;
   transition: color .5s;
   font-weight: 400;
@@ -61,7 +61,7 @@
   transition: border-radius .3s, right .3s, box-shadow .3s, color .3s, background .3s;
 }
 #navigation .close i {
-  color: #ccc;
+  color: #666;
   transition: transform 1s;
 }
 #navigation.closed .close {
@@ -73,7 +73,7 @@
   color: mediumslateblue;
 }
 #navigation .brand {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #444;
   padding: 20px 15px;
   margin-bottom: 20px;
 }
@@ -85,7 +85,7 @@
 }
 #navigation .brand .first {
   border-radius: 100% 0 0 0;
-  background-color: #333;
+  background-color: #ccc;
 }
 #navigation .brand .second {
   background-color: mediumslateblue;

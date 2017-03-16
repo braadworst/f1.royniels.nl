@@ -1,4 +1,4 @@
-module.exports = function(user, drivers, engines, chassis, team) {
+module.exports = function(user, drivers, engines, chassis, team = {}) {
   return `
   <section id="team" class="team">
     <div class="notification notification-errors hidden">
@@ -14,7 +14,7 @@ module.exports = function(user, drivers, engines, chassis, team) {
       </div>
         <div class="pure-u-1-1 pure-u-md-1-3">
           <div class="content">
-            <input type="text" name="name" placeholder="Enter your team name..." autocomplete="off" maxlength="40" value="${ team.name }">
+            <input type="text" name="name" placeholder="Enter your team name..." autocomplete="off" maxlength="40" value="${ team.name ? team.name : '' }">
           </div>
         </div>
         <div class="pure-u-1-1 pure-u-md-1-3">
