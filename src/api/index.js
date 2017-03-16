@@ -19,7 +19,7 @@ module.exports = domain => {
     standings       : find('standings?fields[standings]=rank,points&fields[teams]=name,id&fields[users]=name&sort=standings.rank'),
     userByToken     : find('users?filter[token]=$', 'user'),
     userByEmail     : find('users?filter[email]=$'),
-    teamById        : find('teams/$'),
+    teamById        : find('teams/$?fields[teams]=firstDriverId,secondDriverId,engineId,chassisId,name,id'),
     users           : find('users'),
     userPredictions : depending('predictions?filter[userId]=$'),
     userTeams       : depending('teams?filter[userId]=$&fields[teams]=name,id'),

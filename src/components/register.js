@@ -24,12 +24,13 @@ module.exports = {
     failed   : require('./standings/failed'),
     prepare  : require('./standings/prepare'),
   },
-  teamNew : {
-    datasets : ['user', 'drivers', 'engines', 'chassis'],
-    loaded   : require('./teamNew/loaded'),
-    loading  : require('./teamNew/loading'),
-    failed   : require('./teamNew/failed'),
-    events   : require('./teamNew/events'),
+  team : {
+    datasets : ['user', 'drivers', 'engines', 'chassis', 'teamById'],
+    loaded   : require('./team/loaded'),
+    loading  : require('./team/loading'),
+    failed   : require('./team/failed'),
+    events   : require('./team/events'),
+    prepare  : require('./team/prepare'),
   },
   teams : {
     datasets : ['teams'],

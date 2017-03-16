@@ -5,10 +5,11 @@ const loginCheck     = require('../middleware/loginCheck');
 const loginProcess   = require('../middleware/loginProcess');
 const template       = require('../middleware/template');
 const component      = require('../middleware/component');
+const componentId    = require('../middleware/componentId');
 const logout         = require('../middleware/logout');
 const htmlResponse   = require('../middleware/htmlResponse');
 const errors         = require('../middleware/errors');
-const webserverSetup = require('../middleware/webserverSetup');
+const setupWebserver = require('../middleware/setupWebserver');
 const paths          = require('../paths');
 const logger         = require('minilog')('webserver');
 const settings       = require('../settings')('webserver');
@@ -34,7 +35,7 @@ const excludes = [
 router
   .before((request, response, next) => { logger.info(request.url); next(); })
   .before((request, response, next) => next({ paths, router }))
-  .before(webserverSetup)
+  .before(setupWebserver)
   .before(statics, excludes)
   .before(tokenDecrypt, excludes)
   .before(loginCheck, excludes)
@@ -49,8 +50,8 @@ router
   .get(paths.googleConsent, loginProcess.consent(settings.google))
   .get(paths.googleToken, loginProcess.token(settings.google))
   .get(paths.teams, component('teams', '#main'))
-  .get(paths.teamNew, component('teamNew', '#main'))
-  .get(paths.teamEdit, component('teamNew', '#main'))
+  .get(paths.team, component('team', '#main'))
+  .get(paths.teamEdit, componentId('team', '#main'))
   .get(paths.predictions, component('predictions', '#main'))
   .get(paths.standings, component('standings', '#main'))
   .get(paths.rules, component('rules', '#main'))

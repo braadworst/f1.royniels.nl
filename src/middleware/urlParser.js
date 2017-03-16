@@ -7,7 +7,7 @@ module.exports = (request, response, next, relay) => {
   type         = type.shift();
 
   if (request.parameters && request.parameters.id) {
-    query.filters.push({ field : 'id', value : request.parameters.id });
+    query.filters.push({ field : type + '.id', value : request.parameters.id });
   }
 
   next({ type, options : query });

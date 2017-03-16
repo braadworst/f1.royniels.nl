@@ -28,7 +28,7 @@ module.exports = function(user, teams) {
 
   function showCreate() {
     if (settings.maxTeams > teams.length) {
-      return `<li><a href="${ paths.get('teamNew') }">Create team</a></li>`;
+      return `<li><a href="${ paths.get('team') }">Create team</a></li>`;
     }
     return '';
   }

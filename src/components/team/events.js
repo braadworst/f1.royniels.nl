@@ -6,7 +6,7 @@ module.exports = (api, router) => {
   const engines = [].slice.call(document.querySelectorAll('.item-create-engine'));
   const chassis = [].slice.call(document.querySelectorAll('.item-create-chassis'));
   const save    = document.querySelector('.button');
-  const all     = drivers.concat(engines, chassis);
+  const all     = [...drivers, ...engines, ...chassis];
 
   // Add button listeners
   save.addEventListener('click', async function(event) {
@@ -16,7 +16,7 @@ module.exports = (api, router) => {
       router.redirect('/teams');
     } catch (errors) {
       console.log(errors);
-      const notification = document.querySelector('#teamNew .notification');
+      const notification = document.querySelector('#team .notification');
       notification.innerHTML = 'Please select two drivers, an engine, a chassis and give your team a name';
       notification.classList.remove('hidden');
     }
@@ -41,7 +41,12 @@ module.exports = (api, router) => {
     let chassis      = document.querySelector('.item-create-chassis.item-create-selected');
     let name         = document.querySelector('[name="name"]').value;
     let userId       = parseInt(document.querySelector('[data-user-id]').getAttribute('data-user-id'));
+    let teamId       = parseInt(document.querySelector('[data-team-id]').getAttribute('data-team-id'))
     let output       = { userId };
+
+    if (teamId) {
+      output.id = teamId;
+    }
 
     if (name) {
       output.name = name;
@@ -109,6 +114,6 @@ module.exports = (api, router) => {
     });
     document.querySelector('.budget').innerHTML = budget.toLocaleString();
   }
-
   calculateBudget();
+  disableOverBudget(all);
 }

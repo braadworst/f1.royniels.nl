@@ -46,7 +46,7 @@ module.exports = (components, api, renderer, router) => {
     }
   }
 
-  async function get(datasets, name) {
+  async function get(datasets, name, parameters) {
     if (!api.get) {
       throw new Error('Please provide a callback for fetching data');
     }
@@ -56,7 +56,11 @@ module.exports = (components, api, renderer, router) => {
     let output = [];
     if (datasets) {
       for(const dataset of datasets) {
-        output.push(await api.get(dataset));
+        if (parameters) {
+          output.push(await api.get(dataset, ...parameters));
+        } else {
+          output.push(await api.get(dataset));
+        }
         // subscribe(dataset, name);
       }
     }
@@ -78,11 +82,11 @@ module.exports = (components, api, renderer, router) => {
   }
 
   return {
-    create : async function(name, placeholder) {
+    create : async function(name, placeholder, ...parameters) {
       const component = exists(name);
       try {
         render(name, component.loading, placeholder);
-        let data = await get(component.datasets, name);
+        let data = await get(component.datasets, name, parameters);
         data = prepare(component, data);
         render(name, component.loaded, placeholder, data);
       } catch (error) {

@@ -11,7 +11,7 @@
 
 /* declare your component specific styles */
 @import url('../components/navigation/style.css');
-@import url('../components/teamNew/style.css');
+@import url('../components/team/style.css');
 @import url('../components/teams/style.css');
 @import url('../components/standings/style.css');
 @import url('../components/rules/style.css');

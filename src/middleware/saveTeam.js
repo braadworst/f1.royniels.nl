@@ -9,6 +9,13 @@ module.exports = async function(request, response, next, relay) {
       const database = relay.database;
       const schema   = require('../schemas/' + relay.type);
 
+      // Update
+      if (post.id) {
+        const team = await database.update(schema, post);
+        next({ data : team });
+        return;
+      }
+
       // Get all the teams by current users
       const userTeams = await database.find(schema, { filters : [{ field : 'userId',  value : post.userId }] });
 

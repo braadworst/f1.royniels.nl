@@ -2,7 +2,7 @@ module.exports = {
   login           : '/',
   logout          : '/logout',
   teams           : '/teams',
-  teamNew         : '/teams/new',
+  team         : '/teams/new',
   teamEdit        : '/teams/edit/:id',
   standings       : '/standings',
   rules           : '/rules',
