@@ -1,79 +1,81 @@
 #navigation {
   position: fixed;
   z-index: 1;
-  background-color: #000;
   box-sizing: border-box;
+  border-left: 1px solid #ccc;
+  background-color: white;
   height: 100%;
-  width: 250px;
-  transition: left .5s;
-  left: 0;
+  width: 280px;
+  transition: right .5s;
+  right: 0;
 }
 #navigation.closed {
-  left: -250px;
+  right: -280px;
 }
 #navigation ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-#navigation li:first-child {
-  margin-right: 20px;
+#navigation h4 {
+  padding: 0 15px;
+  margin: 5px 0 10px 0;
+  color: #999;
+  font-weight: 300;
 }
 #navigation li,
 #navigation a {
   margin: 0;
 }
 #navigation a {
-  padding: 10px 15px;
+  padding: 8px 15px;
   display: block;
   text-decoration: none;
-  color: rgba(255, 255, 255, .5);
+  color: #333;
   vertical-align: middle;
-  text-transform: uppercase;
   transition: color .5s;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: .9rem;
 }
 #navigation .active {
+  padding: 12px 15px;
   color: #fff;
+  background-color: mediumslateblue;
 }
 #navigation .active:hover {
-  color: #fff;
+  color: white;
 }
 #navigation a:hover {
-  color: rgba(255, 255, 255, .8);
+  color: #BF0603;
 }
 #navigation .close {
-  padding: 10px;
+  padding: 9px;
   position: absolute;
-  top: 50%;
+  top: 10px;
   right: 0;
-  background-color: rgba(255, 255, 255, .2);
-  border-radius: 15px 0 0 15px;
   width: 50px;
   height: 42px;
-  font-size: 1.4rem;
-  color: #000;
+  font-size: 1.6rem;
   box-sizing: border-box;
-  margin-top: -25px;
   transition: border-radius .3s, right .3s, box-shadow .3s, color .3s, background .3s;
 }
 #navigation .close i {
+  color: #ccc;
   transition: transform 1s;
 }
 #navigation.closed .close {
-  border-radius: 0 15px 15px 0;
-  right: -50px;
-  border-width: 2px 2px 2px 0;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, .1);
-  background-color: #6075E0;
-  color: #fff;
+  left: -50px;
+  padding: 8px 10px 12px 10px;
 }
 #navigation.closed .close i {
   transform: rotate(180deg);
+  color: mediumslateblue;
 }
 #navigation .brand {
-  padding: 30px 15px 20px 15px;
-  color: #fff;
-  display: inline-block;
+  border-bottom: 1px solid #ccc;
+  padding: 20px 15px;
+  margin-bottom: 20px;
 }
 #navigation .brand .logo  {
   display: inline-block;
@@ -83,17 +85,17 @@
 }
 #navigation .brand .first {
   border-radius: 100% 0 0 0;
-  background-color: orangered;
+  background-color: #333;
 }
 #navigation .brand .second {
-  background-color: gold;
+  background-color: mediumslateblue;
 }
 #navigation .brand .third {
-  background-color: limegreen;
+  background-color: gold;
 }
 #navigation .brand .fourth {
   border-radius: 0 0 100% 0;
-  background-color: mediumslateblue;
+  background-color: #BF0603;
   position: relative;
 }
 #navigation .brand .fourth:after {
@@ -103,14 +105,13 @@
   left: 50%;
   right: -50%;
   height: 3px;
-  background-color: mediumslateblue;
+  background-color: #BF0603;
 }
 #navigation .brand .name {
-  color: #fff;
   margin-left: 18px;
   margin-top: -4px;
   text-transform: uppercase;
-  font: 400 1.3rem/1.3rem 'Oswald', 'sans-serif';
+  font: 500 1.3rem/1.3rem 'Oswald', 'sans-serif';
   vertical-align: middle;
   display: inline-block;
 }

@@ -3,31 +3,35 @@
   margin: 50px auto;
   text-align: center;
   color: #666;
+  border-radius: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
 }
 #login .brand {
-  padding: 0;
-  display: inline-block;
-  margin-bottom: 30px;
+  padding: 30px 20px;
+  background-color: #333;
+  color: #ccc;
+  border-radius: 10px 10px 0 0;
 }
 #login .brand .logo  {
   display: inline-block;
-  width: 26px;
-  height: 26px;
+  width: 20px;
+  height: 20px;
   vertical-align: middle;
 }
 #login .brand .first {
   border-radius: 100% 0 0 0;
-  background-color: #19647E;
+  background-color: #ccc;
 }
 #login .brand .second {
-  background-color: #28AFB0;
+  background-color: mediumslateblue;
 }
 #login .brand .third {
-  background-color: #F4D35E;
+  background-color: gold;
 }
 #login .brand .fourth {
   border-radius: 0 0 100% 0;
-  background-color: #EE964B;
+  background-color: #BF0603;
   position: relative;
 }
 #login .brand .fourth:after {
@@ -37,20 +41,18 @@
   left: 50%;
   right: -50%;
   height: 6px;
-  background-color: #EE964B;
+  background-color: #BF0603;
 }
 #login .brand .name {
-  color: #1F271B;
-  margin-left: 30px;
-  margin-top: -4px;
+  margin: -6px 0 0 30px;
   text-transform: uppercase;
-  font: 400 2.2rem/2.2rem 'Oswald', 'sans-serif';
+  font: 400 2rem/2rem 'Oswald', 'sans-serif';
   vertical-align: middle;
-  display: inline-block;
+    display: inline-block;
 }
 #login ul {
   list-style: none;
-  margin: 30px 0 0 0;
+  margin: 0;
   padding: 0;
 }
 #login li {
@@ -60,18 +62,18 @@
 #login li a {
   display: block;
   text-align: left;
-  color: #19647E;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 10px;
+  padding: 20px;
   font-size: 1.2rem;
-  box-sizing: border-box;
-  background-color: white;
-  transition: background .3s, color .3s;
+  background-color: #666;
+  border-top: 1px solid #777;
+  color: #ccc;
+}
+#login li:last-child a {
+  border-radius: 0 0 10px 10px;
 }
 #login a:hover {
   color: white;
-  background-color: #19647E;
+  background-color: mediumslateblue;
 }
 #login li i {
   margin-right: 15px;
