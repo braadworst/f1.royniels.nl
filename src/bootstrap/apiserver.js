@@ -14,6 +14,7 @@ const jsonApiSerializer = require('../middleware/jsonApiSerializer');
 const bodyValidator     = require('../middleware/bodyValidator');
 const requestValidator  = require('../middleware/requestValidator');
 const bodyParser        = require('../middleware/bodyParser');
+const saveTeam          = require('../middleware/saveTeam');
 
 // Enable logger
 require('minilog').enable();
@@ -25,7 +26,7 @@ const router = require('cs-router')(server);
 
 router
   .before((request, response, next) => { logger.info(request.url); next() })
-  .before((request, response, next) => next({ database }))
+  .before((request, response, next) => next({ database, settings }))
   // .before(requestValidator)
   .before(urlParser)
   .before(bodyParser)
@@ -44,7 +45,7 @@ router
   .get('/standings', findData)
   .get('/results', findData)
   .post('/users', saveData)
-  .post('/teams', saveData)
+  .post('/teams', saveTeam)
   .post('/predictions', saveData)
   .post('/results', saveData)
   .after(jsonApiSerializer)

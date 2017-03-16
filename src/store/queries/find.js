@@ -2,7 +2,7 @@ const logger = require('minilog')('store:find');
 require('minilog').enable();
 
 module.exports = function(database) {
-  return function(schema, options) {
+  return function(schema, options = {}) {
     return new Promise((resolve, reject) => {
 
       let placeholders = [],
