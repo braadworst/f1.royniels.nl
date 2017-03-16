@@ -17,6 +17,7 @@ const bodyValidator     = require('../middleware/bodyValidator');
 const requestValidator  = require('../middleware/requestValidator');
 const bodyParser        = require('../middleware/bodyParser');
 const saveTeam          = require('../middleware/saveTeam');
+const saveResult        = require('../middleware/saveResult');
 
 // Enable logger
 require('minilog').enable();
@@ -49,7 +50,7 @@ router
   .post('/users', saveData)
   .post('/teams', saveTeam)
   .post('/predictions', saveData)
-  .post('/results', saveData)
+  .post('/results', saveResult)
   .after(jsonApiSerializer)
   .after(jsonResponse)
   .noMatch(errors.notFound);

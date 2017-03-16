@@ -10,15 +10,15 @@ module.exports = async function(request, response, next, relay) {
       const schema   = require('../schemas/' + relay.type);
 
       // Get all the teams by current users
-      userTeams = await database.find(schema, { filters : [{ field : 'userId',  value : post.userId }] });
+      const userTeams = await database.find(schema, { filters : [{ field : 'userId',  value : post.userId }] });
 
       if (userTeams.length >= relay.settings.maxTeams) {
         next({ errors : `Cannot add new team, limit of ${ relay.settings.maxTeams } reached` });
       } else {
-        team  = await database.insert(schema, post);
+        const team = await database.insert(schema, post);
 
         // Get all the team, so we can add a blank rank
-        teams = await database.find(schema);
+        const teams = await database.find(schema);
 
         // Add rank
         await database.insert(require('../schemas/standings'), { teamId : team.id, rank : teams.length + 1, points : 0});

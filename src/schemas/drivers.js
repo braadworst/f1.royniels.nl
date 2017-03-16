@@ -14,6 +14,12 @@ module.exports = {
     },
     price : {
       type : 'integer'
+    },
+    chassisId : {
+      type : 'integer'
+    },
+    engineId : {
+      type : 'integer'
     }
   }
 };

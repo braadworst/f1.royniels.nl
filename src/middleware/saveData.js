@@ -10,11 +10,11 @@ module.exports = async function(request, response, next, relay) {
       const schema   = require('../schemas/' + relay.type);
       let result;
       if (!post.id) {
-        data = await database.insert(schema, post);
+        result = await database.insert(schema, post);
       } else {
-        data = await database.update(schema, post);
+        result = await database.update(schema, post);
       }
-      next({ data });
+      next({ data : result });
     } catch (error) {
       logger.error(error);
       errors.internalServerError(request, response);
