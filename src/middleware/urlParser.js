@@ -28,26 +28,19 @@ module.exports = (request, response, next, relay) => {
       .split('&')
       .filter(row => row)
       .map(row => {
-        let value = row.split('=').pop().split(',');
-        if (value.length === 1) {
-          value = value.pop();
-        }
-        return {
-          key   : row.split('=').shift(),
-          value
-        }
-      })
-      .map(row => {
-        if (row.key === 'sort') {
-          output.sort = Array.isArray(row.value) ? row.value : [row.value];
-        } else if (row.key.indexOf('fields') > -1) {
-          output.fields = Array.isArray(row.value) ? row.value : [row.value];
-        } else if (row.key.indexOf('page') > -1) {
-          let key = row.key.split('[').pop().split(']').shift();
-          output.pagination[key] = parseInt(row.value);
-        } else if (row.key.indexOf('filter') > -1) {
-          let key = row.key.split('[').pop().split(']').shift();
-          output.filters.push({ field : key, value : row.value });
+        if (row.indexOf('fields') > -1) {
+          const table = row.split(']').shift().split('[').pop();
+          const fields = row.split('=').pop().split(',').map(field => `${ table }.${ field }`);
+          output.fields = [...output.fields, ...fields];
+        } else if (row.indexOf('filter') > -1) {
+          const field = row.split(']').shift().split('[').pop();
+          const value = row.split('=').pop();
+          output.filters.push({ field, value });
+        } else if (row.indexOf('sort') > -1) {
+          output.sort = row.split('=').pop().split(',');
+        } else if (row.indexOf('page') > -1) {
+          const name = row.split(']').shift().split('[').pop();
+          output.pagination[name] = parseInt(row.split('=').pop());
         }
       });
 

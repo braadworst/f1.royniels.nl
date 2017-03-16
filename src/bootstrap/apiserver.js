@@ -7,6 +7,8 @@ const errors            = require('../middleware/errors');
 const setupDatabase     = require('../middleware/setupDatabase');
 const jsonResponse      = require('../middleware/jsonResponse');
 const findData          = require('../middleware/findData');
+const findStandings     = require('../middleware/findStandings');
+const findTeams         = require('../middleware/findTeams');
 const saveData          = require('../middleware/saveData');
 const urlParser         = require('../middleware/urlParser');
 const jsonApiParser     = require('../middleware/jsonApiParser');
@@ -33,8 +35,8 @@ router
   .before(jsonApiParser)
   .before(bodyValidator)
   .get('/init', setupDatabase)
-  .get('/teams', findData)
-  .get('/teams/:id', findData)
+  .get('/teams', findTeams)
+  .get('/teams/:id', findTeams)
   .get('/users', findData)
   .get('/drivers', findData)
   .get('/drivers/:id', findData)
@@ -42,7 +44,7 @@ router
   .get('/engines', findData)
   .get('/circuits', findData)
   .get('/predictions', findData)
-  .get('/standings', findData)
+  .get('/standings', findStandings)
   .get('/results', findData)
   .post('/users', saveData)
   .post('/teams', saveTeam)

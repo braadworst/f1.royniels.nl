@@ -10,10 +10,20 @@ module.exports = function(database) {
           where        = '',
           fields       = '*',
           sort         = '',
+          joins        = '',
           pagination   = '';
 
-      if (options.fields && Array.isArray(options.fields) && options.fields.lenght > 0) {
-        fields = options.fields.join(', ');
+      if (options.fields && Array.isArray(options.fields) && options.fields.length > 0) {
+        fields = options.fields.map(field => {
+          return `${ field } AS '${ field.split('.').join('-') }'`;
+        }).join(', ');
+      }
+
+      if (options.joins && Array.isArray(options.joins) && options.joins.length > 0) {
+        joins = options.joins.map(join => {
+          const alias = join.alias ? `AS ${ join.alias }` : '';
+          return `JOIN ${ join.table } ${ alias } ON ${ join.fieldA } = ${ join.fieldB }`;
+        }).join(' ');
       }
 
       if (options.filters && Array.isArray(options.filters) && options.filters.length > 0) {
@@ -38,7 +48,7 @@ module.exports = function(database) {
         sort = `ORDER BY ${ sorting.join(', ') }`;
       }
 
-      const query = `SELECT ${ fields } FROM ${ table } ${ where } ${ sort } ${ pagination }`;
+      const query = `SELECT ${ fields } FROM ${ table } ${ joins } ${ where } ${ sort } ${ pagination }`;
       logger.info(query);
 
       database.all(

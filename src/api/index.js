@@ -14,14 +14,15 @@ module.exports = domain => {
     chassis         : find('chassis?sort=-price'),
     engines         : find('engines?sort=-price'),
     circuits        : find('circuits'),
-    teams           : find('teams?sort=name'),
+    teams           : find('teams?fields[chassis]=name,image&fields[engines]=name,image&fields[secondDriver]=name,image&fields[firstDriver]=name,image&fields[teams]=name&fields[users]=name&sort=teams.name'),
     predictions     : find('predictions'),
-    standings       : find('standings?sort=-points'),
+    standings       : find('standings?fields[standings]=rank,points&fields[teams]=name&fields[users]=name&sort=standings.rank'),
     userByToken     : find('users?filter[token]=$', 'user'),
     userByEmail     : find('users?filter[email]=$'),
     teamById        : find('teams/$'),
+    users           : find('users'),
     userPredictions : depending('predictions?filter[userId]=$'),
-    userTeams       : depending('teams?filter[userId]=$'),
+    userTeams       : depending('teams?filter[userId]=$&fields[teams]=name,id'),
     user            : user()
   };
   let setters = {
