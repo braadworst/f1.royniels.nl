@@ -4,7 +4,7 @@ const paths       = require('../paths');
 
 module.exports = router => {
   router
-    .before(component('navigation', '#menu'))
+    .before(component('navigation', '#menu'), paths.login)
     .get(paths.teams, component('teams', '#main'))
     .get(paths.team, component('team', '#main'))
     .get(paths.teamEdit, componentId('team', '#main'))
