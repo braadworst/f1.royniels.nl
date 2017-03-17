@@ -10,7 +10,7 @@ module.exports = {
   //   key  : fs.readFileSync('./certs/key.pem'),
   //   cert : fs.readFileSync('./certs/cert.pem')
   // },
-  port: 80,
+  port: 4443,
   google: {
     clientId     : '906777770784-755g7991ejmgib606m0g95eg658h07c2.apps.googleusercontent.com',
     clientSecret : '1NK7PxbUaJaPxU-9bz4RYWRx',

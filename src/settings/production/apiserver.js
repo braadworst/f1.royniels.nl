@@ -10,7 +10,7 @@ module.exports = {
     mode       : 'aes-256-ctr'
   },
   maxTeams : 3,
-  port : 4444,
+  port : 4445,
   databaseName: 'f1manager',
   points : {
     one     : 25,
