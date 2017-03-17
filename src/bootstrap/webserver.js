@@ -19,7 +19,7 @@ require('minilog').enable();
 const server = protocol.createServer();
 
 // Set the shared routes
-const router = require('cs-router')(server);
+const router = require('cs-router')(server, settings.redirectDomain);
 
 const excludes = [
   paths.login,

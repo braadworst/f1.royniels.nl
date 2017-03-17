@@ -13,6 +13,7 @@ module.exports = {
   port : 4445,
   domain : 'localhost',
   databaseName: 'f1manager',
+  redirectDomain : 'https://f1.royniels.nl',
   points : {
     one     : 25,
     two     : 18,

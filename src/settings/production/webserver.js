@@ -12,6 +12,7 @@ module.exports = {
   // },
   domain : 'localhost',
   port: 4443,
+  redirectDomain : 'https://f1.royniels.nl',
   google: {
     clientId     : '906777770784-755g7991ejmgib606m0g95eg658h07c2.apps.googleusercontent.com',
     clientSecret : '1NK7PxbUaJaPxU-9bz4RYWRx',
