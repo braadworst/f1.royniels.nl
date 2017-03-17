@@ -19,7 +19,7 @@ module.exports = (function() {
           redirect_uri : settings.redirectUri,
         }, settings.consent.parameters ? settings.consent.parameters : {});
 
-        logger.info('Redirecting user to network consent page');
+        logger.info(`Redirecting user to network consent page ${ settings.consent.url }?${ querystring.stringify(parameters) }`);
         relay.router.redirect(`${ settings.consent.url }?${ querystring.stringify(parameters) }`);
       }
     },
