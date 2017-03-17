@@ -27,14 +27,25 @@ module.exports = function(database) {
       }
 
       if (options.filters && Array.isArray(options.filters) && options.filters.length > 0) {
-        let fields   = options.filters.map(row => row.field + ' = ?');
-        placeholders = options.filters.map(row => row.value );
+        let fields   = options.filters.map(row => {
+          let compare = '=';
+          if (row.value[0] === '>' || row.value[0] === '<') {
+            compare = row.value[0];
+          }
+          return `${ row.field } ${ compare } ?`;
+        });
+        placeholders = options.filters.map(row => {
+          if (row.value[0] === '>' || row.value[0] === '<') {
+            return row.value.slice(1);
+          }
+          return row.value
+        });
         where = `WHERE ${ fields.join(' AND ') }`;
       }
 
-      if (options.pagination && options.pagination.size && options.pagination.number) {
-        const limit  = options.pagination.size;
-        const offset = options.pagination.number;
+      if (options.pagination && (options.pagination.size || options.pagination.number)) {
+        const limit  = options.pagination.size ? options.pagination.size : -1;
+        const offset = options.pagination.number ? options.pagination.number : 1;
         pagination = `LIMIT ${ limit } OFFSET ${ (offset - 1) * limit }`;
       }
 
@@ -49,7 +60,7 @@ module.exports = function(database) {
       }
 
       const query = `SELECT ${ fields } FROM ${ table } ${ joins } ${ where } ${ sort } ${ pagination }`;
-      logger.info(query);
+      logger.info(query, placeholders);
 
       database.all(
         query,

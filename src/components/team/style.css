@@ -1,3 +1,6 @@
+.team-offset {
+  margin-top: 70px;
+}
 .team .hidden {
   display: none;
 }
@@ -15,6 +18,15 @@
   background-color: #fff;
   margin: 0 0 30px 0;
   padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 280px;
+  transition: right .5s;
+  z-index: 100;
+}
+#main.full .team .pure-form {
+  right: 0;
 }
 .team .pure-form h2 {
   color: #aaa;
@@ -29,13 +41,15 @@
 .team .pure-form .content {
   margin: 0 10px;
 }
-
 .team .item-create {
   background-color: #fff;
   overflow: hidden;
   margin: 5px;
-  cursor: pointer;
+  cursor: default;
   transition: background-color .3s, opacity .3s;
+}
+.team-offset .item-create {
+  cursor: pointer;
 }
 .team .item-create .item-media {
   box-sizing: border-box;

@@ -1,4 +1,3 @@
 - date limit creating team
-- date limit race predictions
 - deploy
 - browser tests

@@ -1,7 +1,7 @@
 module.exports = {
   title : 'teams',
   type  : 'object',
-  required : ['name', 'userId', 'firstDriverId', 'secondDriverId', 'engineId', 'chassisId', 'createDate', 'editDate'],
+  required : ['name', 'userId', 'firstDriverId', 'secondDriverId', 'engineId', 'chassisId'],
   properties : {
     name : {
       type : 'string',
@@ -21,11 +21,8 @@ module.exports = {
     chassisId : {
       type : 'integer'
     },
-    createDate : {
-      type : 'string'
-    },
-    editEdit : {
-      type : 'string'
+    editDate : {
+      type : 'integer'
     }
   }
 };

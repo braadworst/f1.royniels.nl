@@ -11,30 +11,37 @@ module.exports = (api, router) => {
   const all     = [...drivers, ...engines, ...chassis];
 
   // Add button listeners
-  save.addEventListener('click', async function(event) {
-    event.preventDefault();
-    try {
-      await api.set('team', getFormData());
-      router.redirect('/teams');
-    } catch (errors) {
-      console.log(errors);
-      const notification = document.querySelector('#team .notification');
-      notification.innerHTML = 'Please select two drivers, an engine, a chassis and give your team a name';
-      notification.classList.remove('hidden');
-    }
-  });
-
-  // Add event listeners
-  all.forEach(item => {
-    item.addEventListener('click', event => {
+  if (save) {
+    save.addEventListener('click', async function(event) {
       event.preventDefault();
-      update(item, drivers, settings.driversLimit, 'item-create-driver', all);
-      update(item, engines, settings.enginesLimit, 'item-create-engine', all);
-      update(item, chassis, settings.chassisLimit, 'item-create-chassis', all);
-      calculateBudget();
-      disableOverBudget(all);
+      try {
+        const result = await api.set('team', getFormData());
+        if (result.error) {
+          const notification = document.querySelector('#team .notification');
+          notification.innerHTML = result.error;
+          notification.classList.remove('hidden');
+        } else {
+          router.redirect('/teams');
+        }
+      } catch (errors) {
+        const notification = document.querySelector('#team .notification');
+        notification.innerHTML = 'Please select two drivers, an engine, a chassis and give your team a name';
+        notification.classList.remove('hidden');
+      }
     });
-  });
+
+    // Add event listeners
+    all.forEach(item => {
+      item.addEventListener('click', event => {
+        event.preventDefault();
+        update(item, drivers, settings.driversLimit, 'item-create-driver', all);
+        update(item, engines, settings.enginesLimit, 'item-create-engine', all);
+        update(item, chassis, settings.chassisLimit, 'item-create-chassis', all);
+        calculateBudget();
+        disableOverBudget(all);
+      });
+    });
+  }
 
   function update(current, items, limit, className, all) {
     let selected, unselected
@@ -80,7 +87,9 @@ module.exports = (api, router) => {
     items.forEach(item => {
       budget = budget - parseInt(item.getAttribute('data-price'));
     });
-    document.querySelector('.budget').innerHTML = budget.toLocaleString();
+    if (document.querySelector('.budget')) {
+      document.querySelector('.budget').innerHTML = budget.toLocaleString();
+    }
   }
 
   function getFormData() {
@@ -91,7 +100,12 @@ module.exports = (api, router) => {
     let name         = document.querySelector('[name="name"]').value;
     let userId       = parseInt(document.querySelector('[data-user-id]').getAttribute('data-user-id'));
     let teamId       = parseInt(document.querySelector('[data-team-id]').getAttribute('data-team-id'))
+    let editDate     = parseInt(document.querySelector('[data-edit-date]').getAttribute('data-edit-date'))
     let output       = { userId };
+
+    if (editDate) {
+      output.editDate = editDate;
+    }
 
     if (teamId) {
       output.id = teamId;

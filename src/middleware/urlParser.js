@@ -1,7 +1,7 @@
 const url = require('url');
 
 module.exports = (request, response, next, relay) => {
-  const parsed = url.parse(request.url);
+  const parsed = url.parse(decodeURIComponent(request.url));
   const query  = parse(parsed.query);
   let type     = parsed.pathname.split('/').slice(1)
   type         = type.shift();

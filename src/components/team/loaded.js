@@ -1,10 +1,43 @@
 module.exports = function(user, drivers, engines, chassis, team = {}) {
   return `
-  <section id="team" class="team">
+  <section id="team" class="team ${ team.edit !== false ? 'team-offset' : ''}">
+    ${ showEdit(team, user) }
+    ${ showNotification(team) }
+    <h1 class="section-header">Select drivers</h1>
+    <section class="pure-g">
+      ${ drivers.map(driver => rowDriver(driver, team)).join('') }
+    </section>
+    <h1 class="section-header">Select engines</h1>
+    <section class="pure-g">
+      ${ engines.map(engine => rowEngine(engine, team)).join('') }
+    </section>
+    <h1 class="section-header">Select chassis</h1>
+    <section class="pure-g">
+      ${ chassis.map(chassi => rowChassis(chassi, team)).join('') }
+    </section>
+
+  </section>
+  `;
+}
+
+function showNotification(team) {
+  if (team.edit) {
+    return `
+      <div class="notification">
+        You can make adjustments to your team up until the first upcoming race.
+      </div>
+    `;
+  }
+  return '';
+}
+
+function showEdit(team, user) {
+  if (team.edit !== false) {
+    return `
     <div class="notification notification-errors hidden">
       Some errors
     </div>
-    <div data-user-id="${ user.id }" data-team-id="${ team.id }">
+    <div data-user-id="${ user.id }" data-team-id="${ team.id }" data-edit-date="${ team.editDate }">
     <form class="pure-form">
       <div class="pure-g">
       <div class="pure-u-1-1 pure-u-md-1-3">
@@ -24,22 +57,9 @@ module.exports = function(user, drivers, engines, chassis, team = {}) {
         </div>
       </div>
     </form>
-
-    <h1 class="section-header">Select drivers</h1>
-    <section class="pure-g">
-      ${ drivers.map(driver => rowDriver(driver, team)).join('') }
-    </section>
-    <h1 class="section-header">Select engines</h1>
-    <section class="pure-g">
-      ${ engines.map(engine => rowEngine(engine, team)).join('') }
-    </section>
-    <h1 class="section-header">Select chassis</h1>
-    <section class="pure-g">
-      ${ chassis.map(chassi => rowChassis(chassi, team)).join('') }
-    </section>
-
-  </section>
-  `;
+    `;
+  }
+  return '';
 }
 
 function rowDriver(item, team) {
