@@ -104,6 +104,7 @@ module.exports = (function() {
           'Domain=' + settings.cookieDomain,
           'Path=/'
         ].join('; ');
+        console.log(cookie);
         response.setHeader('Set-Cookie', cookie);
       }
 
