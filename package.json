@@ -24,7 +24,9 @@
     "js-file-size": "node_modules/.bin/browserify src/bootstrap/client.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la --sort=size",
     "certs": "rm -rf certs && mkdir certs && openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout certs/key.pem -out certs/cert.pem",
     "api": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony src/bootstrap/apiserver.js",
+    "prod-api": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=production node_modules/.bin/nodemon --harmony src/bootstrap/apiserver.js",
     "serve": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony src/bootstrap/webserver.js",
+    "prod-serve": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=production node_modules/.bin/nodemon --harmony src/bootstrap/webserver.js",
     "watch": "npm-watch"
   },
   "repository": {

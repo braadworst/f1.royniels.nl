@@ -1,14 +1,14 @@
 const fs   = require('fs');
 
 module.exports = {
-  certs : {
-    key  : fs.readFileSync('./certs/key.pem'),
-    cert : fs.readFileSync('./certs/cert.pem')
-  },
+  // certs : {
+  //   key  : fs.readFileSync('./certs/key.pem'),
+  //   cert : fs.readFileSync('./certs/cert.pem')
+  // },
   encryption : {
     passphrase : 'This is the passphrase biatch!!!',
     mode       : 'aes-256-ctr'
-  },  
+  },
   maxTeams : 3,
   port : 4444,
   databaseName: 'f1manager',
