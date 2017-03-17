@@ -1,7 +1,4 @@
-- styling
 - add proper prices
-- pub sub
-- login check saving results
 - date limit creating team
 - date limit race predictions
 - deploy
