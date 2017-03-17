@@ -56,7 +56,7 @@
   "homepage": "https://github.com/braadworst/f1.royniels.nl#readme",
   "dependencies": {
     "cheerio": "^0.22.0",
-    "cs-router": "^1.1.2",
+    "cs-router": "^1.0.2",
     "date-fns": "^1.28.0",
     "is-my-json-valid": "^2.16.0",
     "lodash": "^4.17.4",

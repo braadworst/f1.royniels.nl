@@ -102,7 +102,7 @@ module.exports = (function() {
           'Secure',
           'SameSite=Strict',
           'Expires=' + tomorrow,
-          'Domain=localhost',
+          'Domain=' + relay.settings.redirectDomain,
           'Path=/'
         ].join('; '));
       }
