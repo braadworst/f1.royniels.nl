@@ -1,4 +1,4 @@
-const spdy              = require('spdy');
+const http              = require('http');
 const logger            = require('minilog')('apiserver');
 const settings          = require('../settings')('apiserver');
 const database          = require('../store')(settings.databaseName);
@@ -24,7 +24,7 @@ const savePrediction    = require('../middleware/savePrediction');
 require('minilog').enable();
 
 // Create HTTP2 server
-let server = spdy.createServer(settings.certs);
+let server = http.createServer();
 
 const router = require('cs-router')(server);
 

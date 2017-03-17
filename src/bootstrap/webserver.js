@@ -1,4 +1,4 @@
-const protocol       = require('spdy');
+const protocol       = require('http');
 const statics        = require('../middleware/statics');
 const loggedInUser   = require('../middleware/loggedInUser');
 const loginCheck     = require('../middleware/loginCheck');
@@ -16,7 +16,7 @@ const settings       = require('../settings')('webserver');
 require('minilog').enable();
 
 // Create HTTP2 server
-const server = protocol.createServer(settings.certs);
+const server = protocol.createServer();
 
 // Set the shared routes
 const router = require('cs-router')(server);
