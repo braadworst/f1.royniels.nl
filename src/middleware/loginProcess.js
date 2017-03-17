@@ -64,7 +64,7 @@ module.exports = (function() {
           // we don't by accident give other people access, when our db gets compromised
           user.token = uuid();
 
-          setCookieToken(response, encrypt(user.token, relay.settings));
+          setCookieToken(response, encrypt(user.token, relay.settings), settings);
 
           // Check update the token if the user exists, otherwise create new user
           let currentUser = await api.get('userByEmail', user.email);
@@ -91,7 +91,7 @@ module.exports = (function() {
         }
       }
 
-      function setCookieToken(response, value) {
+      function setCookieToken(response, value, settings) {
         let tomorrow = new Date();
         tomorrow = new Date(tomorrow.setDate(tomorrow.getDate() + 1)).toUTCString();
 
@@ -104,9 +104,6 @@ module.exports = (function() {
           'Domain=' + settings.cookieDomain,
           'Path=/'
         ].join('; ');
-
-        console.log(cookie);
-
         response.setHeader('Set-Cookie', cookie);
       }
 
