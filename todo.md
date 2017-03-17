@@ -1,3 +1,2 @@
-- date limit creating team
 - deploy
 - browser tests
