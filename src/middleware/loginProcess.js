@@ -64,7 +64,7 @@ module.exports = (function() {
           // we don't by accident give other people access, when our db gets compromised
           user.token = uuid();
 
-          setCookieToken(response, encrypt(user.token, relay.settings), settings);
+          setCookieToken(response, encrypt(user.token, relay.settings), relay.settings);
 
           // Check update the token if the user exists, otherwise create new user
           let currentUser = await api.get('userByEmail', user.email);
