@@ -105,6 +105,7 @@ module.exports = (function() {
           'Domain=' + settings.cookieDomain,
           'Path=/'
         ].join('; '));
+        console.log(response.headers);
       }
 
       function encrypt(token, settings) {
