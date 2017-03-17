@@ -60,9 +60,11 @@ module.exports = domain => {
   function dependers(key) {
     // Make all the calls that depend on the user id get the id
     if (key === 'user' && cache.user) {
-      cache.user = Array.isArray(cache.user) ? cache.user.pop() : cache.user;
-      getters.userTeams       = getters.userTeams(cache.user.id);
-      getters.userPredictions = getters.userPredictions(cache.user.id);
+      cache.user              = Array.isArray(cache.user) ? cache.user.pop() : cache.user;
+      if (cache.user && cache.user.id) {
+        getters.userTeams       = getters.userTeams(cache.user.id);
+        getters.userPredictions = getters.userPredictions(cache.user.id);
+      }
     }
   }
 
