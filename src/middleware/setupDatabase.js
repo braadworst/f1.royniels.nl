@@ -58,8 +58,8 @@ module.exports = async function(request, response, next, relay) {
     await relay.database.drop(schemas.teams);
     await relay.database.create(schemas.teams);
 
-    // await relay.database.drop(schemas.users);
-    // await relay.database.create(schemas.users);
+    await relay.database.drop(schemas.users);
+    await relay.database.create(schemas.users);
 
     next();
   } catch (error) {
