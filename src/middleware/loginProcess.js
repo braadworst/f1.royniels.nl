@@ -96,7 +96,7 @@ module.exports = (function() {
         tomorrow = new Date(tomorrow.setDate(tomorrow.getDate() + 1)).toUTCString();
 
         logger.info(`write cookie token ${ value } expires ${ tomorrow }`);
-        const = [
+        const cookie = [
           'token=' + value,
           'Secure',
           'SameSite=Strict',
