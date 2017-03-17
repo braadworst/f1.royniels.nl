@@ -1,7 +1,7 @@
 const fs   = require('fs');
 
 module.exports = {
-  apiDomain : 'https://localhost:4444/',
+  apiDomain : 'https://localhost:4445/',
   encryption : {
     passphrase : 'This is the passphrase biatch!!!',
     mode       : 'aes-256-ctr'
