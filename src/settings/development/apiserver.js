@@ -11,6 +11,7 @@ module.exports = {
   },
   maxTeams : 3,
   port : 4445,
+  domain : 'localhost',
   databaseName: 'f1manager',
   points : {
     one     : 25,

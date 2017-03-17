@@ -56,6 +56,6 @@ router
   .after(jsonResponse)
   .noMatch(errors.notFound);
 
-server.listen(settings.port, function() {
-  logger.info('Server listening on port: ' + settings.port);
+server.listen(settings.port, settings.domain, function() {
+  logger.info('apiserver listening on port: ' + settings.domain + ':' + settings.port);
 });
