@@ -14,6 +14,7 @@ module.exports = {
   domain : 'localhost',
   databaseName: 'f1manager',
   redirectDomain : 'https://f1.royniels.nl',
+  cookieDomain : '.royniels.nl',
   points : {
     one     : 25,
     two     : 18,

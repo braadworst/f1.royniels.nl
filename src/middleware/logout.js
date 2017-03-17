@@ -7,7 +7,7 @@ module.exports = (request, response, next, relay) => {
     'Secure',
     'SameSite=Strict',
     'Expires=' + yesterday,
-    'Domain=' + relay.settings.redirectDomain,
+    'Domain=' + relay.settings.cookieDomain,
     'Path=/'
   ].join('; '));
 
