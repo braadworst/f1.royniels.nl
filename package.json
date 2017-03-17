@@ -3,110 +3,28 @@
   "version": "1.0.0",
   "description": "F1.royniels.nl",
   "main": "index.js",
-  "settings": {
-    "development": {
-      "apiserver": {
-        "url": "https://localhost",
-        "databaseName": "f1manager",
-        "port": 4444,
-        "certs": {
-          "key": "./certs/key.pem",
-          "cert": "./certs/cert.pem"
-        }
-      },
-      "webserver": {
-        "domain": "https://localhost",
-        "port": 4443,
-        "certs": {
-          "key": "./certs/key.pem",
-          "cert": "./certs/cert.pem"
-        },
-        "networks": {
-          "google": {
-            "clientId": "906777770784-755g7991ejmgib606m0g95eg658h07c2.apps.googleusercontent.com",
-            "clientSecret": "1NK7PxbUaJaPxU-9bz4RYWRx",
-            "consent": {
-              "url": "https://accounts.google.com/o/oauth2/v2/auth",
-              "parameters": {
-                "response_type": "code",
-                "scope": "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me"
-              }
-            },
-            "token": {
-              "url": "https://www.googleapis.com/oauth2/v4/token",
-              "parameters": {
-                "grant_type": "authorization_code"
-              }
-            },
-            "email": {
-              "url": "https://www.googleapis.com/oauth2/v1/userinfo"
-            }
-          },
-          "facebook": {
-            "clientId": "754074994750154",
-            "clientSecret": "c41aec90cf93cb4825bceae46c2237f9",
-            "consent": {
-              "url": "https://www.facebook.com/v2.8/dialog/oauth",
-              "parameters": {
-                "scope": "email",
-                "response_type": "code"
-              }
-            },
-            "token": {
-              "url": "https://graph.facebook.com/v2.8/oauth/access_token"
-            },
-            "email": {
-              "url": "https://graph.facebook.com/me",
-              "parameters": {
-                "fields": "email,name"
-              }
-            }
-          },
-          "github": {
-            "clientId": "62cf31b86a186dc08f43",
-            "clientSecret": "cf3cb495f64c137e2a4a09992e8b8fc018ab80cb",
-            "consent": {
-              "url": "https://github.com/login/oauth/authorize",
-              "parameters": {
-                "scope": "user:email"
-              }
-            },
-            "token": {
-              "url": "https://github.com/login/oauth/access_token"
-            },
-            "email": {
-              "url": "https://api.github.com/user/emails"
-            }
-          }
-        }
-      }
-    }
-  },
   "watch": {
     "js": {
       "patterns": [
-        "client",
-        "shared"
+        "src"
       ],
       "extensions": "js"
     },
     "css": {
       "patterns": [
-        "server",
-        "shared",
-        "client"
+        "src"
       ],
       "extensions": "css"
     }
   },
   "scripts": {
-    "css": "node_modules/.bin/minify --output public/css/styles.css shared/css/styles.css",
-    "js": "node_modules/.bin/browserify client/main.js --outfile public/js/main.min.js -t [ babelify --presets [ latest ] ] --ignore-missing --debug",
-    "js-min": "node_modules/.bin/browserify client/main.js -t [ babelify --presets [ latest ] ] --ignore-missing | uglifyjs > public/js/main.min.js && rm -f public/js/main.js",
-    "js-file-size": "node_modules/.bin/browserify client/main.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la --sort=size",
+    "css": "node_modules/.bin/minify --output public/css/styles.css src/css/styles.css",
+    "js": "node_modules/.bin/browserify src/bootstrap/client.js --outfile public/js/main.min.js -t [ babelify --presets [ latest ] ] --ignore-missing --debug",
+    "js-min": "node_modules/.bin/browserify src/bootstrap/client.js -t [ babelify --presets [ latest ] ] --ignore-missing | uglifyjs > public/js/main.min.js && rm -f public/js/main.js",
+    "js-file-size": "node_modules/.bin/browserify src/bootstrap/client.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la --sort=size",
     "certs": "rm -rf certs && mkdir certs && openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout certs/key.pem -out certs/cert.pem",
-    "api": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony api/main.js",
-    "serve": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony server/main.js",
+    "api": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony src/bootstrap/apiserver.js",
+    "serve": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony src/bootstrap/webserver.js",
     "watch": "npm-watch"
   },
   "repository": {
@@ -135,15 +53,12 @@
   },
   "homepage": "https://github.com/braadworst/f1.royniels.nl#readme",
   "dependencies": {
-    "body-parser": "^1.17.1",
     "cheerio": "^0.22.0",
     "cs-router": "^1.0.2",
+    "date-fns": "^1.28.0",
     "is-my-json-valid": "^2.16.0",
     "lodash": "^4.17.4",
-    "morphdom": "^2.3.1",
-    "package-settings": "^1.0.0",
-    "redux": "^3.6.0",
-    "redux-watch": "^1.1.1",
+    "minilog": "^3.1.0",
     "spdy": "^3.4.4",
     "sqlite3": "^3.1.8",
     "superagent": "^3.5.0",

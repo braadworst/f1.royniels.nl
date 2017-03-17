@@ -1,0 +1,32 @@
+html, button, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+  font: 300 1rem/1.4rem 'Ubuntu', sans-serif;
+}
+body {
+  background-color: #ededed;
+  padding: 0;
+  margin: 0;
+}
+a {
+  text-decoration: none;
+  color: mediumslateblue;
+  cursor: pointer;
+}
+h1 {
+  font: 300 2.5rem/2.7rem 'Dosis', sans-serif;
+  margin: 0 0 15px 0;
+}
+h2 {
+  font: 300 1.8rem/1.8rem 'Ubuntu', sans-serif;
+  margin: 0 0 15px 0;
+}
+h3 {
+  font: 300 1.4rem/1.4rem 'Ubuntu', sans-serif;
+  margin: 0 0 15px 0;
+}
+p {
+  margin: 0 0 15px 0;
+}
+.section-header {
+  margin: 20px 0 30px 0;
+}

@@ -1,0 +1,14 @@
+#main {
+  padding: 25px;
+  margin-right: 280px;
+  transition: margin .5s;
+  position: relative;
+}
+#main.full {
+  margin-right: 0;
+}
+@media (max-width: 64em) {
+  #main {
+    margin-right: 0;
+  }
+}

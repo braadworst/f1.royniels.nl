@@ -1,0 +1,21 @@
+#results .item-results {
+  margin: 10px;
+  background-color: white;
+  padding: 15px;
+}
+#results .notification {
+  margin-top: 10px;
+  color: #999;
+}
+#results .notification-error {
+  color: red;
+}
+#results .hidden {
+  display: none;
+}
+#results .form-field {
+  margin-bottom: 5px;
+}
+#results .form-field select {
+  width: 100%;
+}

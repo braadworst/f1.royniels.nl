@@ -1,0 +1,81 @@
+#login {
+  max-width: 350px;
+  margin: 50px auto;
+  text-align: center;
+  color: #666;
+  border-radius: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+}
+#login .brand {
+  padding: 30px 20px;
+  background-color: #333;
+  color: #ccc;
+  border-radius: 10px 10px 0 0;
+}
+#login .brand .logo  {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+#login .brand .first {
+  border-radius: 100% 0 0 0;
+  background-color: #ccc;
+}
+#login .brand .second {
+  background-color: mediumslateblue;
+}
+#login .brand .third {
+  background-color: gold;
+}
+#login .brand .fourth {
+  border-radius: 0 0 100% 0;
+  background-color: #BF0603;
+  position: relative;
+}
+#login .brand .fourth:after {
+  content: ' ';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  right: -50%;
+  height: 6px;
+  background-color: #BF0603;
+}
+#login .brand .name {
+  margin: -6px 0 0 30px;
+  text-transform: uppercase;
+  font: 400 2rem/2rem 'Oswald', 'sans-serif';
+  vertical-align: middle;
+    display: inline-block;
+}
+#login ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#login li {
+  margin: 0;
+  padding: 0;
+}
+#login li a {
+  display: block;
+  text-align: left;
+  padding: 20px;
+  font-size: 1.2rem;
+  background-color: #666;
+  border-top: 1px solid #777;
+  color: #ccc;
+}
+#login li:last-child a {
+  border-radius: 0 0 10px 10px; 
+}
+#login a:hover {
+  color: white;
+  background-color: mediumslateblue;
+}
+#login li i {
+  margin-right: 15px;
+  font-size: 1.4rem;
+}

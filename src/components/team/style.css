@@ -1,0 +1,131 @@
+.team-offset {
+  margin-top: 70px;
+}
+.team .hidden {
+  display: none;
+}
+.team .notification {
+  background-color: lightyellow;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+.team .notification-errors {
+  background-color: red;
+  color: white;
+}
+.team .pure-form {
+  background-color: #fff;
+  margin: 0 0 30px 0;
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 280px;
+  transition: right .5s;
+  z-index: 100;
+}
+#main.full .team .pure-form {
+  right: 0;
+}
+.team .pure-form h2 {
+  color: #aaa;
+  margin-top: 5px;
+}
+.team h2 {
+  margin: 0;
+}
+.team .pure-form input[type="text"] {
+  width: 100%;
+}
+.team .pure-form .content {
+  margin: 0 10px;
+}
+.team .item-create {
+  background-color: #fff;
+  overflow: hidden;
+  margin: 5px;
+  cursor: default;
+  transition: background-color .3s, opacity .3s;
+}
+.team-offset .item-create {
+  cursor: pointer;
+}
+.team .item-create .item-media {
+  box-sizing: border-box;
+  height: 250px;
+  overflow: hidden;
+}
+.team .item-create .item-body {
+  padding: 10px;
+}
+.team .item-create .item-body h1 {
+  font-size: 1.7rem;
+  line-height: 1.7rem;
+}
+.team .item-create .item-body h1,
+.team .item-create .item-body p {
+  margin: 0 0 10px 0;
+}
+.team .item-create .item-body .team {
+  color: #ccc;
+  text-transform: uppercase;
+  font-size: .9rem;
+}
+.team .item-create .item-body .price {
+  background-color: orangered;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+}
+.team .item-create .item-body p:last-child {
+  margin-top: 15px;
+}
+.team .item-create-selected {
+  background-color: mediumslateblue;
+  color: #fff;
+}
+.team .item-create-selected .item-body .price {
+  background-color: rgba(0, 0, 0, .1);
+}
+.team .item-create-selected .item-media {
+  border: 5px solid mediumslateblue;
+}
+.team .item-create-inactive {
+  opacity: .3;
+  cursor: default;
+}
+
+.team.loading .pure-form .content {
+  background-color: #eee;
+  height: 42px;
+}
+.team.loading .pure-form .pure-u-1-1:last-child .content {
+  background-color: mediumslateblue;
+}
+.team.loading .item-media {
+  border: 10px solid white;
+  background-color: #eee;
+  text-align: center;
+}
+.team.loading .item-create .item-body .price {
+  width: 100px;
+  display: inline-block;
+}
+.team.loading .item-create .item-body .team {
+  background-color: #eee;
+  width: 30%
+}
+.team.loading .item-create .item-body h1 {
+  background-color: #eee;
+  width: 80%;
+}
+
+@media screen and (max-width: 48em) {
+  .team .pure-form .pure-u-1-1 {
+    margin-bottom: 10px;
+  }
+  .team .pure-form .pure-u-1-1 h2 {
+    text-align: center;
+  }
+}

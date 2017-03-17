@@ -1,0 +1,20 @@
+/* declare global styles, like fonts and icons, maybe frameworks like purecss */
+@import url('https://fonts.googleapis.com/css?family=Oswald|Ubuntu:300,300i,400,400i,500,500i');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url('../../node_modules/purecss/build/pure.css');
+@import url('../../node_modules/purecss/build/grids-responsive.css');
+
+/* declare site wide styles, like font, buttons, forms and animations */
+@import url('button.css');
+@import url('typography.css');
+@import url('placeholders.css');
+
+/* declare your component specific styles */
+@import url('../components/navigation/style.css');
+@import url('../components/team/style.css');
+@import url('../components/teams/style.css');
+@import url('../components/standings/style.css');
+@import url('../components/rules/style.css');
+@import url('../components/predictions/style.css');
+@import url('../components/login/style.css');
+@import url('../components/results/style.css');
