@@ -37,9 +37,11 @@ module.exports = function(user, teams = []) {
   }
 
   function myTeams() {
-    return teams.map(team => {
-      return `<li><a href="${ paths.get('teamEdit', team['teams-id']) }">${ team['teams-name'] }</a></li>`;
-    }).join('');
+    if (teams) {
+      return teams.map(team => {
+        return `<li><a href="${ paths.get('teamEdit', team['teams-id']) }">${ team['teams-name'] }</a></li>`;
+      }).join('');
+    }
   }
 
   function showAdmin() {
