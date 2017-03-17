@@ -19,7 +19,7 @@
   },
   "scripts": {
     "css": "node_modules/.bin/minify --output public/css/styles.css src/css/styles.css",
-    "js": "node_modules/.bin/browserify src/bootstrap/client.js --outfile public/js/main.min.js -t [ babelify --presets [ latest ] ] --ignore-missing --debug",
+    "js": "node_modules/.bin/browserify src/bootstrap/client.js --outfile public/js/main.min.js -t [ babelify --presets [ latest ] ] --ignore-missing",
     "js-min": "node_modules/.bin/browserify src/bootstrap/client.js -t [ babelify --presets [ latest ] ] --ignore-missing | uglifyjs > public/js/main.min.js && rm -f public/js/main.js",
     "js-file-size": "node_modules/.bin/browserify src/bootstrap/client.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la --sort=size",
     "certs": "rm -rf certs && mkdir certs && openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout certs/key.pem -out certs/cert.pem",
