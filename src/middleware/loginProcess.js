@@ -96,16 +96,18 @@ module.exports = (function() {
         tomorrow = new Date(tomorrow.setDate(tomorrow.getDate() + 1)).toUTCString();
 
         logger.info(`write cookie token ${ value } expires ${ tomorrow }`);
-
-        response.setHeader('Set-Cookie', [
+        const = [
           'token=' + value,
           'Secure',
           'SameSite=Strict',
           'Expires=' + tomorrow,
           'Domain=' + settings.cookieDomain,
           'Path=/'
-        ].join('; '));
-        console.log(response.headers);
+        ].join('; ');
+
+        console.log(cookie);
+
+        response.setHeader('Set-Cookie', cookie);
       }
 
       function encrypt(token, settings) {
