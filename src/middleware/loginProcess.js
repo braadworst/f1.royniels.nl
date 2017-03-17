@@ -102,7 +102,7 @@ module.exports = (function() {
           'Secure',
           'SameSite=Strict',
           'Expires=' + tomorrow,
-          'Domain=' + relay.settings.cookieDomain,
+          'Domain=' + settings.cookieDomain,
           'Path=/'
         ].join('; '));
       }
