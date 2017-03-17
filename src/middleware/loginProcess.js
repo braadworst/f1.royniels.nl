@@ -95,7 +95,6 @@ module.exports = (function() {
         let tomorrow = new Date();
         tomorrow = new Date(tomorrow.setDate(tomorrow.getDate() + 1)).toUTCString();
 
-        logger.info(`write cookie token ${ value } expires ${ tomorrow }`);
         const cookie = [
           'token=' + value,
           'Secure',
@@ -104,7 +103,9 @@ module.exports = (function() {
           'Domain=' + settings.cookieDomain,
           'Path=/'
         ].join('; ');
-        console.log(cookie);
+
+        logger.info(`write cookie token ${ value } expires ${ tomorrow }`);
+        logger.info(`Cookie ${ cookie }`);
         response.setHeader('Set-Cookie', cookie);
       }
 
