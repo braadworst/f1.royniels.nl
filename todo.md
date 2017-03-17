@@ -1,4 +1,3 @@
-- add proper prices
 - date limit creating team
 - date limit race predictions
 - deploy

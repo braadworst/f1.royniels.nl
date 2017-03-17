@@ -25,7 +25,6 @@ module.exports = (api, router) => {
 
       try {
         result = await api.set('result', record);
-        console.log(result);
         if (result && result.error) {
           toggleError(form, result.error);
         } else {
