@@ -5,8 +5,6 @@ module.exports = (api, router) => {
     let result;
     form.addEventListener('submit', async function(event) {
       event.preventDefault();
-      const notificationError   = form.querySelector('.notification-error');
-      const notificationSuccess = form.querySelector('.notification-success');
 
       let record = {
         circuitId : parseInt(form.querySelector('[name="circuitId"]').value)
@@ -27,12 +25,39 @@ module.exports = (api, router) => {
 
       try {
         result = await api.set('result', record);
-        notificationSuccess.classList.remove('hidden');
-        notificationError.classList.add('hidden');
+        console.log(result);
+        if (result && result.error) {
+          toggleError(form, result.error);
+        } else {
+          toggleSuccess(form);
+        }
       } catch (error) {
-        notificationSuccess.classList.add('hidden');
-        notificationError.classList.remove('hidden');
+        toggleError(form, 'Fill in all fields');
       }
     });
   });
+
+  function toggleError(form, message) {
+    const notificationError   = form.querySelector('.notification-error');
+    const notificationSuccess = form.querySelector('.notification-success');
+    notificationError.innerHTML = message;
+    notificationSuccess.classList.add('hidden');
+    notificationError.classList.remove('hidden');
+    setTimeout(() => {
+      notificationSuccess.classList.add('hidden');
+      notificationError.classList.add('hidden');
+    }, 3000);
+  }
+
+  function toggleSuccess(form) {
+    const notificationError   = form.querySelector('.notification-error');
+    const notificationSuccess = form.querySelector('.notification-success');
+
+    notificationSuccess.classList.remove('hidden');
+    notificationError.classList.add('hidden');
+    setTimeout(() => {
+      notificationSuccess.classList.add('hidden');
+      notificationError.classList.add('hidden');
+    }, 3000);
+  }
 }

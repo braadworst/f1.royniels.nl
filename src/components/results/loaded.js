@@ -13,7 +13,7 @@ module.exports = (user, drivers, circuits, results) => {
     return `
       <div class="pure-u-md-1-3 pure-u-1-1">
         <div class="item-results">
-          <form class="pure-form pure-form-aligned">
+          <form class="pure-form">
             ${ showResultId(result) }
             <input type="hidden" name="circuitId" value="${ circuit.id }">
             <h3>${ circuit.name }</h3>
@@ -48,14 +48,11 @@ module.exports = (user, drivers, circuits, results) => {
     const result = list.pop();
     return list.map(item => {
       return `
-        <div class="pure-control-group">
-          <div class="form-field">
-            <label>${ item }</label>
-            <select name="${ item }">
-              <option>Select driver</option>
-              ${ options(drivers, result, item) }
-            </select>
-          </div>
+        <div class="form-field">
+          <select name="${ item }">
+            <option>${ item }</option>
+            ${ options(drivers, result, item) }
+          </select>
         </div>
       `
     }).join('');

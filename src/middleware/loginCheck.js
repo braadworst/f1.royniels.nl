@@ -1,7 +1,7 @@
 const logger = require('minilog')('middleware:loginCheck');
 require('minilog').enable();
 
-module.exports = async function(request, response, next, relay) {
+module.exports = (request, response, next, relay) => {
   if (relay.user) {
     next();
   } else {

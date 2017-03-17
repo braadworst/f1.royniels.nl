@@ -27,10 +27,17 @@ module.exports = (api, router) => {
         form.result = await api.set('prediction', record);
         notificationSuccess.classList.remove('hidden');
         notificationError.classList.add('hidden');
+        setTimeout(() => {
+          notificationSuccess.classList.add('hidden');
+          notificationError.classList.add('hidden');
+        }, 3000);
       } catch (error) {
-        console.log(error);
         notificationSuccess.classList.add('hidden');
         notificationError.classList.remove('hidden');
+        setTimeout(() => {
+          notificationSuccess.classList.add('hidden');
+          notificationError.classList.add('hidden');
+        }, 3000);
       }
     });
   });

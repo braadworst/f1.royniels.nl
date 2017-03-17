@@ -13,3 +13,9 @@
 #results .hidden {
   display: none;
 }
+#results .form-field {
+  margin-bottom: 5px;
+}
+#results .form-field select {
+  width: 100%;
+}

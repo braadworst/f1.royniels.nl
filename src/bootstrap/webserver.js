@@ -40,7 +40,6 @@ router
   .before(loggedInUser, excludes)
   .before(loginCheck, excludes)
   .before(template)
-  .before(component('navigation', '#menu'), excludes)
   .get(paths.login, component('login', '#loginMain'))
   .get(paths.logout, logout)
   .get(paths.githubConsent, loginProcess.consent(settings.github))
@@ -49,15 +48,10 @@ router
   .get(paths.facebookToken, loginProcess.token(settings.facebook))
   .get(paths.googleConsent, loginProcess.consent(settings.google))
   .get(paths.googleToken, loginProcess.token(settings.google))
-  .get(paths.teams, component('teams', '#main'))
-  .get(paths.team, component('team', '#main'))
-  .get(paths.teamEdit, componentId('team', '#main'))
-  .get(paths.predictions, component('predictions', '#main'))
-  .get(paths.standings, component('standings', '#main'))
-  .get(paths.rules, component('rules', '#main'))
-  .get(paths.results, component('results', '#main'))
   .after(htmlResponse)
   .noMatch(errors.notFound);
+
+require('./shared')(router);
 
 server.listen(settings.port, function() {
   logger.info('Server listening on port: ' + settings.port);

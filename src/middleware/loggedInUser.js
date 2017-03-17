@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const logger = require('minilog')('middleware:loggedInUser');
 require('minilog').enable();
 
-module.exports = (request, response, next, relay) => {
+module.exports = async function(request, response, next, relay) {
 
   const passphrase = relay.settings.encryption.passphrase;
   const mode       = relay.settings.encryption.mode;
@@ -34,5 +34,6 @@ module.exports = (request, response, next, relay) => {
       return;
     }
   }
+  logger.warn('No cookie found on request');
   next();
 }

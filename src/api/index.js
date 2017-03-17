@@ -138,6 +138,7 @@ module.exports = domain => {
 
         superagent
           .post(domain + path)
+          .query({ token : getCookie('token')})
           .send(JSON.stringify(jsonapi.serialize(path, record)))
           .set('Content-Type', 'application/vnd.api+json')
           .end((error, response) => {
@@ -148,6 +149,14 @@ module.exports = domain => {
             }
           });
       });
+    }
+  }
+
+  function getCookie(name) {
+    let value = "; " + document.cookie;
+    let parts = value.split("; " + name + "=");
+    if (parts.length == 2) {
+      return parts.pop().split(";").shift();
     }
   }
 

@@ -35,6 +35,8 @@ module.exports = (function() {
         } else if (typeof jsonapi.data === 'object') {
           return parse(jsonapi.data);
         }
+      } else {
+        return jsonapi;
       }
     }
   };
