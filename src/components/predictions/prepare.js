@@ -3,7 +3,7 @@ const format   = require('date-fns/format');
 module.exports = (user, circuits, drivers, predictions) => {
   let upcoming = false;
   circuits = circuits.map(circuit => {
-    const now  = parse(new Date());
+    const now = new Date();
     if (circuit.date > now && !upcoming) {
       upcoming = true;
       circuit.upcoming = upcoming;
