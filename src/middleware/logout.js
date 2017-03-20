@@ -6,7 +6,6 @@ module.exports = async function(request, response, next, relay) {
     let user = relay.user;
     user.token = '';
     user.isAdmin = user.isAdmin ? true : false;
-    console.log(user);
     await relay.api.set('user', user);
   } catch (error) {
     console.log(error);
