@@ -25,7 +25,7 @@ require('minilog').enable();
 
 let server = http.createServer();
 
-const router = require('cs-router')(server, settings.webserver.uri);
+const router = require('cs-router')(server, settings.redirectDomain);
 
 router
   .before((request, response, next) => { logger.info(request.url); next() })

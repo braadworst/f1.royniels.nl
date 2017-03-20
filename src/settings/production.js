@@ -23,6 +23,7 @@ module.exports = {
   },
   cookieDomain : '.royniels.nl',
   databaseName : 'f1manager',
+  redirectDomain : 'https://f1.royniels.nl',
   google: {
     clientId     : ignore.production.google.clientId,
     clientSecret : ignore.production.google.clientSecret,

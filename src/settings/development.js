@@ -17,6 +17,7 @@ module.exports = {
   },
   cookieDomain : 'localhost',
   databaseName : 'f1manager',
+  redirectDomain : 'http://localhost:4443',
   google: {
     clientId     : ignore.development.google.clientId,
     clientSecret : ignore.development.google.clientSecret,
