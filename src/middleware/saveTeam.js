@@ -1,6 +1,8 @@
-const format = require('date-fns/format');
-const errors = require('./errors');
-const logger = require('minilog')('middleware:saveData');
+const format   = require('date-fns/format');
+const parse    = require('date-fns/parse');
+const isBefore = require('date-fns/is_before');
+const errors   = require('./errors');
+const logger   = require('minilog')('middleware:saveData');
 require('minilog').enable();
 
 module.exports = async function(request, response, next, relay) {
@@ -12,8 +14,9 @@ module.exports = async function(request, response, next, relay) {
 
       // Update
       if (team.id) {
-        const now = parseInt(format(new Date(), 'x'));
-        if (now > team.editDate) {
+        const now  = parse(new Date());
+        const date = parse(team.editDate);
+        if (isBefore(date, now)) {
           const message = 'Cannot change team, edit date has passed';
           logger.warn(message);
           next({ errors : message });
@@ -34,7 +37,7 @@ module.exports = async function(request, response, next, relay) {
         const circuit = await database.find(
           require('../schemas/circuits'),
           {
-            filters : [{ field : 'date', value : '>' + parseInt(format(new Date(), 'x'))}],
+            filters : [{ field : 'date', value : '>' + parse(new Date())}],
             pagination : {
               size : 1
             },
