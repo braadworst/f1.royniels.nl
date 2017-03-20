@@ -8,6 +8,7 @@ const setupDatabase     = require('../middleware/setupDatabase');
 const jsonResponse      = require('../middleware/jsonResponse');
 const findData          = require('../middleware/findData');
 const findStandings     = require('../middleware/findStandings');
+const findStatistics    = require('../middleware/findStatistics');
 const findTeams         = require('../middleware/findTeams');
 const saveData          = require('../middleware/saveData');
 const urlParser         = require('../middleware/urlParser');
@@ -46,6 +47,7 @@ router
   .get('/predictions', findData)
   .get('/standings', findStandings)
   .get('/results', findData)
+  .get('/statistics', findStatistics)
   .post('/users', saveData)
   .post('/statistics', saveData)
   .post('/teams', saveTeam)

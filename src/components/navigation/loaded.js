@@ -46,7 +46,10 @@ module.exports = (user, teams = []) => {
 
   function showAdmin() {
     if (user.isAdmin) {
-      return `<li><a href="${ paths.get('results') }">Race results</a></li>`;
+      return `
+        <li><a href="${ paths.get('results') }">Race results</a></li>
+        <li><a href="${ paths.get('statistics') }">Statistics</a></li>
+      `;
     }
     return '';
   }

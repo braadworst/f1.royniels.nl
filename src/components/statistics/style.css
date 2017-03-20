@@ -1,0 +1,14 @@
+#statistics table {
+  background-color: white;
+  width: 100%;
+  table-layout: fixed;
+}
+#statistics table th {
+  text-align: left;
+  padding: 10px;
+  background-color: mediumslateblue;
+  color: #fff;
+}
+#statistics table td {
+  padding: 10px;
+}

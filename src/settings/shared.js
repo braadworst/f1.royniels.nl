@@ -20,6 +20,7 @@ module.exports = {
   paths : {
     login           : '/',
     logout          : '/logout',
+    statistics      : '/statistics',
     teams           : '/teams',
     team            : '/teams/new',
     teamEdit        : '/teams/edit/:id',

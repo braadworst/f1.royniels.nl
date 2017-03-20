@@ -8,6 +8,7 @@ module.exports = domain => {
   }
 
   let getters = {
+    statistics      : find('statistics?sort=-date&page[number]=1&page[size]=300'),
     drivers         : find('drivers?sort=-price'),
     results         : find('results'),
     chassis         : find('chassis?sort=-price'),

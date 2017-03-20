@@ -43,5 +43,10 @@ module.exports = {
     loaded   : require('./results/loaded'),
     events   : require('./results/events'),
     failed   : require('./results/failed'),
+  },
+  statistics : {
+    datasets : ['statistics'],
+    loaded   : require('./statistics/loaded'),
+    prepare  : require('./statistics/prepare'),
   }
 }

@@ -11,4 +11,5 @@ module.exports = router => {
     .get(paths.standings, component('standings', '#main'))
     .get(paths.rules, component('rules', '#main'))
     .get(paths.results, component('results', '#main'))
+    .get(paths.statistics, component('statistics', '#main'))
 }
