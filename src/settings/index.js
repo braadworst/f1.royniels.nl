@@ -1,18 +1,16 @@
 const logger = require('minilog')('settings');
 require('minilog').enable();
 
-module.exports = function(type) {
-  const environment = process.env.NODE_ENV;
-  let settings      = {};
+module.exports = (function() {
+
+  let settings = require('./shared');
 
   try {
-    if (type) {
-      settings = require(`./${ environment }/${ type }`);
-    }
+    const environment = process.env.NODE_ENV;
+    settings = Object.assign(settings, require(`./${ environment }`));
   } catch (error) {
-    console.log(error);
-    logger.warn(`Could not load all settings, file ${ type } could not be found for environment ${ environment }`);
+    logger.warn(`Could not load the server side settings`);
   }
 
   return settings;
-}
+}());

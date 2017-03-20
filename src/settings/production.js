@@ -1,17 +1,4 @@
-// const fs   = require('fs');
-
 module.exports = {
-  apiDomain : 'https://localhost:4444/',
-  encryption : {
-    passphrase : 'This is the passphrase biatch!!!',
-    mode       : 'aes-256-ctr'
-  },
-  // certs : {
-  //   key  : fs.readFileSync('./certs/key.pem'),
-  //   cert : fs.readFileSync('./certs/cert.pem')
-  // },
-  port: 4443,
-  domain : 'localhost',
   google: {
     clientId     : '906777770784-755g7991ejmgib606m0g95eg658h07c2.apps.googleusercontent.com',
     clientSecret : '1NK7PxbUaJaPxU-9bz4RYWRx',

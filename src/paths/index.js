@@ -1,4 +1,4 @@
-const paths = require('./paths');
+const paths = require('../settings').paths;
 
 function get(name, ...parameters) {
   if (!paths[name]) {

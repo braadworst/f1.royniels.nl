@@ -10,16 +10,17 @@ const logout         = require('../middleware/logout');
 const htmlResponse   = require('../middleware/htmlResponse');
 const errors         = require('../middleware/errors');
 const setupWebserver = require('../middleware/setupWebserver');
-const paths          = require('../paths');
 const logger         = require('minilog')('webserver');
-const settings       = require('../settings')('webserver');
+const settings       = require('../settings');
+const paths          = settings.paths;
+
 require('minilog').enable();
 
 // Create HTTP2 server
 const server = protocol.createServer();
 
 // Set the shared routes
-const router = require('cs-router')(server, settings.redirectDomain);
+const router = require('cs-router')(server, settings.webserver.uri);
 
 const excludes = [
   paths.login,
@@ -34,7 +35,7 @@ const excludes = [
 
 router
   .before((request, response, next) => { logger.info(request.url); next(); })
-  .before((request, response, next) => next({ paths, router }))
+  .before((request, response, next) => next({ paths, router, settings }))
   .before(setupWebserver)
   .before(statics, excludes)
   .before(loggedInUser, excludes)
@@ -54,6 +55,6 @@ router
 
 require('./shared')(router);
 
-server.listen(settings.port, settings.domain, function() {
-  logger.info('webserver listening on port: ' + settings.domain + ':' + settings.port);
+server.listen(settings.webserver.port, settings.webserver.domain, function() {
+  logger.info('webserver listening on port: ' + settings.webserver.domain + ':' + settings.webserver.port);
 });

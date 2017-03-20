@@ -1,6 +1,6 @@
 const http              = require('http');
 const logger            = require('minilog')('apiserver');
-const settings          = require('../settings')('apiserver');
+const settings          = require('../settings');
 const database          = require('../store')(settings.databaseName);
 
 const errors            = require('../middleware/errors');
@@ -20,13 +20,11 @@ const saveTeam          = require('../middleware/saveTeam');
 const saveResult        = require('../middleware/saveResult');
 const savePrediction    = require('../middleware/savePrediction');
 
-// Enable logger
 require('minilog').enable();
 
-// Create HTTP2 server
 let server = http.createServer();
 
-const router = require('cs-router')(server, settings.redirectDomain);
+const router = require('cs-router')(server, settings.webserver.uri);
 
 router
   .before((request, response, next) => { logger.info(request.url); next() })
@@ -56,6 +54,6 @@ router
   .after(jsonResponse)
   .noMatch(errors.notFound);
 
-server.listen(settings.port, settings.domain, function() {
-  logger.info('apiserver listening on port: ' + settings.domain + ':' + settings.port);
+server.listen(settings.apiserver.port, settings.apiserver.domain, function() {
+  logger.info('apiserver listening on port: ' + settings.apiserver.domain + ':' + settings.apiserver.port);
 });

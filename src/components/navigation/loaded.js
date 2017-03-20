@@ -1,7 +1,4 @@
-const paths    = require('../../paths');
-const settings = require('../../settings/client');
-
-module.exports = function(user, teams = []) {
+module.exports = (user, teams = []) => {
   return `
   <section id="navigation">
     <nav>

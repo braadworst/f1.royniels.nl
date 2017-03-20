@@ -1,8 +1,6 @@
 module.exports = (request, response, next, relay) => {
-  const settings   = require('../settings')('webserver');
   const renderer   = require('../renderer/webserver')();
-  const api        = require('../api')(settings.apiDomain);
-
+  const api        = require('../api')(relay.settings.apiserver.uri);
   const registered = require('../components/register');
   const components = require('../components')(registered, api, renderer);
 
@@ -10,6 +8,5 @@ module.exports = (request, response, next, relay) => {
     components,
     renderer,
     api,
-    settings
   });
 }
