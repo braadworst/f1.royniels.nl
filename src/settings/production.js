@@ -20,6 +20,8 @@ module.exports = {
       'max-age' : 60 * 60 * 24 * 365 // year
     }
   },
+  cookieDomain : '.royniels.nl',
+  databaseName : 'f1manager',
   google: {
     clientId     : ignore.production.google.clientId,
     clientSecret : ignore.production.google.clientSecret,
