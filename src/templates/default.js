@@ -11,7 +11,7 @@ module.exports = (function() {
 
       <link rel="stylesheet" href="/public/css/styles.css">
 
-      <script src="/public/js/main.min.js"></script>
+      <script src="/public/js/main.min.js?v=1"></script>
 
     </head>
     <body>
