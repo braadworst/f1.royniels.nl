@@ -14,4 +14,9 @@ module.exports = function(api) {
       link.classList.remove('active');
     }
   });
+
+  if (window.innerWidth < 600) {
+    document.querySelector('#navigation').classList.toggle('closed');
+    document.querySelector('#main').classList.toggle('full');    
+  }
 }
