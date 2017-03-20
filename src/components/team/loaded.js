@@ -23,7 +23,7 @@ function showNotification(team) {
   if (team.edit) {
     return `
       <div class="notification">
-        You can make adjustments to your team up until the first upcoming race.
+        You can make adjustments to your team until the first upcoming race.
       </div>
     `;
   }
