@@ -1,3 +1,6 @@
+const settings = require('../../settings');
+const paths    = settings.paths;
+
 module.exports = (user, teams = []) => {
   return `
   <section id="navigation">

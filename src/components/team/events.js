@@ -1,4 +1,4 @@
-const settings = require('../../settings/client');
+const settings = require('../../settings');
 
 module.exports = (api, router) => {
 

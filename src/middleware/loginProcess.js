@@ -68,6 +68,7 @@ module.exports = (function() {
 
           // Check update the token if the user exists, otherwise create new user
           let currentUser = await api.get('userByEmail', user.email);
+          logger.info('Called api to match user email');
 
           if (currentUser && currentUser.length) {
             currentUser = currentUser.pop();
@@ -97,8 +98,6 @@ module.exports = (function() {
 
         const cookie = [
           'token=' + value,
-          'Secure',
-          'SameSite=Strict',
           'Expires=' + tomorrow,
           'Domain=' + settings.cookieDomain,
           'Path=/'

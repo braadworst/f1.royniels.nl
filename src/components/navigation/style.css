@@ -93,17 +93,17 @@
 }
 #navigation .brand .first {
   border-radius: 100% 0 0 0;
-  background-color: #ccc;
+  background-color: mediumslateblue;
 }
 #navigation .brand .second {
   background-color: mediumslateblue;
 }
 #navigation .brand .third {
-  background-color: gold;
+  background-color: mediumslateblue;
 }
 #navigation .brand .fourth {
   border-radius: 0 0 100% 0;
-  background-color: #BF0603;
+  background-color: mediumslateblue;
   position: relative;
 }
 #navigation .brand .fourth:after {
@@ -113,7 +113,7 @@
   left: 50%;
   right: -50%;
   height: 3px;
-  background-color: #BF0603;
+  background-color: mediumslateblue;
 }
 #navigation .brand .name {
   margin-left: 18px;

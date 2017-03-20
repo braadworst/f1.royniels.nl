@@ -21,17 +21,17 @@
 }
 #login .brand .first {
   border-radius: 100% 0 0 0;
-  background-color: #ccc;
+  background-color: mediumslateblue;
 }
 #login .brand .second {
   background-color: mediumslateblue;
 }
 #login .brand .third {
-  background-color: gold;
+  background-color: mediumslateblue;
 }
 #login .brand .fourth {
   border-radius: 0 0 100% 0;
-  background-color: #BF0603;
+  background-color: mediumslateblue;
   position: relative;
 }
 #login .brand .fourth:after {
@@ -41,7 +41,7 @@
   left: 50%;
   right: -50%;
   height: 6px;
-  background-color: #BF0603;
+  background-color: mediumslateblue;
 }
 #login .brand .name {
   margin: -6px 0 0 30px;
@@ -69,7 +69,7 @@
   color: #ccc;
 }
 #login li:last-child a {
-  border-radius: 0 0 10px 10px; 
+  border-radius: 0 0 10px 10px;
 }
 #login a:hover {
   color: white;

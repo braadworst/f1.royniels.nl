@@ -3,12 +3,13 @@ require('babel-polyfill');
 document.addEventListener("DOMContentLoaded", function(event) {
 
   // Set the environment
-  window.environment = 'development';
+  let apiDomain = 'https://api.royniels.nl';
+  if (window.location.hostname === 'localhost') {
+    apiDomain = 'http://localhost:4444';
+  }
 
-  const settings     = require('../settings/client');
-  const paths        = require('../paths');
-  const router       = require('cs-router')();
-  const api          = require('../api')(settings.apiDomain);
+  // const router       = require('cs-router')();
+  const api          = require('../api')(window.location.origin);
   const renderer     = require('../renderer/client')();
 
   // Load server side cache
@@ -21,8 +22,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
   // Initial ready call for all components on the page
   renderer.init();
 
-  router
-    .before((request, response, next) => next({ components }))
-
-  require('./shared')(router);
+  // TODO implement client side routing, when we have added subscriptions and publish
+  // router
+  //   .before((request, response, next) => next({ components }))
+  //
+  // require('./shared')(router);
 });

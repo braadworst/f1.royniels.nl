@@ -3,7 +3,6 @@ const validator  = require('./validator');
 const jsonapi    = require('./jsonapi');
 
 module.exports = domain => {
-
   if (!domain) {
     throw new Error('Please provide the domain for the api client');
   }
@@ -111,6 +110,10 @@ module.exports = domain => {
         return;
       }
 
+      if (domain[domain.length - 1] !== '/') {
+        domain = domain + '/';
+      }
+
       return new Promise((resolve, reject) => {
         superagent
           .get(domain + path)
@@ -118,6 +121,7 @@ module.exports = domain => {
           .set('Content-Type', 'application/vnd.api+json')
           .end((error, response) => {
             if (error) {
+              console.log('api error: ', error);
               reject(error);
             } else {
               cache[key] = jsonapi.parse(response.body);
