@@ -4,7 +4,7 @@
   "description": "F1.royniels.nl",
   "main": "index.js",
   "watch": {
-    "js": {
+    "js-min": {
       "patterns": [
         "src"
       ],
