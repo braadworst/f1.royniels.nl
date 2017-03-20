@@ -1,9 +1,11 @@
+const format = require('date-fns/format');
+
 module.exports = (user, drivers, engines, chassis, team) => {
 
   let output;
   if (Array.isArray(team) && team.length > 0) {
     team = team.pop();
-    const now  = new Date();
+    const now  = format(new Date(), 'x');
     const date = team['teams-editDate'];
 
     output = {

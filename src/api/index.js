@@ -29,6 +29,7 @@ module.exports = domain => {
     team       : upsert('teams'),
     prediction : upsert('predictions'),
     result     : upsert('results'),
+    statistics : upsert('statistics'),
   }
   let cache     = {};
   let exposed   = {

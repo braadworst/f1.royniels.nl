@@ -1,9 +1,9 @@
-const format   = require('date-fns/format');
+const format = require('date-fns/format');
 
 module.exports = (user, circuits, drivers, predictions) => {
   let upcoming = false;
   circuits = circuits.map(circuit => {
-    const now = new Date();
+    const now = format(new Date(), 'x');
     if (circuit.date > now && !upcoming) {
       upcoming = true;
       circuit.upcoming = upcoming;

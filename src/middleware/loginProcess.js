@@ -3,6 +3,7 @@ const uuid        = require('uuid/').v4;
 const querystring = require('querystring');
 const crypto      = require('crypto');
 const logger      = require('minilog')('middleware:loginProcess');
+
 require('minilog').enable();
 
 module.exports = (function() {

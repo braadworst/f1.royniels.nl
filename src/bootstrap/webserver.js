@@ -10,6 +10,7 @@ const logout         = require('../middleware/logout');
 const htmlResponse   = require('../middleware/htmlResponse');
 const errors         = require('../middleware/errors');
 const setupWebserver = require('../middleware/setupWebserver');
+const statistics     = require('../middleware/statistics');
 const logger         = require('minilog')('webserver');
 const settings       = require('../settings');
 const paths          = settings.paths;
@@ -40,6 +41,7 @@ router
   .before(statics, excludes)
   .before(loggedInUser, excludes)
   .before(loginCheck, excludes)
+  .before(statistics)
   .before(template)
   .before(component('navigation', '#menu'), excludes)
   .get(paths.login, component('login', '#loginMain'))

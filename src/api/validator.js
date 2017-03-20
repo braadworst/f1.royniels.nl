@@ -3,7 +3,8 @@ const validators = {
   teams       : validator(require('../schemas/teams')),
   users       : validator(require('../schemas/users')),
   results     : validator(require('../schemas/results')),
-  predictions : validator(require('../schemas/predictions'))
+  predictions : validator(require('../schemas/predictions')),
+  statistics  : validator(require('../schemas/statistics')),
 };
 
 module.exports = function(name, record) {

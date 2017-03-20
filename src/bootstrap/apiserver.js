@@ -47,6 +47,7 @@ router
   .get('/standings', findStandings)
   .get('/results', findData)
   .post('/users', saveData)
+  .post('/statistics', saveData)
   .post('/teams', saveTeam)
   .post('/predictions', savePrediction)
   .post('/results', saveResult)
