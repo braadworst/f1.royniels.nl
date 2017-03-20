@@ -1,4 +1,4 @@
-const format = require('date-fns/parse');
+const parse = require('date-fns/parse');
 
 module.exports = async function(request, repsonse, next, relay) {
   if (relay.user) {
