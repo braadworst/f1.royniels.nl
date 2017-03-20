@@ -13,7 +13,6 @@ module.exports = (api) => {
   // Add button listeners
   if (save) {
     save.addEventListener('click', async function(event) {
-      console.log('click');
       event.preventDefault();
       try {
         const result = await api.set('team', getFormData());
