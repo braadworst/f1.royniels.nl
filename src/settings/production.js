@@ -16,9 +16,10 @@ module.exports = {
     uri    : 'http://localhost:4443'
   },
   cache : {
-    statics : {
-      'max-age' : 60 * 60 * 24 * 365 // year
-    }
+    statics : [{
+      name : 'Cache-Control',
+      value : `max-age=${ 60 * 60 * 24 * 365 }`
+    }]
   },
   cookieDomain : '.royniels.nl',
   databaseName : 'f1manager',
