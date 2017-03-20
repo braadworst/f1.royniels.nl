@@ -6,9 +6,9 @@ module.exports = function(options = {}) {
       <div class="pure-u-1-1 pure-u-md-2-5">
         <div class="content">
           <h2>How it works</h2>
-          <p>March 27 is nearing. Albert Park Melbourne, traditionally home to the first race of the season will see a exciting new season of F1. Will Valtteri Bottas be able to beat Lewis Hamilton? Can Daniel Ricciardo stay ahead of Max Verstappen another season? What will the new cars and rules do, can we see some underdog teams push Mercedes AMG from the throne?</p>
-          <p>To answer these questions we will turn to you! A manager that knows all. Let's bring back some nostalgia. But instead of getting the results printed out on paper (ooh, think about the rainforests!) during one of the many card games at grandmas, we will use the modern age of the internet to keep score, make our teams and most importantly show others that we are better than them.</p>
-          <p>The rules are quite the same, and quite simple. You will have the opportunity to manage up to three teams. Each team will get a budget of no less then €150 million euros. Yes, I feel generous. You will select two drivers, an engine and a chassis, obviously within the budget that has been given to you.</p>
+          <p>March 26 is nearing. Albert Park Melbourne, traditionally home to the first race of the season will see a exciting new season of F1. Will Valtteri Bottas be able to beat Lewis Hamilton? Can Daniel Ricciardo stay ahead of Max Verstappen another season? What will the new cars and regulations do? Can we see some underdog teams kick Mercedes AMG from the throne?</p>
+          <p>To answer these questions we will turn to you! A manager that knows all. Let's bring back some nostalgia. But instead of getting the results printed out on paper (ooh, think about the rainforests!) during one of the many card games at grandmas. We will use the modern age of the internet to keep score, make our teams and most importantly show others that we are better than them.</p>
+          <p>The rules are simple, you will have the opportunity to manage up to three teams. Each team will get a budget of no less then €150 million euros. Yes, I feel generous. You will select two drivers, an engine and a chassis, obviously within the budget that has been given to you.</p>
         </div>
       </div>
       <div class="pure-u-1-1 pure-u-md-2-5">
