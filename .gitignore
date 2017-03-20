@@ -1,5 +1,6 @@
 certs
 f1manager
+src/settings/ignore.js
 
 # Created by https://www.gitignore.io/api/node
 

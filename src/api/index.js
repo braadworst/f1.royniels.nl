@@ -142,6 +142,10 @@ module.exports = domain => {
           return;
         }
 
+        if (domain[domain.length - 1] !== '/') {
+          domain = domain + '/';
+        }
+        console.log(domain);
         superagent
           .post(domain + path)
           .query({ token : getCookie('token')})

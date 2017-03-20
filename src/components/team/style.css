@@ -11,8 +11,10 @@
   border-radius: 5px;
 }
 .team .notification-errors {
-  background-color: red;
-  color: white;
+  padding: 0;
+  color: red;
+  margin: 10px 0 0 0;
+  padding: 5px 10px;
 }
 .team .pure-form {
   background-color: #fff;

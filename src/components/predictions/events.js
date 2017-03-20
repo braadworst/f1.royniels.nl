@@ -1,4 +1,4 @@
-module.exports = (api, router) => {
+module.exports = (api) => {
   const forms = [].slice.call(document.querySelectorAll('.pure-form'));
 
   forms.forEach(form => {

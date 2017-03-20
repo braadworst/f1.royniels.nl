@@ -1,3 +1,5 @@
+const ignore = require('./ignore');
+
 module.exports = {
   encryption : {
     passphrase : 'This is the passphrase biatch!!!',
@@ -13,16 +15,11 @@ module.exports = {
     port   : 4443,
     uri    : 'http://localhost:4443'
   },
-  cache : {
-    statics : {
-      'max-age' : 60 * 60 * 24 * 365 // year
-    }
-  },
-  cookieDomain : 'localhost',  
+  cookieDomain : 'localhost',
   databaseName : 'f1manager',
   google: {
-    clientId     : '906777770784-755g7991ejmgib606m0g95eg658h07c2.apps.googleusercontent.com',
-    clientSecret : '1NK7PxbUaJaPxU-9bz4RYWRx',
+    clientId     : ignore.development.google.clientId,
+    clientSecret : ignore.development.google.clientSecret,
     redirectUri  : 'http://localhost:4443/auth/google/callback',
     consent: {
       url: 'https://accounts.google.com/o/oauth2/v2/auth',
@@ -42,8 +39,8 @@ module.exports = {
     }
   },
   facebook: {
-    clientId     : '754074994750154',
-    clientSecret : 'c41aec90cf93cb4825bceae46c2237f9',
+    clientId     : ignore.development.facebook.clientId,
+    clientSecret : ignore.development.facebook.clientSecret,
     redirectUri  : 'http://localhost:4443/auth/facebook/callback',
     consent: {
       url: 'https://www.facebook.com/v2.8/dialog/oauth',
@@ -63,8 +60,8 @@ module.exports = {
     }
   },
   github: {
-    clientId     : '62cf31b86a186dc08f43',
-    clientSecret : 'cf3cb495f64c137e2a4a09992e8b8fc018ab80cb',
+    clientId     : ignore.development.github.clientId,
+    clientSecret : ignore.development.github.clientSecret,
     redirectUri  : 'http://localhost:4443/auth/github/callback',
     consent: {
       url: 'https://github.com/login/oauth/authorize',

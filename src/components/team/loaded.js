@@ -15,7 +15,6 @@ module.exports = function(user, drivers, engines, chassis, team = {}) {
     <section class="pure-g">
       ${ chassis.map(chassi => rowChassis(chassi, team)).join('') }
     </section>
-
   </section>
   `;
 }
@@ -34,9 +33,6 @@ function showNotification(team) {
 function showEdit(team, user) {
   if (team.edit !== false) {
     return `
-    <div class="notification notification-errors hidden">
-      Some errors
-    </div>
     <div data-user-id="${ user.id }" data-team-id="${ team.id }" data-edit-date="${ team.editDate }">
     <form class="pure-form">
       <div class="pure-g">
@@ -55,6 +51,9 @@ function showEdit(team, user) {
             <a href="" class="button">${ team.id ? 'Save changes' : 'Create team' }</a>
           </div>
         </div>
+      </div>
+      <div class="notification notification-errors hidden">
+        Some errors
       </div>
     </form>
     `;

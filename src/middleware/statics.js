@@ -1,8 +1,10 @@
 const url  = require('url');
 const fs   = require('fs');
 const path = require('path');
+const logger = require('minilog')('middelware:requestValidator');
+require('minilog').enable();
 
-module.exports = (request, response, next) => {
+module.exports = (request, response, next, relay) => {
 
   const parsedUrl = url.parse(request.url);
   let pathname    = `.${parsedUrl.pathname}`;
@@ -45,6 +47,18 @@ module.exports = (request, response, next) => {
         response.statusCode = 500;
         response.end(`Internal server error`);
       } else {
+
+        // Set the cache headers
+        try {
+          const cache = relay.settings.cache.statics;
+          cache.forEach(header => {
+            console.log(header.name, header.value);
+            response.setHeader(header.name, header.value);
+          });
+        } catch (error) {
+          logger.warn(`No cache headers set for static content via settings.cache.statics = [{ name : 'Cache-Control', value : 'max-age=1000'}]`);
+        }
+
         response.setHeader('Content-type', fileTypes[extension] || 'text/plain' );
         response.end(data);
       }

@@ -1,6 +1,6 @@
 const settings = require('../../settings');
 
-module.exports = (api, router) => {
+module.exports = (api) => {
 
   let startBudget = 150000000, budget;
 
@@ -13,6 +13,7 @@ module.exports = (api, router) => {
   // Add button listeners
   if (save) {
     save.addEventListener('click', async function(event) {
+      console.log('click');
       event.preventDefault();
       try {
         const result = await api.set('team', getFormData());
@@ -21,7 +22,7 @@ module.exports = (api, router) => {
           notification.innerHTML = result.error;
           notification.classList.remove('hidden');
         } else {
-          router.redirect('/teams');
+          window.location.href = '/teams';
         }
       } catch (errors) {
         const notification = document.querySelector('#team .notification');

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
   // const router       = require('cs-router')();
-  const api          = require('../api')(window.location.origin);
+  const api          = require('../api')(apiDomain);
   const renderer     = require('../renderer/client')();
 
   // Load server side cache
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // Setup the components
   const registered = require('../components/register');
-  const components = require('../components')(registered, api, renderer, router);
+  const components = require('../components')(registered, api, renderer);
 
   // Initial ready call for all components on the page
   renderer.init();
