@@ -22,7 +22,7 @@ module.exports = {
       type : 'integer'
     },
     editDate : {
-      type : 'integer'
+      type : 'string'
     }
   }
 };

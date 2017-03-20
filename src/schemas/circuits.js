@@ -10,7 +10,7 @@ module.exports = {
       type : 'string'
     },
     date : {
-      type : 'integer'
+      type : 'string'
     }
   }
 };

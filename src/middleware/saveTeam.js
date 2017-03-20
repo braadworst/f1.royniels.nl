@@ -16,6 +16,7 @@ module.exports = async function(request, response, next, relay) {
       if (team.id) {
         const now  = parse(new Date());
         const date = parse(team.editDate);
+        console.log(now, team);
         if (!isBefore(now, date)) {
           const message = 'Cannot change team, edit date has passed';
           logger.warn(message);

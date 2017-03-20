@@ -100,7 +100,7 @@ module.exports = (api) => {
     let name         = document.querySelector('[name="name"]').value;
     let userId       = parseInt(document.querySelector('[data-user-id]').getAttribute('data-user-id'));
     let teamId       = parseInt(document.querySelector('[data-team-id]').getAttribute('data-team-id'))
-    let editDate     = parseInt(document.querySelector('[data-edit-date]').getAttribute('data-edit-date'))
+    let editDate     = document.querySelector('[data-edit-date]').getAttribute('data-edit-date')
     let output       = { userId };
 
     if (editDate) {
@@ -130,7 +130,7 @@ module.exports = (api) => {
     if (secondDriver) {
       output.secondDriverId = parseInt(secondDriver.getAttribute('data-id'));
     }
-
+    console.log(output);
     return output;
   }
 
