@@ -123,7 +123,6 @@ module.exports = domain => {
           .set('Content-Type', 'application/vnd.api+json')
           .end((error, response) => {
             if (error) {
-              console.log('api error: ', error);
               reject(error);
             } else {
               cache[key] = jsonapi.parse(response.body);
@@ -147,7 +146,7 @@ module.exports = domain => {
         if (domain[domain.length - 1] !== '/') {
           domain = domain + '/';
         }
-        console.log(domain);
+
         superagent
           .post(domain + path)
           .query({ token : getCookie('token')})

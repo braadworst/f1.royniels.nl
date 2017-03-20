@@ -40,7 +40,7 @@ router
   .before((request, response, next) => next({ paths, router, settings }))
   .before(setupWebserver)
   .before(statics, excludes)
-  .before(loggedInUser, excludes)
+  .before(loggedInUser, paths.githubConsent, paths.githubToken, paths.facebookToken, paths.facebookConsent, paths.googleToken, paths.googleConsent)
   .before(loginCheck, excludes)
   .before(statistics)
   .before(template)
