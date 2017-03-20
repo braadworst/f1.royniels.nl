@@ -33,11 +33,12 @@ module.exports = async function(request, response, next, relay) {
       if (userTeams.length >= relay.settings.maxTeams) {
         next({ errors : `Cannot add new team, limit of ${ relay.settings.maxTeams } reached` });
       } else {
-
+        // const now     = parse(new Date());
+        const now     = format(parse(new Date(), 'YYYY-MM-DDTHH:mm:ss');
         const circuit = await database.find(
           require('../schemas/circuits'),
           {
-            filters : [{ field : 'date', value : '>' + parse(new Date())}],
+            filters : [{ field : 'date', value : '>' + now}],
             pagination : {
               size : 1
             },
