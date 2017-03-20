@@ -10,6 +10,7 @@ const logout         = require('../middleware/logout');
 const htmlResponse   = require('../middleware/htmlResponse');
 const errors         = require('../middleware/errors');
 const setupWebserver = require('../middleware/setupWebserver');
+const loginRedirect  = require('../middleware/loginRedirect');
 const statistics     = require('../middleware/statistics');
 const logger         = require('minilog')('webserver');
 const settings       = require('../settings');
@@ -44,6 +45,7 @@ router
   .before(statistics)
   .before(template)
   .before(component('navigation', '#menu'), excludes)
+  .get(paths.login, loginRedirect)
   .get(paths.login, component('login', '#loginMain'))
   .get(paths.logout, logout)
   .get(paths.githubConsent, loginProcess.consent(settings.github))
