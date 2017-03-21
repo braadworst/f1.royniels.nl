@@ -11,10 +11,11 @@ const mutators = {
 }
 
 // General helper middleware
-const helpers = {
-  logger  : require('../helpers/logger'),
-  statics : require('../helpers/statics'),
-  relay   : require('../helpers/relay')
+const relay = {
+  logger      : require('../relay/logger'),
+  settings    : require('../relay/settings'),
+  connections : require('../relay/connections'),
+  router      : require('../relay/router')
 }
 
 const parsers = {
@@ -57,13 +58,12 @@ const domains = {
 
 router
   // Add helpers for middleware to relay object
-  .before(domains.webserver, helpers.relay('settings', require('../settings/webserver')))
-  .before(domains.webserver, helpers.relay('renderer', require('../renderer/webserver')))
-  .before(domains.client, helpers.relay('settings', require('../settings/client')))
-  .before(domains.client, helpers.relay('renderer', require('../renderer/client')))
-  .before(domains.spa, helpers.relay('router', router))
-  .before(domains.apiserver, helpers.relay('settings', require('../settings/apiserver')))
-  .before(domains.all, helpers.relay('logger', require(./logger)))
+  .before(domains.webserver, relay.settings('webserver'))
+  .before(domains.client, relay.settings('client'))
+  .before(domains.spa, relay.router(router))
+  .before(domains.apiserver, relay.settings('apiserver'))
+  .before(domains.all, relay.logger())
+  .before(domains.spa, relay.connections('apiserver'))
 
   // Add webserver before middleware
   .before(domains.webserver, helpers.statics, excludes)
