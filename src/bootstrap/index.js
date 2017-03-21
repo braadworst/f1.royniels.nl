@@ -1,4 +1,8 @@
-// Data mutators
+// Create servers
+const webserver = require('./server')(settings.webserver);
+const apiserver = require('./server')(settings.apiserver);
+
+// Data mutators middleware
 const mutators = {
   predictions : require('../mutators/predictions'),
   standings   : require('../mutators/standings'),
@@ -6,20 +10,26 @@ const mutators = {
   teams       : require('../mutators/teams'),
 }
 
-const settings = {
-  client    : ,
-  webserver : require('../settings/webserver'),
-  apiserver : require('../settings/apiserver'),
+// General helper middleware
+const helpers = {
+  logger  : require('../helpers/logger'),
+  statics : require('../helpers/statics'),
+  relay   : require('../helpers/relay')
 }
 
-const renderer = {
-  client    : require('../renderer/client'),
-  webserver : require('../renderer/webserver'),
+const parsers = {
+  decrypt : require('../parsers/decrypt'),
+  cookies : require('../parsers/cookies'),
+  token   : require('../parsers/token'),
+  jsonapi : require('../parsers/jsonapi'),
+  body    : require('../parsers/body'),
+  url     : require('../parsers/url'),
 }
 
-// Create servers
-const webserver = require('./server')(settings.webserver);
-const apiserver = require('./server')(settings.apiserver);
+// Validator middleware
+const validators = {
+
+}
 
 const excludesAuthentication = [
   '/auth/github',
@@ -36,26 +46,43 @@ const excludes = [
   ...excludesAuthentication
 ];
 
+const domains = {
+  webserver  : 'webserver',
+  apiserver  : 'apiserver',
+  client     : 'client',
+  all        : ['webserver', 'apiserver', 'client'],
+  serverside : ['webserver', 'apiserver'],
+  spa        : ['webserver', 'client']
+}
+
 router
   // Add helpers for middleware to relay object
-  .before('webserver',                          helpers.relay('settings', require('../settings/webserver')))
-  .before('webserver',                          helpers.relay('renderer', require('../renderer/webserver')))
-  .before('client',                             helpers.relay('settings', require('../settings/client')))
-  .before('client',                             helpers.relay('renderer', require('../renderer/client')))
-  .before(['webserver', 'client'],              helpers.relay('router', router))
-  .before('apiserver',                          helpers.relay('settings', require('../settings/apiserver')))
-  .before(['webserver', 'apiserver', 'client'], helpers.relay('logger', require(./logger)))
+  .before(domains.webserver, helpers.relay('settings', require('../settings/webserver')))
+  .before(domains.webserver, helpers.relay('renderer', require('../renderer/webserver')))
+  .before(domains.client, helpers.relay('settings', require('../settings/client')))
+  .before(domains.client, helpers.relay('renderer', require('../renderer/client')))
+  .before(domains.spa, helpers.relay('router', router))
+  .before(domains.apiserver, helpers.relay('settings', require('../settings/apiserver')))
+  .before(domains.all, helpers.relay('logger', require(./logger)))
 
-  .before('webserver', helpers.statics, excludes)
-  .before('webserver', store.findOne('user'), excludesAuthentication)
-  .before('webserver', login.check, excludes)
-  .before('webserver', login.redirect)
-  .before('apiserver', validators.request)
-  .before('apiserver', parsers.url)
-  .before('apiserver', parsers.body)
-  .before('apiserver', parsers.jsonapi)
-  .before('apiserver', validators.body)
-  .before(['webserver', 'apiserver'], .method.statistics)
+  // Add webserver before middleware
+  .before(domains.webserver, helpers.statics, excludes)
+  .before(domains.webserver, parsers.cookies, excludesAuthentication)
+  .before(domains.webserver, parsers.token, excludesAuthentication)
+  .before(domains.webserver, parsers.decrypt('token'), excludesAuthentication)
+  .before(domains.webserver, publish.userByToken, excludesAuthentication)
+  .before(domains.webserver, login.check, excludes)
+  .before(domains.webserver, login.redirect)
+
+  // Add apiserver before middleware
+  .before(domains.apiserver, validators.request)
+  .before(domains.apiserver, parsers.url)
+  .before(domains.apiserver, parsers.body)
+  .before(domains.apiserver, parsers.jsonapi)
+  .before(domains.apiserver, validators.body)
+
+  // Add statistics for server calls
+  .before(domains.serverside, .method.statistics)
 
   .before(['webserver', 'client'], renderer.layout('default'), '/login')
   .before(['webserver', 'client'], publish.single('user'))
