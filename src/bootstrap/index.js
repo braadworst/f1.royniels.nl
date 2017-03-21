@@ -7,7 +7,7 @@ const mutators = {
 }
 
 const settings = {
-  client    : require('../settings/client'),
+  client    : ,
   webserver : require('../settings/webserver'),
   apiserver : require('../settings/apiserver'),
 }
@@ -15,11 +15,6 @@ const settings = {
 const renderer = {
   client    : require('../renderer/client'),
   webserver : require('../renderer/webserver'),
-}
-
-const logger = {
-  client : require('../logger/client'),
-  server : require('../logger/serverside'),
 }
 
 // Create servers
@@ -43,13 +38,13 @@ const excludes = [
 
 router
   // Add helpers for middleware to relay object
-  .before('webserver', helpers.relay('settings', settings.webserver))
-  .before('webserver', helpers.relay('renderer', renderer.webserver))
-  .before('client', helpers.relay('settings', settings.client))
-  .before('client', helpers.relay('renderer', renderer.client))
-  .before(['webserver', 'client'], helpers.relay('router', router))
-  .before('apiserver', helpers.relay('settings', settings.apiserver))
-  .before(['webserver', 'apiserver', 'client'], helpers.relay('logger', logger))
+  .before('webserver',                          helpers.relay('settings', require('../settings/webserver')))
+  .before('webserver',                          helpers.relay('renderer', require('../renderer/webserver')))
+  .before('client',                             helpers.relay('settings', require('../settings/client')))
+  .before('client',                             helpers.relay('renderer', require('../renderer/client')))
+  .before(['webserver', 'client'],              helpers.relay('router', router))
+  .before('apiserver',                          helpers.relay('settings', require('../settings/apiserver')))
+  .before(['webserver', 'apiserver', 'client'], helpers.relay('logger', require(./logger)))
 
   .before('webserver', helpers.statics, excludes)
   .before('webserver', store.findOne('user'), excludesAuthentication)
