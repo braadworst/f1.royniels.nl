@@ -2,11 +2,7 @@ require('babel-polyfill');
 
 document.addEventListener("DOMContentLoaded", function(event) {
 
-  // Set the environment
-  let apiDomain = 'https://api.royniels.nl';
-  if (window.location.hostname === 'localhost') {
-    apiDomain = 'http://localhost:4444';
-  }
+
 
   // const router       = require('cs-router')();
   const api          = require('../api')(apiDomain);

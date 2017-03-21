@@ -1,41 +1,30 @@
-// Middleware
-const statics           = require('../middleware/statics');
-const loggedInUser      = require('../middleware/loggedInUser');
-const loginCheck        = require('../middleware/loginCheck');
-const loginProcess      = require('../middleware/loginProcess');
-const template          = require('../middleware/template');
-const component         = require('../middleware/component');
-const componentId       = require('../middleware/componentId');
-const logout            = require('../middleware/logout');
-const htmlResponse      = require('../middleware/htmlResponse');
-const errors            = require('../middleware/errors');
-const setupWebserver    = require('../middleware/setupWebserver');
-const loginRedirect     = require('../middleware/loginRedirect');
-const statistics        = require('../middleware/statistics');
-const errors            = require('../middleware/errors');
-const setupDatabase     = require('../middleware/setupDatabase');
-const jsonResponse      = require('../middleware/jsonResponse');
-const findData          = require('../middleware/findData');
-const findStandings     = require('../middleware/findStandings');
-const findStatistics    = require('../middleware/findStatistics');
-const findTeams         = require('../middleware/findTeams');
-const saveData          = require('../middleware/saveData');
-const urlParser         = require('../middleware/urlParser');
-const jsonApiParser     = require('../middleware/jsonApiParser');
-const jsonApiSerializer = require('../middleware/jsonApiSerializer');
-const bodyValidator     = require('../middleware/bodyValidator');
-const requestValidator  = require('../middleware/requestValidator');
-const bodyParser        = require('../middleware/bodyParser');
-const saveTeam          = require('../middleware/saveTeam');
-const saveResult        = require('../middleware/saveResult');
-const savePrediction    = require('../middleware/savePrediction');
+// Data mutators
+const mutators = {
+  predictions : require('../mutators/predictions'),
+  standings   : require('../mutators/standings'),
+  statistics  : require('../mutators/statistics'),
+  teams       : require('../mutators/teams'),
+}
 
-// Settings
-const settings          = require('../settings');
+const settings = {
+  client    : require('../settings/client'),
+  webserver : require('../settings/webserver'),
+  apiserver : require('../settings/apiserver'),
+}
+
+const renderer = {
+  client    : require('../renderer/client'),
+  webserver : require('../renderer/webserver'),
+}
+
+const logger = {
+  client : require('../logger/client'),
+  server : require('../logger/serverside'),
+}
 
 // Create servers
-const webserver         = require('./server')(settings.webserver);
-const apiserver         = require('./server')(settings.apiserver);
+const webserver = require('./server')(settings.webserver);
+const apiserver = require('./server')(settings.apiserver);
 
 const excludesAuthentication = [
   '/auth/github',
@@ -53,41 +42,54 @@ const excludes = [
 ];
 
 router
-  .before('webserver', logger)
-  .before('webserver', relay)
-  .before('webserver', statics, excludes)
-  .before('webserver', loggerInUser, excludesAuthentication)
-  .before('webserver', logginCheck, excludes)
-  .before('webserver', statistics)
-  .before('apiserver', relay)
-  .before('apiserver', logger)
-  .before('apiserver', statistics)
-  .before('apiserver', requestValidator)
-  .before('apiserver', urlParser)
-  .before('apiserver', bodyParser)
-  .before('apiserver', jsonApiParser)
-  .before('apiserver', bodyValidator)
-  .get('apiserver', '/init', setupDatabase)
-  .get('apiserver', '/teams', findTeams)
-  .get('apiserver', '/teams/:id', findTeams)
-  .get('apiserver', '/users', findData)
-  .get('apiserver', '/drivers', findData)
-  .get('apiserver', '/drivers/:id', findData)
-  .get('apiserver', '/chassis', findData)
-  .get('apiserver', '/engines', findData)
-  .get('apiserver', '/circuits', findData)
-  .get('apiserver', '/predictions', findData)
-  .get('apiserver', '/standings', findStandings)
-  .get('apiserver', '/results', findData)
-  .get('apiserver', '/statistics', findStatistics)
-  .post('apiserver', '/users', saveData)
-  .post('apiserver', '/statistics', saveData)
-  .post('apiserver', '/teams', saveTeam)
-  .post('apiserver', '/predictions', savePrediction)
-  .post'apiserver', ('/results', saveResult)
-  .after('apiserver', jsonApiSerializer)
-  .after('apiserver', jsonResponse)
-  .after('webserver', htmlResponse)
+  // Add helpers for middleware to relay object
+  .before('webserver', helpers.relay('settings', settings.webserver))
+  .before('webserver', helpers.relay('renderer', renderer.webserver))
+  .before('client', helpers.relay('settings', settings.client))
+  .before('client', helpers.relay('renderer', renderer.client))
+  .before(['webserver', 'client'], helpers.relay('router', router))
+  .before('apiserver', helpers.relay('settings', settings.apiserver))
+  .before(['webserver', 'apiserver', 'client'], helpers.relay('logger', logger))
+
+  .before('webserver', helpers.statics, excludes)
+  .before('webserver', store.findOne('user'), excludesAuthentication)
+  .before('webserver', login.check, excludes)
+  .before('webserver', login.redirect)
+  .before('apiserver', validators.request)
+  .before('apiserver', parsers.url)
+  .before('apiserver', parsers.body)
+  .before('apiserver', parsers.jsonapi)
+  .before('apiserver', validators.body)
+  .before(['webserver', 'apiserver'], .method.statistics)
+
+  .before(['webserver', 'client'], renderer.layout('default'), '/login')
+  .before(['webserver', 'client'], publish.single('user'))
+  .before(['webserver', 'client'], publish.collection('teamsByUser'))
+  .before(['webserver', 'client'], templating.navigation)
+  .before(['webserver', 'client'], renderer.render('navigation', '#menu'))
+
+  .get('apiserver', '/init', store.initialize)
+  .get('apiserver', '/teams', store.findCollection('teams'))
+  .get('apiserver', '/teams/:id', store.findOne('teams'))
+  .get('apiserver', '/users', store.findCollection('users'))
+  .get('apiserver', '/drivers', store.findCollection('drivers'))
+  .get('apiserver', '/drivers/:id', store.findOne('drivers'))
+  .get('apiserver', '/chassis', store.findCollection('chassis'))
+  .get('apiserver', '/engines', store.findCollection('engines'))
+  .get('apiserver', '/circuits', store.findCollection('circuits'))
+  .get('apiserver', '/predictions', store.findCollection('predictions'))
+  .get('apiserver', '/standings', store.findCollection('standings'))
+  .get('apiserver', '/results', store.findCollection('results'))
+  .get('apiserver', '/statistics', store.findCollection('statistics'))
+  .post('apiserver', '/users', store.saveOne('users'))
+  .post('apiserver', '/statistics', store.saveOne('statistics'))
+  .post('apiserver', '/teams', store.saveOne('teams'))
+  .post('apiserver', '/predictions', store.saveOne('predictions'))
+  .post('apiserver', '/results', store.saveTeam)
+
+  .after('apiserver', serializers.jsonapi)
+  .after('apiserver', response.json)
+  .after('webserver', response.html)
   .noMatch(errors.notFound);
 
   .component({ id : 'navigation', placeholder : '#menu' })

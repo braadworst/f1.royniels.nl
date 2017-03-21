@@ -10,12 +10,12 @@
 @import url('placeholders.css');
 
 /* declare your component specific styles */
-@import url('../components/navigation/style.css');
-@import url('../components/team/style.css');
-@import url('../components/teams/style.css');
-@import url('../components/standings/style.css');
-@import url('../components/rules/style.css');
-@import url('../components/predictions/style.css');
-@import url('../components/login/style.css');
-@import url('../components/results/style.css');
-@import url('../components/statistics/style.css');
+@import url('navigation.css');
+@import url('team.css');
+@import url('teams.css');
+@import url('standings.css');
+@import url('rules.css');
+@import url('predictions.css');
+@import url('login.css');
+@import url('results.css');
+@import url('statistics.css');
