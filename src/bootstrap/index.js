@@ -60,17 +60,17 @@ router
   // Add helpers for middleware to relay object
   .before(domains.webserver, relay.settings('webserver'))
   .before(domains.client, relay.settings('client'))
-  .before(domains.spa, relay.router(router))
   .before(domains.apiserver, relay.settings('apiserver'))
-  .before(domains.all, relay.logger())
   .before(domains.spa, relay.connections('apiserver'))
+  .before(domains.spa, relay.router(router))
+  .before(domains.all, relay.logger())
 
   // Add webserver before middleware
   .before(domains.webserver, helpers.statics, excludes)
   .before(domains.webserver, parsers.cookies, excludesAuthentication)
   .before(domains.webserver, parsers.token, excludesAuthentication)
   .before(domains.webserver, parsers.decrypt('token'), excludesAuthentication)
-  .before(domains.webserver, publish.userByToken, excludesAuthentication)
+  .before(domains.webserver, publish('apiserver', 'userByToken', 'token'), excludesAuthentication)
   .before(domains.webserver, login.check, excludes)
   .before(domains.webserver, login.redirect)
 
@@ -82,13 +82,13 @@ router
   .before(domains.apiserver, validators.body)
 
   // Add statistics for server calls
-  .before(domains.serverside, .method.statistics)
+  .before(domains.serverside, methods.statistics)
 
-  .before(['webserver', 'client'], renderer.layout('default'), '/login')
-  .before(['webserver', 'client'], publish.single('user'))
-  .before(['webserver', 'client'], publish.collection('teamsByUser'))
-  .before(['webserver', 'client'], templating.navigation)
-  .before(['webserver', 'client'], renderer.render('navigation', '#menu'))
+  // Set the templates 
+  .before(domains.spa, renderer.layout('default'), '/login')
+  .before(domains.spa, publish('apiserver', 'teamsByUserId', 'published.user.id'))
+  .before(domains.spa, templating.navigation)
+  .before(domains.spa, renderer.render('navigation', '#menu'))
 
   .get('apiserver', '/init', store.initialize)
   .get('apiserver', '/teams', store.findCollection('teams'))
