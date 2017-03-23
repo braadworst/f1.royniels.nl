@@ -8,7 +8,8 @@ module.exports = () => {
     port           : 4443,
     domain         : 'localhost',
     cookieDomain   : environment.cookieDomain,
-    redirectDomain : environment.redirectDomain
+    redirectDomain : environment.redirectDomain,
+    apiDomain      : 'http://localhost:4444',
     google: {
       clientId     : ignore.google.clientId,
       clientSecret : ignore.google.clientSecret,
