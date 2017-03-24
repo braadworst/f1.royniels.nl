@@ -2,7 +2,7 @@ const settings = require('../settings/webserver');
 const protocol = require('http');
 const server   = protocol.createServer();
 const road     = require('lr-core');
-const router   = require('lr-router-http')('webserver', server, settings.redirectDomain);
+const router   = require('lr-router-http')(server, settings.redirectDomain);
 const api      = require('lr-http-client');
 const renderer = require('lr-server-renderer');
 
@@ -17,14 +17,14 @@ module.exports = () => {
     .extension('renderer', renderer)
     .extension('api', api)
     .middleware({
-      general : require('../middleware/general')
-      parsers : require('../middleware/parsers'),
+      general     : require('../middleware/general')
+      parsers     : require('../middleware/parsers'),
+      serializers : require('../middleware/serializers'),
       templating : {
         layout : require('../middleware/templating/layout'),
         loaded : require('../middleware/templating/loaded'),
         failed : require('../middleware/templating/failed'),
       }
-    })
-
+    });
   require('./shared')(road);
 }

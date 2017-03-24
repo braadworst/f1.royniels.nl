@@ -1,10 +1,11 @@
 const url  = require('url');
 const fs   = require('fs');
 const path = require('path');
-const logger = require('minilog')('middelware:requestValidator');
-require('minilog').enable();
 
 module.exports = (request, response, next, relay) => {
+
+  const debug = relay.debug;
+  debug.namespace('statics');
 
   const parsedUrl = url.parse(request.url);
   let pathname    = `.${parsedUrl.pathname}`;
@@ -27,15 +28,14 @@ module.exports = (request, response, next, relay) => {
 
   // Not static
   if (!fileTypes[extension]) {
+    debug.log(`${ url } is not static`);
     next();
     return;
   }
 
   fs.exists(pathname, (exist) => {
     if(!exist) {
-      response.statusCode = 404;
-      response.end(`File not found: ${ request.url }`);
-      return;
+      relay.middleware('response.htmlNotFound');
     }
 
     // if is a directory search for index file matching the extention
@@ -43,24 +43,20 @@ module.exports = (request, response, next, relay) => {
 
     // read file from file system
     fs.readFile(pathname, (error, data) => {
-      if(error){
-        response.statusCode = 500;
-        response.end(`Internal server error`);
+      if (error){
+        throw new Error(error);
       } else {
 
-        // Set the cache headers
         try {
           const cache = relay.settings.cache.statics;
           cache.forEach(header => {
-            console.log(header.name, header.value);
             response.setHeader(header.name, header.value);
           });
         } catch (error) {
-          logger.warn(`No cache headers set for static content via settings.cache.statics = [{ name : 'Cache-Control', value : 'max-age=1000'}]`);
+          debug.log(`No cache headers set for static content via settings.cache.statics = [{ name : 'Cache-Control', value : 'max-age=1000'}]`);
         }
 
-        response.setHeader('Content-type', fileTypes[extension] || 'text/plain' );
-        response.end(data);
+        relay.middleware('response.static', fileTypes[extension], data);
       }
     });
   });

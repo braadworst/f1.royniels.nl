@@ -1,4 +1,4 @@
-module.exports = async function(next, relay, request, response) {
+module.exports = async function(request, response, next, relay) {
   const debug = relay.debug;
   debug.namespace('userByToken');
   if (relay.token) {
