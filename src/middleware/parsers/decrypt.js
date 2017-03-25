@@ -1,5 +1,5 @@
 module.exports = name => {
-  return function(request, response, next, relay) => {
+  return (request, response, next, relay) => {
 
     const logger = relay.logger;
 

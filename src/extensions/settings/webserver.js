@@ -1,7 +1,7 @@
 module.exports = () => {
   const current     = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
-  const ignore      = require('./ignore')[current];
-  const environment = require('./environment').webserver[current];
+  const ignore      = require('./helpers/ignored')[current];
+  const environment = require('./helpers/environment').webserver[current];
   const everywhere  = require('./helpers/everywhere');
   const serverside  = require('./helpers/serverside');
   const server      = {

@@ -1,10 +1,5 @@
 module.exports = road => {
-
   road
-    .extension('debug', require('lr-debug')('f1manager'))
-    .middleware({
-      'general.debug' : require('../middleware/debug')
-    })
     .where('apiserver')
       .path('circuits', '/circuits')
       .path('chassis', '/chassis')
@@ -73,4 +68,5 @@ module.exports = road => {
     .where('apiserver')
       .error('response.json.InternalServerError')
       .notFound('response.json.notFound')
-      .stop('response.json.default')
+      .stop('response.json.default');
+}

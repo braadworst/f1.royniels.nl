@@ -1,4 +1,4 @@
-const jsonapi = require('../api/jsonapi');
+const jsonapi = require('../../extensions/jsonapi');
 
 module.exports = (request, response, next, relay) => {
   let body = false;

@@ -1,4 +1,4 @@
-const settings = require('../../settings');
+const settings = require('../../../extensions/settings/client');
 const paths    = settings.paths;
 
 module.exports = (user, teams = []) => {

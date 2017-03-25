@@ -23,7 +23,7 @@
     "js-min": "node_modules/.bin/browserify src/bootstrap/client.js -t [ babelify --presets [ latest ] ] --ignore-missing | uglifyjs > public/js/main.min.js && rm -f public/js/main.js",
     "js-file-size": "node_modules/.bin/browserify src/bootstrap/client.js --outfile public/js/main.js -t [ babelify --presets [ latest ] ] --ignore-missing --list | xargs ls -la --sort=size",
     "api": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony src/bootstrap/apiserver.js",
-    "serve": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony src/bootstrap/webserver.js",
+    "serve": "DEBUG=* NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_ENV=development node_modules/.bin/nodemon --harmony src/bootstrap/webserver.js",
     "prod-api": "NODE_ENV=production node_modules/.bin/nodemon --harmony src/bootstrap/apiserver.js",
     "prod-serve": "NODE_ENV=production node_modules/.bin/nodemon --harmony src/bootstrap/webserver.js",
     "watch": "npm-watch"

@@ -1,7 +1,7 @@
 module.exports = {
   webserver : {
     development : {
-      redirectDomain : 'http://localhost;4443',
+      redirectDomain : 'http://localhost:4443',
       cookieDomain : 'localhost'
     },
     production : {
