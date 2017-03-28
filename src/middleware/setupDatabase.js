@@ -47,8 +47,8 @@ module.exports = async function(request, response, next, relay) {
       await relay.database.insert(schemas.engines, engine);
     }
 
-    await relay.database.drop(schemas.statistics);
-    await relay.database.create(schemas.statistics);
+    // await relay.database.drop(schemas.statistics);
+    // await relay.database.create(schemas.statistics);
     //
     // await relay.database.drop(schemas.standings);
     // await relay.database.create(schemas.standings);
